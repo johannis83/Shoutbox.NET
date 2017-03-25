@@ -23,11 +23,15 @@ namespace Shoutbox.NET.Data.AD
             // Search for user  
             using (PrincipalSearcher search = new PrincipalSearcher(u))
             {
-                (search.GetUnderlyingSearcher() as DirectorySearcher).PropertiesToLoad.Clear();
-                (search.GetUnderlyingSearcher() as DirectorySearcher).PropertiesToLoad.Add("samaccountname");
-                (search.GetUnderlyingSearcher() as DirectorySearcher).PropertiesToLoad.Add("displayname");
-                (search.GetUnderlyingSearcher() as DirectorySearcher).PropertiesToLoad.Add("department");
-                return (UserPrincipal)search.FindOne();
+                using (DirectorySearcher Searcher = search.GetUnderlyingSearcher() as DirectorySearcher)
+                {
+                    Searcher.PageSize = 1;
+                    Searcher.PropertiesToLoad.Clear();
+                    Searcher.PropertiesToLoad.Add("samaccountname");
+                    Searcher.PropertiesToLoad.Add("displayname");
+                    Searcher.PropertiesToLoad.Add("department");
+                    return (UserPrincipal)search.FindOne();
+                }
             }
         }
     }
