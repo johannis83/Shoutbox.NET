@@ -27,7 +27,7 @@ namespace Shoutbox.NET
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
                       "~/Content/Rabo.css",
-                      "~/Content/font-awesome.min.css"));
+                      "~/Content/Fonts/font-awesome.min.css"));
         }
     }
 }
