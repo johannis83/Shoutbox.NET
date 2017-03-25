@@ -1,0 +1,120 @@
+﻿* {
+    font-family: Myriad Pro Regular, Verdana, Sans Serif;
+    image-rendering: crisp-edges;
+}
+
+a:hover {
+    color: #FD6400;
+    text-decoration: none;
+}
+
+body {
+    background-color: #F7F7F7;
+    background-image: url(/Content//Images/rb_bg.png);
+    margin: 0px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+select,
+textarea {
+    max-width: 280px;
+}
+
+#container {
+    text-align: center;
+}
+
+#wrapper {
+    display: inline-block;
+    box-sizing: border-box;
+    position: relative;
+    margin-right: 15px;
+    margin-left: 15px;
+    text-align: left;
+    min-width: 600px;
+    max-width: 1920px;
+    width: 90%;
+}
+
+#pageheader {
+    margin-top: 0px;
+    font-size: .7em !important;
+    color: #009;
+    height: 143px;
+    margin-bottom: 0px;
+    background: #fff;
+    position: relative;
+    -webkit-box-shadow: 1px 1px 3px 0 rgba(0,0,0,.1);
+    -moz-box-shadow: 1px 1px 3px 0 rgba(0,0,0,.1);
+    box-shadow: 1px 1px 3px 0 rgba(0,0,0,.1);
+}
+
+#header-center {
+    display: inline-block;
+    position: relative;
+    vertical-align: top;
+    margin-top: 10px;
+    margin-left: 50px;
+}
+
+#logo {
+    margin: 30px 30px;
+    width: 72px;
+    height: 83px;
+    background-image: url(Images/rabobank-logo.png);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    display: inline-block;
+    position: relative;
+}
+
+#headermenu {
+    margin: 0px;
+    display: block;  
+    padding: 0px;
+}
+
+#headermenu > li {
+    display: inline-block;
+    margin: 0 22px 0 0;
+    font-size: 14px;
+}
+
+#department {
+    color: #009;
+    font-weight: 800;
+    font-size: 2.2em;
+    margin-top: 40px;
+    display: block;
+}
+
+#topnav {
+    background: #009;
+    height: 33px;
+    position: relative;
+}
+
+#topnav > span {
+    color: #fff;
+    float: left;
+    padding: .20em 1em .55em .6em;
+    margin-left: 10px;
+    font-size: 17px;
+    height: 33px;
+    font-family: "Myriad Pro Light",Verdana,Helvetica,Arial,sans-serif;   
+}
+
+#topnav > span > i {
+    margin-right: 10px;
+}
+
+.selectedMenuItem {
+    color: #FD6400;
+    font-weight: 700;
+}
