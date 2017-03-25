@@ -14,7 +14,11 @@
                 <div id="logo"></div>
                 <div id="header-center">
                     <ul id="headermenu">
-                        <li id="Shoutbox"><a href="/Home/Index">Shoutbox</a></li>
+                        <li>@Html.ActionLink("Shoutbox", "Index", "Home")</li>
+                        <li>@Html.ActionLink("Historie", "Index", "Home")</li>
+                        <li>@Html.ActionLink("Gebruik", "Index", "Home")</li>
+                        <li>@Html.ActionLink("Uitwijk Delphi SDA", "Index", "Home")</li>
+
                         <li id="Historie"><a href="/Home/Historie">Historie</a></li>
                         <li id="Gebruik"><a>Gebruik</a></li>
                         <li id="Uitwijk Delphi SDA"><a>Uitwijk Delphi SDA</a></li>
@@ -42,11 +46,6 @@
 
     <script>
         $("a:contains('@ViewBag.Title')").addClass("selectedMenuItem");
-
-        switch (@ViewBag.Title)
-        {
-            case "Shoutbox":
-        }
     </script>
 </body>
 </html>
