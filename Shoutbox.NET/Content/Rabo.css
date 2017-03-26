@@ -13,6 +13,12 @@ body {
     margin: 0px;
 }
 
+.rabo-drop-shadow {
+    -webkit-box-shadow: 1px 1px 3px 0 rgba(0,0,0,.1);
+    -moz-box-shadow: 1px 1px 3px 0 rgba(0,0,0,.1);
+    box-shadow: 1px 1px 3px 0 rgba(0,0,0,.1);
+}
+
 /* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
 */
@@ -25,8 +31,15 @@ textarea {
     max-width: 280px;
 }
 
+#body-container {
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+}
+
 #container {
     text-align: center;
+   
 }
 
 #wrapper {
@@ -49,9 +62,6 @@ textarea {
     margin-bottom: 0px;
     background: #fff;
     position: relative;
-    -webkit-box-shadow: 1px 1px 3px 0 rgba(0,0,0,.1);
-    -moz-box-shadow: 1px 1px 3px 0 rgba(0,0,0,.1);
-    box-shadow: 1px 1px 3px 0 rgba(0,0,0,.1);
 }
 
 #header-center {
@@ -97,6 +107,7 @@ textarea {
     background: #009;
     height: 33px;
     position: relative;
+    margin-bottom: 15px;
 }
 
 #topnav > span {

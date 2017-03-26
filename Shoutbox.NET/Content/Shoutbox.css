@@ -1,0 +1,21 @@
+﻿#shoutbox-grid {
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+
+#blueness {
+    background-color: blue;
+    margin: 0px;
+}
+
+#chat-tile {
+    padding: 25px;
+    background-color: #fff;
+    height: 100%;
+    position: relative;
+}
+
+#chat-tile-wrapper {
+    margin-left: -10px;
+}
