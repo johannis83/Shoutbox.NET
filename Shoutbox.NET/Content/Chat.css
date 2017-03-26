@@ -12,17 +12,17 @@ hr {
     border-top: 1px dotted #8c8b8b;
 }
 
-#textbox-wrapper {
+.textbox-wrapper {
     background-color: white;
     width: 100%;
     margin-bottom: 20px;
 }
 
-#text-input {
+.text-input {
     
 }
 
-#tag-word {
+.tag-display {
     margin: 0px;
 }
 

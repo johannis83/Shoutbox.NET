@@ -185,6 +185,7 @@
     </Compile>
     <Compile Include="Hubs\ChatHub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -266,6 +267,7 @@
     <Content Include="Content\Fonts\fontawesome-webfont.ttf" />
     <Content Include="Content\Fonts\fontawesome-webfont.eot" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
+    <Content Include="Scripts\chattile.js" />
     <Content Include="Scripts\gridstack.js" />
     <Content Include="Scripts\gridstack.min.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
@@ -277,7 +279,6 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
-    <Content Include="Scripts\jquery.nicescroll.js" />
     <Content Include="Scripts\jquery.nicescroll.min.js" />
     <Content Include="Scripts\jquery.signalR-2.2.1.js" />
     <Content Include="Scripts\jquery.signalR-2.2.1.min.js" />

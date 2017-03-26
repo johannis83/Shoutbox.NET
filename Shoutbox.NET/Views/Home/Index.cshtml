@@ -2,32 +2,37 @@
     ViewBag.Title = "Shoutbox";
     ViewBag.Icon = "fa fa-comments";
 }
+
+@Scripts.Render("~/bundles/signalr")
+@Scripts.Render("/signalr/hubs")
 <link href="~/Content/Chat.css" rel="stylesheet" />
 <link href="~/Content/Shoutbox.css" rel="stylesheet" />
 <script src="~/Scripts/jquery.timeago.js"></script>
+<script src="~/Scripts/chattile.js"></script>
+
 
 <div class="grid-stack" id="shoutbox-grid" data-gs-animate>
     <div class="grid-stack-item" id="chat-tile-wrapper"
          data-gs-x="0" data-gs-y="0"
-         data-gs-width="5" data-gs-height="6" data-gs-min-width="3" data-gs-min-height="3">
+         data-gs-width="3" data-gs-height="4" data-gs-min-width="3" data-gs-min-height="4">
 
         <!-- Begin Chat tile -->
-        <div class="grid-stack-item-content rabo-drop-shadow" id="chat-tile">
+        <div class="grid-stack-item-content rabo-drop-shadow chat-tile" id="chat-tile" onmouseover="UpdateScrollBar($(this))">
             <!-- Chat Container -->
             <div id="chat-window">
                 <div id="chat-filler">
                     <i class="fa fa-comment-o" aria-hidden="true"></i> <br />
                     <p>Er zijn nog geen berichten geplaatst...</p>
                 </div>
-                <div idx="messages-container">
+                <div class="messages-container">
                     <!-- Begin messages -->
                     <!-- End messages -->
                 </div>
 
-                <div id="textbox-wrapper">
-                    <div class="input-group input-group-sm" id="text-input">
-                        <span class="input-group-addon" id="tag-word"></span>
-                        <input type="text" class="form-control" placeholder="Bericht.." aria-describedby="sizing-addon3" onkeyup="UpdateTag(event, this)">
+                <div class="textbox-wrapper">
+                    <div class="input-group input-group-sm text-input">
+                        <span class="input-group-addon tag-display"></span>
+                        <input type="text" class="form-control" placeholder="Bericht.." aria-describedby="sizing-addon3" onkeyup="$(this).ProcessInput(event)">
                     </div>
                 </div>
 
@@ -36,110 +41,30 @@
     </div>
 </div>
 
-<script type="text/javascript">
+<script>
+    var sendChatMessage;
 
-    var UpdateTag = function (event, textbox) {
+        // Reference the auto-generated proxy for the hub.
+        var chat = $.connection.chatHub;
 
-        var textboxvalue = $(textbox).val();
-        var textboxwords = textboxvalue.split(' ');
+        // Start the connection.
+        $.connection.hub.start().done(function () {
+            // Call the Send method on the hub.
+            //Call a server function with parameters: chat.server.send($('#displayname').val(), $('#message').val());
 
-        // Remove the defined tag if backspace is pressed while the textbox is empty
-        if (textboxvalue == "") {
-            // 8 = Backspace
-            if (event.keyCode == '8') {
-                $("#tag-word").html("");
-                $("#tag-word").removeClass("tag-word-active");
+            sendChatMessage = function (tag, text) {
+                chat.server.broadcastChatMessage(tag, text)
             }
-        }
+        });
 
-
-        else if (textboxvalue.charAt(0) == '#') {
-            if (textboxwords.length > 1) {
-                $("#tag-word").html(textboxwords[0].substring(1));
-                $("#tag-word").addClass("tag-word-active")
-                textbox.value = textboxwords.slice(1, textboxwords.length).join(" ");
-            }
-        }
-        // 13 = Enter
-        else if (event.keyCode == '13') {
-            AddMessage("Bubuchenko", "WRR", "@DateTime.UtcNow.ToString("O")", $("#tag-word").text(), textbox.value, true);
-            $("#tag-word").html("");
-            $("#tag-word").removeClass("tag-word-active");
-            textbox.value = "";
-        }
-
-    }
-
-    $(function () {
-        var options = {
-            cellHeight: 80,
-            verticalMargin: 10,
-            horizontalMargin: 0
+        // When receiving a normal chat message
+        chat.client.receiveChatMessage = function (name, division, time, tag, text) {
+            $("#chat-tile").AddMessage(name, division, time, tag, text, true);
         };
-        $('.grid-stack').gridstack(options);
-    });
 
-
-    var AddMessage = function (name, division, time, tag, text, autoscroll) {
-        time = jQuery.timeago(time); 
-        var messageTemplate =
-            `<!-- Begin message -->
-                    <div id="message">
-                        <div id="message-name">` + name + `</div>
-                        <div id="message-division" class="badge">` + division + `</div>
-                        <div id="message-time"><i class="fa fa-clock-o" aria-hidden="true"></i><abbr datetime="` + time + `"> ` + time + ` </abbr> </div>
-                        <div id="message-content">
-                            <div id="message-tag" class="label label-primary">` + tag + `</div>
-                            <div id="message-text">
-                                ` + text + `
-                            </div>
-                        </div>
-                        <hr>
-                    </div>
-            <!-- End message -->`;
-
-        $("#messages-container").append(messageTemplate);
-
-        if (autoscroll) {
-            //Smooth scrolling
-            $('#chat-tile').animate({
-                scrollTop: $("#chat-tile")[0].scrollHeight, easing: 'easeOutQuart'
-            }, 1000);
+        // This function html-encodes messages for display in the page, prevents XSS
+        function htmlEncode(value) {
+            var encodedValue = $('<div />').text(value).html();
+            return encodedValue;
         }
-
-        $("#chat-tile").getNiceScroll().resize();
-    }
-
-
-    // Instantiate nice scroll
-    $("#chat-tile").niceScroll({
-        cursorwidth: 5,
-        cursorborder: 0,
-        cursorcolor: '#d8d8d8',
-        cursorborderradius: 0,
-        autohidemode: true,
-        horizrailenabled: false
-    });
-
-
-    var rtime;
-    var timeout = false;
-    var delta = 200;
-    $("#chat-tile-wrapper").resize(function () {
-        rtime = new Date();
-        if (timeout === false) {
-            timeout = true;
-            setTimeout(resizeend, delta);
-        }
-    });
-
-    function resizeend() {
-        if (new Date() - rtime < delta) {
-            setTimeout(resizeend, delta);
-        } else {
-            timeout = false;
-            $("#chat-tile").getNiceScroll().resize();
-        }
-    }
-
 </script>
