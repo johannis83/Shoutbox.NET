@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Shoutbox.NET.Controllers;
+using Shoutbox.NET.Data.AD;
+using Shoutbox.NET.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,6 +14,7 @@ namespace Shoutbox.NET
 {
     public class MvcApplication : System.Web.HttpApplication
     {
+
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
@@ -18,6 +22,10 @@ namespace Shoutbox.NET
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            //Dependency (IOC) Initializer [Unity]
+            Bootstrapper.Initialise();
+
         }
     }
 }

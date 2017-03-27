@@ -9,15 +9,14 @@
 <link href="~/Content/Shoutbox.css" rel="stylesheet" />
 <script src="~/Scripts/jquery.timeago.js"></script>
 <script src="~/Scripts/chattile.js"></script>
+<link href="~/Content/MVP.css" rel="stylesheet" />
 
-
-<div class="grid-stack" id="shoutbox-grid" data-gs-animate>
-    <div class="grid-stack-item" id="chat-tile-wrapper"
+<div class="grid-stack" id="shoutbox-grid">
+    <!-- Begin Chat tile -->
+    <div class="grid-stack-item tile-wrapper"
          data-gs-x="0" data-gs-y="0"
          data-gs-width="3" data-gs-height="4" data-gs-min-width="3" data-gs-min-height="4">
-
-        <!-- Begin Chat tile -->
-        <div class="grid-stack-item-content rabo-drop-shadow chat-tile" id="chat-tile" onmouseover="UpdateScrollBar($(this))">
+        <div class="grid-stack-item-content rabo-drop-shadow" id="chat-tile" onmouseover="UpdateScrollBar($(this))">
             <!-- Chat Container -->
             <div id="chat-window">
                 <div id="chat-filler">
@@ -37,6 +36,15 @@
                 </div>
 
             </div>
+        </div>
+    </div>
+    <!-- End Chat tile -->
+    <!-- Begin MVP tile -->
+    <div class="grid-stack-item tile-wrapper rabo-drop-shadow" data-gs-x="3" data-gs-y="0"
+         data-gs-width="3" data-gs-height="4" data-gs-min-width="3" data-gs-min-height="4" id="mvp-tile">
+        
+        <div class="grid-stack-item-content">
+            ssad
         </div>
     </div>
 </div>

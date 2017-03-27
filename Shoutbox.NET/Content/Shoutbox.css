@@ -4,18 +4,18 @@
     padding: 0px;
 }
 
-#blueness {
-    background-color: blue;
-    margin: 0px;
-}
-
 #chat-tile {
     padding: 25px;
-    background-color: #fff;
     height: 100%;
     position: relative;
+    background-color: white;
+}
+.tile-wrapper {
+    background-color: white;
 }
 
-#chat-tile-wrapper {
-    margin-left: -10px;
+
+.grid-stack .grid-stack-item .grid-stack-item-content,
+.grid-stack .grid-stack-item .placeholder-content {
+    margin-left: 20px;
 }

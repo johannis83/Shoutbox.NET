@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.DirectoryServices.AccountManagement;
 
-namespace Shoutbox.NET.Data.AD
+namespace Shoutbox.NET.Services
 {
-    interface IActiveDirectory
+    public interface IActiveDirectoryService
     {
         UserPrincipal GetUser(string username);
 

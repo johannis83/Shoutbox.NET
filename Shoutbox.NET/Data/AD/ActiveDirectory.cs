@@ -5,11 +5,12 @@ using System.Linq;
 using System.Web;
 using System.Configuration;
 using System.DirectoryServices;
+using Shoutbox.NET.Services;
 
 namespace Shoutbox.NET.Data.AD
 {
 
-    public class ActiveDirectory : IActiveDirectory
+    public class ActiveDirectory : IActiveDirectoryService
     {
         public UserPrincipal GetUser(string username)
         {

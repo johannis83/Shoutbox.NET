@@ -38,9 +38,8 @@
 
     $(function () {
         var options = {
-        cellHeight: 80,
+            cellHeight: 80,
             verticalMargin: 10,
-            horizontalMargin: 0
         };
         $('.grid-stack').gridstack(options);
     });
