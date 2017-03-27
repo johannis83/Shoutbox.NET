@@ -7,9 +7,14 @@
 @Scripts.Render("/signalr/hubs")
 <link href="~/Content/Chat.css" rel="stylesheet" />
 <link href="~/Content/Shoutbox.css" rel="stylesheet" />
+
+<!-- Unsorted plugins -->
 <script src="~/Scripts/jquery.timeago.js"></script>
+<script src="~/Scripts/jqcloud.min.js"></script>
+
+<!-- Scripts for each individual tile type -->
 <script src="~/Scripts/chattile.js"></script>
-@*<link href="~/Content/MVP.css" rel="stylesheet" />*@
+<script src="~/Scripts/tagcloud.js"></script>
 
 <!-- Begin tile grid -->
 <div class="grid-stack">
@@ -42,18 +47,42 @@
         </div>
     </div>
 
-    <!-- Begin MVP tile -->
+    <!-- Begin TagCloud tile -->
     <div class="grid-stack-item" data-gs-x="4" data-gs-y="0"
          data-gs-width="3" data-gs-height="4" data-gs-min-width="1" data-gs-min-height="1">
 
         <div class="grid-stack-item-content rabo-drop-shadow">
-            SAD
+            <div id="tag-cloud">
+            </div>
         </div>
     </div>
 </div>
 
 <script>
         var sendChatMessage;
+        var words = [{
+            text: "Lorem",
+            weight: 13
+        }, {
+            text: "Ipsum",
+            weight: 10.5
+        }, {
+            text: "Dolor",
+            weight: 9.4
+        }, {
+            text: "Sit",
+            weight: 8
+        }, {
+            text: "Amet",
+            weight: 6.2
+        }, {
+            text: "Consectetur",
+            weight: 5
+        }, {
+            text: "Adipiscing",
+            weight: 5
+        }];
+
 
         // Reference the auto-generated proxy for the hub.
         var chat = $.connection.chatHub;
@@ -68,7 +97,12 @@
 
         // When receiving a normal chat message
         chat.client.receiveChatMessage = function (name, division, time, tag, text) {
+
             $("#chat-window").AddMessage(name, division, time, tag, text, true);
+            $('#tag-cloud').jQCloud(words, {
+                width: 100,
+                height: 100
+            });
         };
 
         // This function html-encodes messages for display in the page, prevents XSS

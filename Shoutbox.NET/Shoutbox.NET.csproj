@@ -222,6 +222,7 @@
     <Content Include="Content\gridstack.min.css" />
     <Content Include="Content\Images\rabobank-logo.png" />
     <Content Include="Content\Images\rb_bg.png" />
+    <Content Include="Content\jqcloud.min.css" />
     <Content Include="Content\MVP.css" />
     <Content Include="Content\Shoutbox.css" />
     <Content Include="Content\themes\base\accordion.css" />
@@ -296,6 +297,7 @@
     <Content Include="Scripts\chattile.js" />
     <Content Include="Scripts\gridstack.js" />
     <Content Include="Scripts\gridstack.min.js" />
+    <Content Include="Scripts\jqcloud.min.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.js" />
@@ -324,6 +326,7 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Content\Chat.css" />
     <None Include="Views\Home\Tiles\Chat.cshtml" />
+    <Content Include="Scripts\tagcloud.js" />
     <Content Include="Unity.Mvc3.README.txt" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

@@ -31,7 +31,8 @@ namespace Shoutbox.NET
                       "~/Content/Rabo.css",
                       "~/Content/Fonts/font-awesome.min.css",
                       "~/Content/Fonts/font-awesome.min.css",
-                      "~/Content/gridstack.min.css"));
+                      "~/Content/gridstack.min.css",
+                      "~/Content/jqcloud.min.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/signalr").Include(
                         "~/Scripts/jquery.signalR-{version}.js"));
