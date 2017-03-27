@@ -26,6 +26,18 @@ body {
     white-space: normal;
 }
 
+.label-primary {
+    background-color: #009 !important;
+}
+
+.invisible-fade {
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    transition: all 1s ease;
+    opacity: 0;
+}
+
 select,
 textarea {
     max-width: 280px;

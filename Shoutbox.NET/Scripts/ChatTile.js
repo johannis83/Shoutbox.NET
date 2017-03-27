@@ -26,7 +26,6 @@
         //Get the chat tile that belongs to this textbox
         //textbox.parentsUntil(".chat-tile").AddMessage("Bubuchenko", "WRR", new Date(), $(tagDisplay).text(), $(textbox).val(), true);
 
-
         sendChatMessage($(tagDisplay).text(), $(textbox).val());
 
         tagDisplay.html("");
@@ -49,9 +48,17 @@
         obj.getNiceScroll().resize();
     }
 
+    //Must be booked to a #chat-window object
     $.fn.AddMessage = function (name, division, time, tag, text, autoscroll) {
         var chatTile = $(this);
-        var messageContainer = chatTile.find(".messages-container");
+        var messageContainer = chatTile.find(".message-container");
+        //Keep count of all the messages in this container
+        var messageCount = chatTile.find(".message-counter").get(0).value++;
+
+        //Hide (fade) the chatbox filler if no were present yet
+        if (messageCount == 0) {
+            chatTile.find(".chat-filler").fadeTo(1000, 0);
+        }
 
         time = jQuery.timeago(time);
         var messageTemplate =
@@ -73,25 +80,26 @@
         messageContainer.append(messageTemplate);
 
         if (autoscroll) {
-            setTimeout(function () {
-                chatTile.animate({
-                    scrollTop: chatTile[0].scrollHeight
-                }, 500);
-            }, 10);
+            $(chatTile).parent().animate({ scrollTop: $(chatTile).prop("scrollHeight") }, 20000, 'easeOutQuart');
         }
     }
 
-    // Instantiate nice scroll
-    $(document).ready(function () {
-            $("#chat-tile").niceScroll({
-                cursorwidth: 5,
-                cursorborder: 0,
-                cursorcolor: '#d8d8d8',
-                cursorborderradius: 0,
-                autohidemode: true,
-                horizrailenabled: false
-            });
+//Extension method to make a tile autoscroll to the bottom
+$.fn.ScrollToBottom = function () {
+    $(this).parent().getNiceScroll(0).doScrollTop($(this).height(), 5000);
+};
 
-        //Autoscroll chatbox down upon loading the page
-        $('#chat-tile').getNiceScroll(0).doScrollTop($('#chat-tile').height());
+// Instantiate nice scroll
+$(document).ready(function () {
+    $("#chat-window").parent().niceScroll({
+        cursorwidth: 5,
+        cursorborder: 0,
+        cursorcolor: '#d8d8d8',
+        cursorborderradius: 0,
+        autohidemode: true,
+        horizrailenabled: false
     });
+
+    //Auto scroll to bottom
+    $('#chat-window').ScrollToBottom();
+});

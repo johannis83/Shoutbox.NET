@@ -13,13 +13,9 @@ hr {
 }
 
 .textbox-wrapper {
-    background-color: white;
-    width: 100%;
-    margin-bottom: 20px;
-}
-
-.text-input {
-    
+    width: 93%;
+    margin: 0 auto;
+    margin-bottom: 10px;
 }
 
 .tag-display {
@@ -27,7 +23,7 @@ hr {
 }
 
 .tag-word-active {
-    background-color: forestgreen;
+    background-color: #FD6400;
     border-top-left-radius: 7px !important;
     border-bottom-left-radius: 7px !important;
     font-weight: 600;
@@ -39,20 +35,21 @@ hr {
     height: 100%;
 }
 
-#chat-filler {
+.chat-filler {
     color: lightgray;
     height: 96%;
     text-align: center;
+    padding-top: 104px;
 }
 
-#chat-filler > i  {
+.chat-filler > i  {
     color: inherit;
     font-size: 100px;
     margin-top: 30px;
 }
 
-#chat-filler > p {
-    margin-top: 50px;
+.chat-filler > p {
+    margin-top: 40px;
     font-size: 25px;
 }
 
@@ -63,7 +60,6 @@ hr {
 }
 
 #message-name {
-    
     display: inline-block;
 }
 
@@ -75,9 +71,9 @@ hr {
 }
 
 #message-time {
-    float: right;
     font-size: small;
     color: gray;
+    float: right;
 }
 
 #message-content {

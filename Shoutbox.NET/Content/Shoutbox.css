@@ -1,21 +1,12 @@
-﻿#shoutbox-grid {
-    width: 100%;
-    margin: 0px;
-    padding: 0px;
+﻿.grid-stack {
+
 }
 
-#chat-tile {
-    padding: 25px;
-    height: 100%;
-    position: relative;
-    background-color: white;
-}
-.tile-wrapper {
-    background-color: white;
+.grid-stack-item {
+    
 }
 
-
-.grid-stack .grid-stack-item .grid-stack-item-content,
-.grid-stack .grid-stack-item .placeholder-content {
-    margin-left: 20px;
+.grid-stack-item-content {
+    background-color: #fff;
+    padding: 10px;
 }
