@@ -10,6 +10,8 @@ namespace Shoutbox.NET.ViewModels
     {
         public ICollection<Message> Messages { get; set; }
 
+        public string msgs { get; set; }
+
         public Dictionary<string, int> Tags
         {
             get

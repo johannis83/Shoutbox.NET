@@ -18,9 +18,17 @@ namespace Shoutbox.NET.Controllers
             {
                 IndexViewModel indexViewModel = new IndexViewModel();
 
-                //Eager load all the necessary properties since data is deferred when the view is loaded
-                indexViewModel.Messages = db.Messages
-                    .Include(f => f.User).ToList();
+
+                var messages = db.Messages.Select(f => new
+                {
+                    MessageID = f.MessageID,
+                    Tag = f.Tag,
+                    Text = f.Text,
+                    Timestamp = f.Timestamp,
+                    User = f.User
+                });
+
+                indexViewModel.msgs = Newtonsoft.Json.JsonConvert.SerializeObject(messages);
 
                 return View(indexViewModel);
             }

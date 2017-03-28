@@ -115,12 +115,13 @@
         }
 
     @{
-        foreach (Shoutbox.NET.Models.Message message in Model.Messages)
-        {
+
        <text>
-        $("#chat-window").AddMessage("@message.User.Name", "@message.User.Division", "@message.Timestamp", "@message.Tag", "@Html.Raw(message.Text)", false);
+
+        var messages = @Html.Raw(Model.msgs));
+        console.log(messages);
+        $("#chat-window").AddMessages(messages);
        </text>
-        }
     }
 
 </script>

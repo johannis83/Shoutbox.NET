@@ -23,8 +23,6 @@
     }
     // 13 = Enter, don't trigger on Shift + enter as that can be used to insert new lines
     else if (event.keyCode == '13' && !event.shiftKey) {
-        //Get the chat tile that belongs to this textbox
-        //textbox.parentsUntil(".chat-tile").AddMessage("Bubuchenko", "WRR", new Date(), $(tagDisplay).text(), $(textbox).val(), true);
 
         sendChatMessage($(tagDisplay).text(), $(textbox).val());
 
@@ -51,8 +49,9 @@
     //Must be booked to a #chat-window object
     $.fn.AddMessage = function (name, division, time, tag, text, autoscroll) {
         var chatTile = $(this);
+        console.log(chatTile);
         var messageContainer = chatTile.find(".message-container");
-        //Keep count of all the messages in this container
+        //Keep count of all the message in this container
         var messageCount = chatTile.find(".message-counter").get(0).value++;
 
         //Hide (fade) the chatbox filler if no were present yet
@@ -83,6 +82,18 @@
         }
         jQuery("abbr.timeago").timeago();
     }
+
+
+    $.fn.AddMessages = function (messages, autoscroll) {
+        messages.forEach(function (message, index) {
+            $("#chat-window").AddMessage("test", "test", message["Timestamp"], message["Tag"], message["Text"], false);
+
+            if (autoscroll) {
+                $(chatTile).parent().animate({ scrollTop: $(chatTile).prop("scrollHeight") }, 20000, 'easeOutQuart');
+            }
+        }
+        )
+    };
 
 //Extension method to make a tile autoscroll to the bottom
 $.fn.ScrollToBottom = function () {
