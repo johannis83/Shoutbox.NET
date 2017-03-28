@@ -28,13 +28,17 @@ namespace Shoutbox.NET.Hubs
 
         public Task BroadcastChatMessage(string tag, string text)
         {
+            User user = _userService.GetByUsername(Context.User.Identity.Name.Split('\\')[1]);
+
             Message message = new Message
             {
-                User = _userService.GetByUsername(Context.User.Identity.Name.Split('\\')[1]),
+                User = user,
                 Timestamp = DateTime.Now,
                 Tag = tag,
-                Text = text
+                Text = text,
             };
+
+            message.User.UserID = user.UserID;
 
             _messageService.Create(message);
 

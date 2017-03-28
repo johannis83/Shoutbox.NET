@@ -31,6 +31,9 @@ namespace Shoutbox.NET.Controllers
             {
                 using (ShoutboxContext db = new ShoutboxContext())
                 {
+                    /*Attach the user to help EF understand the context. 
+                     This basically avoids it from re-creating the user along with the message.*/
+                    db.Users.Attach(message.User);
                     db.Messages.Add(message);
                     db.SaveChanges();
                     return message;

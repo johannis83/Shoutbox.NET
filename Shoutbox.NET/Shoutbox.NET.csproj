@@ -191,10 +191,6 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Migrations\201703270029229_InitialCreate.cs" />
-    <Compile Include="Migrations\201703270029229_InitialCreate.Designer.cs">
-      <DependentUpon>201703270029229_InitialCreate.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Services\IMessageControllerService.cs" />
     <Compile Include="Services\IUserControllerService.cs" />
@@ -350,11 +346,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201703270029229_InitialCreate.resx">
-      <DependentUpon>201703270029229_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

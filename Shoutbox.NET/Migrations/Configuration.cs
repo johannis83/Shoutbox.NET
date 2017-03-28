@@ -9,7 +9,7 @@ namespace Shoutbox.NET.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(Shoutbox.NET.Data.ShoutboxContext context)
