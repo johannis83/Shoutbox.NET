@@ -21,8 +21,8 @@
             $(textbox).val(textboxwords.slice(1, textboxwords.length).join(" "));
         }
     }
-    // 13 = Enter
-    else if (event.keyCode == '13') {
+    // 13 = Enter, don't trigger on Shift + enter as that can be used to insert new lines
+    else if (event.keyCode == '13' && !event.shiftKey) {
         //Get the chat tile that belongs to this textbox
         //textbox.parentsUntil(".chat-tile").AddMessage("Bubuchenko", "WRR", new Date(), $(tagDisplay).text(), $(textbox).val(), true);
 
@@ -60,13 +60,12 @@
             chatTile.find(".chat-filler").fadeTo(1000, 0);
         }
 
-        time = jQuery.timeago(time);
         var messageTemplate =
             '<!-- Begin message -->' +
             '<div id="message">' +
             '<div id="message-name">' + name + '</div>' +
             '<div id="message-division" class="badge">' + division + '</div>' +
-            '<div id="message-time"><i class="fa fa-clock-o" aria-hidden="true"></i><abbr datetime="' + time + '">' + time + ' </abbr> </div>' +
+            '<div id="message-time"><i class="fa fa-clock-o" aria-hidden="true"></i><abbr class="timeago" title="' + time + '">' + time + ' </abbr> </div>' +
             '<div id="message-content">' +
             '<div id="message-tag" class="label label-primary">' + tag + '</div>' +
             '<div id="message-text">' +
@@ -82,6 +81,7 @@
         if (autoscroll) {
             $(chatTile).parent().animate({ scrollTop: $(chatTile).prop("scrollHeight") }, 20000, 'easeOutQuart');
         }
+        jQuery("abbr.timeago").timeago();
     }
 
 //Extension method to make a tile autoscroll to the bottom

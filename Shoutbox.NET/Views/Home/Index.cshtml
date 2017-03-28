@@ -3,6 +3,8 @@
     ViewBag.Icon = "fa fa-bullhorn";
 }
 
+@model Shoutbox.NET.ViewModels.IndexViewModel
+
 @Scripts.Render("~/bundles/signalr")
 @Scripts.Render("/signalr/hubs")
 <link href="~/Content/Chat.css" rel="stylesheet" />
@@ -10,6 +12,7 @@
 
 <!-- Unsorted plugins -->
 <script src="~/Scripts/jquery.timeago.js"></script>
+<script src="~/Scripts/jquery.timeago.nl.js"></script>
 <script src="~/Scripts/jqcloud.min.js"></script>
 
 <!-- Scripts for each individual tile type -->
@@ -110,4 +113,14 @@
             var encodedValue = $('<div />').text(value).html();
             return encodedValue;
         }
+
+    @{
+        foreach (Shoutbox.NET.Models.Message message in Model.Messages)
+        {
+       <text>
+        $("#chat-window").AddMessage("@message.User.Name", "@message.User.Division", "@message.Timestamp", "@message.Tag", "@Html.Raw(message.Text)", false);
+       </text>
+        }
+    }
+
 </script>

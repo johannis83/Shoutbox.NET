@@ -6,6 +6,7 @@ abbr {
     border-bottom: none !important;
     text-decoration: none !important;
     margin-left: 5px;
+    cursor: pointer;
 }
 
 hr {

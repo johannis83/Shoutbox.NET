@@ -38,11 +38,6 @@ body {
     opacity: 0;
 }
 
-select,
-textarea {
-    max-width: 280px;
-}
-
 #body-container {
     margin: 0px;
     padding: 0px;
