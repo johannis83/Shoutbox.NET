@@ -11,6 +11,7 @@ using Shoutbox.NET.Data;
 using Shoutbox.NET.Controllers;
 using Shoutbox.NET.Services;
 using Microsoft.Practices.Unity;
+using System.Text.RegularExpressions;
 
 namespace Shoutbox.NET.Hubs
 {
@@ -26,6 +27,9 @@ namespace Shoutbox.NET.Hubs
             _messageService = messageService;
         }
 
+        //Allow only alphanumeric characters in hashtags
+        
+
         public Task BroadcastChatMessage(string tag, string text)
         {
             User user = _userService.GetByUsername(Context.User.Identity.Name.Split('\\')[1]);
@@ -34,7 +38,7 @@ namespace Shoutbox.NET.Hubs
             {
                 User = user,
                 Timestamp = DateTime.Now,
-                Tag = tag,
+                Tag = new Regex("[^a-zA-Z0-9 -]").Replace(tag.ToUpper(), ""), //Upper cased & alphanumeric tags only
                 Text = text,
             };
 

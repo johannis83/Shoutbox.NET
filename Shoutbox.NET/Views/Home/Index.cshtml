@@ -1,6 +1,6 @@
 ﻿@{
-    ViewBag.Title = "Shoutbox";
-    ViewBag.Icon = "fa fa-bullhorn";
+ViewBag.Title = "Shoutbox";
+ViewBag.Icon = "fa fa-bullhorn";
 }
 
 @model Shoutbox.NET.ViewModels.IndexViewModel
@@ -9,11 +9,12 @@
 @Scripts.Render("/signalr/hubs")
 <link href="~/Content/Chat.css" rel="stylesheet" />
 <link href="~/Content/Shoutbox.css" rel="stylesheet" />
+<link href="~/Content/tagcloud.css" rel="stylesheet" />
 
 <!-- Unsorted plugins -->
 <script src="~/Scripts/jquery.timeago.js"></script>
 <script src="~/Scripts/jquery.timeago.nl.js"></script>
-<script src="~/Scripts/jqcloud.min.js"></script>
+<script src="~/Scripts/jquery.tagcloud.js"></script>
 
 <!-- Scripts for each individual tile type -->
 <script src="~/Scripts/chattile.js"></script>
@@ -21,104 +22,94 @@
 
 <!-- Begin tile grid -->
 <div class="grid-stack">
-    <!-- Begin Chat Tile-->
-    <div class="grid-stack-item"
-         data-gs-x="0" data-gs-y="0"
-         data-gs-width="4" data-gs-height="6" data-gs-min-width="2" data-gs-min-height="4">
+<!-- Begin Chat Tile-->
+<div class="grid-stack-item"
+data-gs-x="0" data-gs-y="0"
+data-gs-width="4" data-gs-height="6" data-gs-min-width="3" data-gs-min-height="4">
         
-        <div class="grid-stack-item-content rabo-drop-shadow">
-            <!-- Chat Container -->
-            <div id="chat-window">
-                <div class="chat-filler">
-                    <i class="fa fa-comment-o" aria-hidden="true"></i> <br />
-                    <p>Er zijn nog geen berichten geplaatst...</p>
-                </div>
-                <div class="message-container">
-                    <input class="message-counter" type="hidden" value="0" />
-                    <!-- Begin messages -->
-                    <!-- End messages -->
-                </div>
+<div class="grid-stack-item-content rabo-drop-shadow">
+<!-- Chat Container -->
+<div id="chat-window">
+    <div class="chat-filler">
+        <i class="fa fa-comment-o" aria-hidden="true"></i> <br />
+        <p>Er zijn nog geen berichten geplaatst...</p>
+    </div>
+    <div class="message-container">
+        <input class="message-counter" type="hidden" value="0" />
+        <!-- Begin messages -->
+        <!-- End messages -->
+    </div>
 
-                <div class="textbox-wrapper">
-                    <div class="input-group input-group-sm text-input">
-                        <span class="input-group-addon tag-display"></span>
-                        <input type="text" class="form-control" placeholder="Bericht..." aria-describedby="sizing-addon3" onkeyup="$(this).ProcessInput(event)">
-                    </div>
-                </div>
-
-            </div>
+    <div class="textbox-wrapper">
+        <div class="input-group input-group-sm text-input">
+            <span class="input-group-addon tag-display"></span>
+            <input type="text" class="form-control" placeholder="Bericht..." aria-describedby="sizing-addon3" onkeyup="$(this).ProcessInput(event)">
         </div>
     </div>
 
-    <!-- Begin TagCloud tile -->
-    <div class="grid-stack-item" data-gs-x="4" data-gs-y="0"
-         data-gs-width="3" data-gs-height="4" data-gs-min-width="1" data-gs-min-height="1">
+</div>
+</div>
+</div>
 
-        <div class="grid-stack-item-content rabo-drop-shadow">
-            <div id="tag-cloud">
-            </div>
-        </div>
+<!-- Begin TagCloud tile -->
+<div class="grid-stack-item" data-gs-no-resize="true" data-gs-x="4" data-gs-y="0"
+data-gs-width="2" data-gs-height="3">
+<div class="grid-stack-item-content rabo-drop-shadow test tag-cloud-tile">
+    <!-- Begin tags-->
+    <div id="tagcloud">
+    @if (Model.Tags.Count == 0)
+    {
+    <div class="tagcloud-filler">
+        <i class="fa fa-cloud" aria-hidden="true"></i> <br />
+        <p>Er is nog niks getagd</p>
     </div>
+    }
+    else
+    {
+        foreach (KeyValuePair<string, int> tag in Model.Tags)
+        {
+            string uppercaseFirst = char.ToUpper(tag.Key[0]) + tag.Key.Substring(1).ToLower();
+        <a href="/Tag/@uppercaseFirst" rel="@tag.Value" title="@tag.Value tags">#@tag.Key</a>
+        }
+    }
+    </div>
+    <!-- End tags-->
+</div>
+</div>
 </div>
 
 <script>
-        var sendChatMessage;
-        var words = [{
-            text: "Lorem",
-            weight: 13
-        }, {
-            text: "Ipsum",
-            weight: 10.5
-        }, {
-            text: "Dolor",
-            weight: 9.4
-        }, {
-            text: "Sit",
-            weight: 8
-        }, {
-            text: "Amet",
-            weight: 6.2
-        }, {
-            text: "Consectetur",
-            weight: 5
-        }, {
-            text: "Adipiscing",
-            weight: 5
-        }];
+var sendChatMessage;
 
+// Reference the auto-generated proxy for the hub.
+var chat = $.connection.chatHub;
 
-        // Reference the auto-generated proxy for the hub.
-        var chat = $.connection.chatHub;
+// Start the connection.
+$.connection.hub.start().done(function () {
+// Call the Send method on the hub.
+sendChatMessage = function (tag, text) {
+    chat.server.broadcastChatMessage(tag, text)
+}
+});
 
-        // Start the connection.
-        $.connection.hub.start().done(function () {
-            // Call the Send method on the hub.
-            sendChatMessage = function (tag, text) {
-                chat.server.broadcastChatMessage(tag, text)
-            }
-        });
+// EVENT: Fired when receiving a chat message from the server
+chat.client.receiveChatMessage = function (name, division, time, tag, text) {
+    $("#chat-window").AddMessage(name, division, time, tag, text, true);
+    updateTagCloud(tag); //Update tags real time
+};
 
-        // When receiving a normal chat message
-        chat.client.receiveChatMessage = function (name, division, time, tag, text) {
+// This function html-encodes messages for display in the page, prevents XSS
+function htmlEncode(value) {
+var encodedValue = $('<div />').text(value).html();
+return encodedValue;
+}
 
-            $("#chat-window").AddMessage(name, division, time, tag, text, true);
-            $('#tag-cloud').jQCloud(words, {
-                width: 100,
-                height: 100
-            });
-        };
+@{
+//Add all of today's messages to the page upon loading
+<text>
+$("#chat-window").AddMessages(@Html.Raw(Model.SerializedMessages), true);
+</text>
+}
 
-        // This function html-encodes messages for display in the page, prevents XSS
-        function htmlEncode(value) {
-            var encodedValue = $('<div />').text(value).html();
-            return encodedValue;
-        }
-
-    @{
-        <text>
-        $("#chat-window").AddMessages(@Html.Raw(Model.SerializedMessages));
-        </text>
-
-    }
-
+    initializeTagCloud();
 </script>

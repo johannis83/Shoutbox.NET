@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.Title = "Shoutbox";
+    ViewBag.Icon = "fa fa-bullhorn";
+}
+
+@model Shoutbox.NET.ViewModels.IndexViewModel
+
+@Scripts.Render("~/bundles/signalr")
+@Scripts.Render("/signalr/hubs")
+
+<link href="~/Content/Chat.css" rel="stylesheet" />
+<link href="~/Content/Shoutbox.css" rel="stylesheet" />
+
+<!-- Unsorted plugins -->
+<script src="~/Scripts/jquery.timeago.js"></script>
+<script src="~/Scripts/jquery.timeago.nl.js"></script>
+
+<!-- Scripts for each individual tile type -->
+<script src="~/Scripts/chattile.js"></script>
+
+<!-- Begin tile grid -->
+<div class="grid-stack">
+    <!-- Begin Chat Tile-->
+    <div class="grid-stack-item"
+         data-gs-x="0" data-gs-y="0"
+         data-gs-width="12" data-gs-height="8" data-gs-min-width="3" data-gs-min-height="4" data-gs-no-move="true">
+
+        <div class="grid-stack-item-content rabo-drop-shadow">
+            <!-- Chat Container -->
+            <div id="chat-window">
+                <div class="message-container">
+                    <input class="message-counter" type="hidden" value="0" />
+                    <!-- Begin messages -->
+                    <!-- End messages -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@{
+    <script>
+        $("#chat-window").AddMessages(@Html.Raw(Model.SerializedMessages), true);
+    </script>
+}
