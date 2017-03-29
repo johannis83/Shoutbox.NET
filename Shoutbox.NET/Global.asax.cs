@@ -23,9 +23,15 @@ namespace Shoutbox.NET
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
+
+            //Configurate netwon JSON
+            HttpConfiguration config = GlobalConfiguration.Configuration;
+            config.Formatters.JsonFormatter
+                        .SerializerSettings
+                        .ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+
             //Dependency (IOC) Initializer [Unity]
             Bootstrapper.Initialise();
-
         }
     }
 }

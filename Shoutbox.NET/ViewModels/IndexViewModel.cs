@@ -1,16 +1,26 @@
 ﻿using Shoutbox.NET.Models;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Newtonsoft.Json;
 
 namespace Shoutbox.NET.ViewModels
 {
     public class IndexViewModel
     {
-        public ICollection<Message> Messages { get; set; }
 
-        public string msgs { get; set; }
+        public ICollection<Message> Messages
+        {
+            get
+            {
+                return JsonConvert.DeserializeObject<ICollection<Message>>(SerializedMessages);
+            }
+        }
+
+        public string SerializedMessages { get; set; }
+        
 
         public Dictionary<string, int> Tags
         {

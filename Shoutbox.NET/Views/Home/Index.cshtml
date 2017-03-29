@@ -115,13 +115,10 @@
         }
 
     @{
+        <text>
+        $("#chat-window").AddMessages(@Html.Raw(Model.SerializedMessages));
+        </text>
 
-       <text>
-
-        var messages = @Html.Raw(Model.msgs));
-        console.log(messages);
-        $("#chat-window").AddMessages(messages);
-       </text>
     }
 
 </script>

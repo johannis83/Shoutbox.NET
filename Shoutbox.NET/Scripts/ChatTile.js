@@ -46,7 +46,7 @@
         obj.getNiceScroll().resize();
     }
 
-    //Must be booked to a #chat-window object
+    //Must be hooked to a #chat-window object
     $.fn.AddMessage = function (name, division, time, tag, text, autoscroll) {
         var chatTile = $(this);
         console.log(chatTile);
@@ -84,15 +84,10 @@
     }
 
 
-    $.fn.AddMessages = function (messages, autoscroll) {
-        messages.forEach(function (message, index) {
-            $("#chat-window").AddMessage("test", "test", message["Timestamp"], message["Tag"], message["Text"], false);
-
-            if (autoscroll) {
-                $(chatTile).parent().animate({ scrollTop: $(chatTile).prop("scrollHeight") }, 20000, 'easeOutQuart');
-            }
+    $.fn.AddMessages = function (messages) {
+        for (var i = 0; i < messages.length; i++) {
+            $("#chat-window").AddMessage(messages[i]["User"]["Name"], messages[i]["User"]["Division"], messages[i]["Timestamp"], messages[i]["Tag"], messages[i]["Text"], false);
         }
-        )
     };
 
 //Extension method to make a tile autoscroll to the bottom

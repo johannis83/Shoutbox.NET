@@ -14,21 +14,28 @@ namespace Shoutbox.NET.Controllers
     {
         public ActionResult Index()
         {
+            IndexViewModel indexViewModel = new IndexViewModel();
             using (ShoutboxContext db = new ShoutboxContext())
             {
-                IndexViewModel indexViewModel = new IndexViewModel();
-
-
-                var messages = db.Messages.Select(f => new
+                #region Set IndexViewModel's serialized messages
+                //To avoid an infinite self referencing loops we store the values into an anonymous type first and then serialize it
+                indexViewModel.SerializedMessages = Newtonsoft.Json.JsonConvert.SerializeObject(db.Messages.Select(f => new
                 {
-                    MessageID = f.MessageID,
-                    Tag = f.Tag,
-                    Text = f.Text,
-                    Timestamp = f.Timestamp,
-                    User = f.User
-                });
+                    //Select the properties we want..
+                    f.MessageID,
+                    f.Tag,
+                    f.Text,
+                    f.Timestamp,
 
-                indexViewModel.msgs = Newtonsoft.Json.JsonConvert.SerializeObject(messages);
+                    User = new
+                    {
+                        f.User.Division,
+                        f.User.Name
+                    }
+                }).Where(f => f.Timestamp.Value.Day == DateTime.Now.Day)); //Only get TODAY's messages for the home page
+                #endregion
+
+
 
                 return View(indexViewModel);
             }
