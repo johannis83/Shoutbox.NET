@@ -7,9 +7,9 @@ using System.DirectoryServices.AccountManagement;
 
 namespace Shoutbox.NET.Services
 {
-    public interface IActiveDirectoryService
+    public interface IUserPrincipalRepository
     {
-        UserPrincipal GetUser(string username);
+        UserPrincipal GetByLogonUser(string logonUser);
 
     }
 }

@@ -85,11 +85,13 @@ var sendChatMessage;
 var chat = $.connection.chatHub;
 
 // Start the connection.
-$.connection.hub.start().done(function () {
+    $.connection.hub.start().done(function () {
+
 // Call the Send method on the hub.
 sendChatMessage = function (tag, text) {
     chat.server.broadcastChatMessage(tag, text)
 }
+    chat.server.registerIfNotRegistered();
 });
 
 // EVENT: Fired when receiving a chat message from the server
@@ -111,5 +113,7 @@ $("#chat-window").AddMessages(@Html.Raw(Model.SerializedMessages), true);
 </text>
 }
 
+    //Set up the tag cloud
     initializeTagCloud();
+    //Check if we're new to the shoutbox. If we are, we'll be registered
 </script>

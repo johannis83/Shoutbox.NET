@@ -1,5 +1,4 @@
 ﻿using Shoutbox.NET.Controllers;
-using Shoutbox.NET.Data.AD;
 using Shoutbox.NET.Models;
 using System;
 using System.Collections.Generic;
@@ -24,7 +23,7 @@ namespace Shoutbox.NET
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
 
-            //Configurate netwon JSON
+            //Configurate newton JSON
             HttpConfiguration config = GlobalConfiguration.Configuration;
             config.Formatters.JsonFormatter
                         .SerializerSettings

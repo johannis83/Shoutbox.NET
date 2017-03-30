@@ -12,11 +12,11 @@ using Shoutbox.NET.Services;
 
 namespace Shoutbox.NET.Controllers
 {
-    public class MessageController : Controller, IMessageControllerService
+    public class MessageController : Controller, IMessageRepository
     {
-        private IUserControllerService _UserService;
+        private IUserRepository _UserService;
 
-        public MessageController(IUserControllerService service)
+        public MessageController(IUserRepository service)
         {
             _UserService = service;
         }

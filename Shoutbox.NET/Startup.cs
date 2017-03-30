@@ -16,9 +16,16 @@ namespace Shoutbox.NET
     {
         public void Configuration(IAppBuilder app)
         {
-            GlobalHost.DependencyResolver.Register(
-            typeof(ChatHub),
-            () => new ChatHub(new UserController(), new MessageController()));
+            //Build custom constructor for the chathub because Unity doesn't play nice with signalR
+            //GlobalHost.DependencyResolver.Register(
+            //typeof(ChatHub),() => new ChatHub(
+            //      new UserController(), 
+            //      new MessageController(), 
+            //      new UserPrincipalController()));
+
+            //GlobalHost.DependencyResolver.Register(
+            //typeof(UserController), () => new UserController(
+            //       new UserPrincipalController()));
 
             // Any connection or hub wire up and configuration should go here
             app.MapSignalR();

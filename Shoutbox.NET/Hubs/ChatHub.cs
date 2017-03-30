@@ -17,28 +17,33 @@ namespace Shoutbox.NET.Hubs
 {
     public class ChatHub : Hub
     {
-        private IUserControllerService _userService;
-        private IMessageControllerService _messageService;
+        private IUserRepository _userService;
+        private IMessageRepository _messageService;
+        private IUserPrincipalRepository _userPrincipalRepository;
 
 
-        public ChatHub(IUserControllerService userService, IMessageControllerService messageService)
+        public ChatHub(IUserRepository userService, IMessageRepository messageService, IUserPrincipalRepository userPrincipalRepository)
         {
             _userService = userService;
             _messageService = messageService;
+            _userPrincipalRepository = userPrincipalRepository;
         }
 
-        //Allow only alphanumeric characters in hashtags
-        
+        public void RegisterIfNotRegistered()
+        {
+            User user = _userService.GetByLogonUser(Context.User.Identity.Name);
+            if (user == null) _userService.Create(Context.User.Identity.Name);
+        }
 
         public Task BroadcastChatMessage(string tag, string text)
         {
-            User user = _userService.GetByUsername(Context.User.Identity.Name.Split('\\')[1]);
+            User user = _userService.GetByLogonUser(Context.User.Identity.Name);
 
             Message message = new Message
             {
                 User = user,
                 Timestamp = DateTime.Now,
-                Tag = new Regex("[^a-zA-Z0-9 -]").Replace(tag.ToUpper(), ""), //Upper cased & alphanumeric tags only
+                Tag = new Regex("[^a-zA-Z0-9-]").Replace(tag.ToUpper(), ""), //Upper cased & alphanumeric tags only
                 Text = text,
             };
 

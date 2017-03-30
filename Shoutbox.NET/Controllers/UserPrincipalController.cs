@@ -1,25 +1,29 @@
-﻿using System;
+﻿using Shoutbox.NET.Services;
+using System;
 using System.Collections.Generic;
+using System.DirectoryServices;
 using System.DirectoryServices.AccountManagement;
 using System.Linq;
 using System.Web;
-using System.Configuration;
-using System.DirectoryServices;
-using Shoutbox.NET.Services;
+using System.Web.Mvc;
 
-namespace Shoutbox.NET.Data.AD
+namespace Shoutbox.NET.Controllers
 {
-
-    public class ActiveDirectory : IActiveDirectoryService
+    public class UserPrincipalController : Controller, IUserPrincipalRepository
     {
-        public UserPrincipal GetUser(string username)
+
+        public UserPrincipalController()
         {
-            // Enter AD settings  
-            PrincipalContext AD = new PrincipalContext(ContextType.Domain, ConfigurationManager.AppSettings["ActiveDirectoryDomain"]);
+        }
+
+        public UserPrincipal GetByLogonUser(string logonUser)
+        {
+            // Enter AD settings, search in the domain the user is logged in from
+            PrincipalContext AD = new PrincipalContext(ContextType.Domain, logonUser.Split('\\')[0]);
 
             // Create search user and add criteria  
             UserPrincipal u = new UserPrincipal(AD);
-            u.SamAccountName = username;
+            u.SamAccountName = logonUser.Split('\\')[1];
 
             // Search for user  
             using (PrincipalSearcher search = new PrincipalSearcher(u))
@@ -30,7 +34,6 @@ namespace Shoutbox.NET.Data.AD
                     Searcher.PropertiesToLoad.Clear();
                     Searcher.PropertiesToLoad.Add("samaccountname");
                     Searcher.PropertiesToLoad.Add("displayname");
-                    Searcher.PropertiesToLoad.Add("department");
                     return (UserPrincipal)search.FindOne();
                 }
             }

@@ -22,6 +22,6 @@ namespace Shoutbox.NET.Models
     public static class Division
     {
         public const string WRR = "WRR";
-        public const string NL = "Bar";
+        public const string RN = "RN";
     }
 }

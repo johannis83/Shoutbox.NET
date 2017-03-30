@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace Shoutbox.NET.Services
 {
-    public interface IUserControllerService
+    public interface IMessageRepository
     {
-        User Create(string username);
-        User GetByUsername(string username);
+        Message Create(Message message);
     }
 }

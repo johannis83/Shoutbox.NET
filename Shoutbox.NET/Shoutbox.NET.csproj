@@ -192,13 +192,13 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TagController.cs" />
+    <Compile Include="Controllers\UserPrincipalController.cs" />
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Services\IMessageControllerService.cs" />
-    <Compile Include="Services\IUserControllerService.cs" />
+    <Compile Include="Repositories\IMessageRepository.cs" />
+    <Compile Include="Repositories\IUserControllerRepository.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="Data\AD\ActiveDirectory.cs" />
-    <Compile Include="Services\IActiveDirectoryService.cs" />
+    <Compile Include="Repositories\IUserPrincipalRepository.cs" />
     <Compile Include="Data\ShoutboxContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -346,6 +346,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\UserPrincipal\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
