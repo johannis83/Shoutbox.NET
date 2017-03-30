@@ -8,6 +8,8 @@ using Microsoft.AspNet.SignalR;
 using Shoutbox.NET.Hubs;
 using Shoutbox.NET.Controllers;
 using Shoutbox.NET.Services;
+using Microsoft.AspNet.SignalR.Hubs;
+using System.Web.Mvc;
 
 [assembly: OwinStartup(typeof(Shoutbox.NET.Startup))]
 namespace Shoutbox.NET
@@ -17,18 +19,23 @@ namespace Shoutbox.NET
         public void Configuration(IAppBuilder app)
         {
             //Build custom constructor for the chathub because Unity doesn't play nice with signalR
-            //GlobalHost.DependencyResolver.Register(
-            //typeof(ChatHub),() => new ChatHub(
-            //      new UserController(), 
-            //      new MessageController(), 
-            //      new UserPrincipalController()));
+            var unityHubActivator = new MvcHubActivator();
 
-            //GlobalHost.DependencyResolver.Register(
-            //typeof(UserController), () => new UserController(
-            //       new UserPrincipalController()));
+            GlobalHost.DependencyResolver.Register(
+                typeof(IHubActivator),
+                () => unityHubActivator);
 
             // Any connection or hub wire up and configuration should go here
             app.MapSignalR();
+        }
+    }
+
+    public class MvcHubActivator : IHubActivator
+    {
+        public IHub Create(HubDescriptor descriptor)
+        {
+            return (IHub)DependencyResolver.Current
+                .GetService(descriptor.HubType);
         }
     }
 }
