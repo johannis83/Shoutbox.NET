@@ -1,4 +1,8 @@
-﻿.tag-cloud-tile {
+﻿#tagcloud {
+    word-wrap: break-word;
+}
+
+.tag-cloud-tile {
     overflow-y: hidden !important;
     text-align: center !important;
 }
