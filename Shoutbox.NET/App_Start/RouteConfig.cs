@@ -14,10 +14,10 @@ namespace Shoutbox.NET
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-    name: "Tag",
-    url: "{controller}/{tag}",
-    defaults: new { controller = "Tag", action = "Tag", id = UrlParameter.Optional }
-);
+                name: "Tag",
+                url: "Tag/{tag}",
+                defaults: new { controller = "Tag", action = "Tag", id = UrlParameter.Optional }
+            );
 
             routes.MapRoute(
                 name: "Default",

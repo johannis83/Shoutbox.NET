@@ -5,6 +5,7 @@ using System.DirectoryServices;
 using System.DirectoryServices.AccountManagement;
 using System.Linq;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Mvc;
 
 namespace Shoutbox.NET.Controllers
@@ -18,12 +19,15 @@ namespace Shoutbox.NET.Controllers
 
         public UserPrincipal GetByLogonUser(string logonUser)
         {
-            // Enter AD settings, search in the domain the user is logged in from
-            PrincipalContext AD = new PrincipalContext(ContextType.Domain, logonUser.Split('\\')[0]);
+            string domain = logonUser.Split('\\')[0];
+            string username = logonUser.Split('\\')[1];
+
+            // Enter AD settings, search in the domain the user is logged in from. Domain does not always equal the LDAP name so these are mapped in web.config
+            PrincipalContext AD = new PrincipalContext(ContextType.Domain, WebConfigurationManager.AppSettings[domain].Split(',')[0]);
 
             // Create search user and add criteria  
             UserPrincipal u = new UserPrincipal(AD);
-            u.SamAccountName = logonUser.Split('\\')[1];
+            u.SamAccountName = username;
 
             // Search for user  
             using (PrincipalSearcher search = new PrincipalSearcher(u))

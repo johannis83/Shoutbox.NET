@@ -18,10 +18,4 @@ namespace Shoutbox.NET.Models
         public virtual ICollection<Message> Messages { get; set; }
 
     }
-
-    public static class Division
-    {
-        public const string WRR = "WRR";
-        public const string RN = "RN";
-    }
 }

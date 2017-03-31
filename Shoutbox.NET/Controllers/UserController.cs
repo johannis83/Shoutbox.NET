@@ -10,6 +10,7 @@ using Shoutbox.NET.Data;
 using Shoutbox.NET.Models;
 using System.DirectoryServices.AccountManagement;
 using Shoutbox.NET.Services;
+using System.Web.Configuration;
 
 namespace Shoutbox.NET.Controllers
 {
@@ -41,22 +42,26 @@ namespace Shoutbox.NET.Controllers
         }
 
 
+        //The domain of the logonUser has to be defined in the web.config under DomainName->LDAP mappings
         public User Create(string logonUser)
         {
             if (ModelState.IsValid)
             {
                 using (ShoutboxContext db = new ShoutboxContext())
                 {
+                    string domain = logonUser.Split('\\')[0];
+                    string username = logonUser.Split('\\')[1];
+
                     //Get the user's information from ActiveDirectory
                     UserPrincipal activeDirectoryUser = _userPrincipalRepository.GetByLogonUser(logonUser);
 
                     //Store the information in a database for faster processing
                     User user = new User
                     {
-                        Name = activeDirectoryUser.DisplayName,
-                        Domain = logonUser.Split('\\')[0],
-                        Username = logonUser.Split('\\')[1],
-                        Division = Division.RN
+                        Name = activeDirectoryUser.GivenName + " " + activeDirectoryUser.Surname,
+                        Domain = WebConfigurationManager.AppSettings[domain].Split(',')[0],
+                        Username = username,
+                        Division = WebConfigurationManager.AppSettings[domain].Split(',')[1]
                     };
 
                     db.Users.Add(user);

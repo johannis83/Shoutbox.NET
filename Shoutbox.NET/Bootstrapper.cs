@@ -5,6 +5,8 @@ using Shoutbox.NET.Services;
 using Shoutbox.NET.Data;
 using Shoutbox.NET.Controllers;
 using Shoutbox.NET.Hubs;
+using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Hubs;
 
 namespace Shoutbox.NET
 {
@@ -20,14 +22,35 @@ namespace Shoutbox.NET
         private static IUnityContainer BuildUnityContainer()
         {
             var container = new UnityContainer();
-            
+
+
+
+
             // register all your components with the container here
+            //To allow DI with SignalR
+            GlobalHost.DependencyResolver.Register(typeof(IHubActivator), () => new UnityHubActivator(container));
             // it is NOT necessary to register your controllers
             container.RegisterType<IUserPrincipalRepository, UserPrincipalController>();
             container.RegisterType<IMessageRepository, MessageController>();
             container.RegisterType<IUserRepository, UserController>();
 
             return container;
+        }
+    }
+
+    //Used for SignalR Dependency injection
+    public class UnityHubActivator : IHubActivator
+    {
+        private readonly IUnityContainer container;
+
+        public UnityHubActivator(IUnityContainer container)
+        {
+            this.container = container;
+        }
+
+        public IHub Create(HubDescriptor descriptor)
+        {
+            return (IHub)container.Resolve(descriptor.HubType);
         }
     }
 }

@@ -18,24 +18,9 @@ namespace Shoutbox.NET
     {
         public void Configuration(IAppBuilder app)
         {
-            //Build custom constructor for the chathub because Unity doesn't play nice with signalR
-            var unityHubActivator = new MvcHubActivator();
-
-            GlobalHost.DependencyResolver.Register(
-                typeof(IHubActivator),
-                () => unityHubActivator);
-
             // Any connection or hub wire up and configuration should go here
-            app.MapSignalR();
-        }
-    }
-
-    public class MvcHubActivator : IHubActivator
-    {
-        public IHub Create(HubDescriptor descriptor)
-        {
-            return (IHub)DependencyResolver.Current
-                .GetService(descriptor.HubType);
+            var hubConfiguration = new HubConfiguration { EnableDetailedErrors = true };
+            app.MapSignalR(hubConfiguration);
         }
     }
 }
