@@ -1,8 +1,8 @@
 ﻿var initializeTagCloud = function () {
     $("#tagcloud a").tagcloud({
         size: {
-            start: 10,
-            end: 30,
+            start: 8,
+            end: 20,
             unit: 'pt'
         },
         color: {
@@ -16,10 +16,26 @@
     });
 }
 
+// Instantiate nice scroll
+$(document).ready(function () {
+    $("#tagcloud").niceScroll({
+        cursorwidth: 5,
+        cursorborder: 0,
+        cursorcolor: '#d8d8d8',
+        cursorborderradius: 0,
+        autohidemode: true,
+        horizrailenabled: false
+    });
+});
+
+
 /* This will update the tagcloud dynamically. If the tag already exists, it'll update the weight
    Otherwise it will be appended to the list of tags */
 var updateTagCloud = function (newTag) {
     var tagfound = false;
+
+    $(".tagcloud-filler").remove();
+
     $("#tagcloud").children('a').each(function () {
         var tag = $(this).text();
         var weight = $(this).attr('rel');

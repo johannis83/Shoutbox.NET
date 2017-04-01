@@ -40,6 +40,6 @@
 
 @{
     <script>
-        $("#chat-window").AddMessages(@Html.Raw(Model.SerializedMessages), true);
+        addMessagesTagViewer(@Html.Raw(Model.SerializedMessages), true);
     </script>
 }

@@ -27,6 +27,7 @@ namespace Shoutbox.NET.Controllers
                     f.Tag,
                     f.Text,
                     f.Timestamp,
+                    f.Type,
 
                     User = new
                     {

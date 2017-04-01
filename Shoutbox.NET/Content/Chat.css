@@ -31,7 +31,7 @@ hr {
     color: white;
 }
 
-#chat-window {
+#chat-window, #announcement-window {
     width: 100%;
     height: 100%;
 }
@@ -43,7 +43,7 @@ hr {
     padding-top: 104px;
 }
 
-.chat-filler > i  {
+.chat-filler > i {
     color: inherit;
     font-size: 100px;
     margin-top: 30px;
@@ -52,12 +52,6 @@ hr {
 .chat-filler > p {
     margin-top: 40px;
     font-size: 25px;
-}
-
-#message-container {
-}
-
-#message {
 }
 
 #message-name {

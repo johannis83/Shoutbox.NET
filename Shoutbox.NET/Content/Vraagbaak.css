@@ -1,0 +1,15 @@
+﻿.vraagbaak-tile {
+}
+
+.table {
+    margin-bottom: 0px;
+    margin-top:20px;
+}
+
+.table > tbody > tr {
+    border: none !important;
+}
+
+.table > tbody > tr > td {
+    padding: 0px !important;
+}

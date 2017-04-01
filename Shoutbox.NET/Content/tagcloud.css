@@ -1,10 +1,16 @@
 ﻿#tagcloud {
     word-wrap: break-word;
+    overflow-y: hidden !important;
 }
 
 .tag-cloud-tile {
-    overflow-y: hidden !important;
     text-align: center !important;
+    padding-top:30px;
+}
+
+.tag-cloud-tile > a {
+    margin-left:2px;
+    margin-right:2px;
 }
 
 .tagcloud-filler {

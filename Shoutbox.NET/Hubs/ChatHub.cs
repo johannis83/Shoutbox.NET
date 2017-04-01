@@ -35,7 +35,7 @@ namespace Shoutbox.NET.Hubs
             if (user == null) _userService.Create(Context.User.Identity.Name);
         }
 
-        public Task BroadcastChatMessage(string tag, string text)
+        public Task BroadcastChatMessage(string tag, string text, string type)
         {
             User user = _userService.GetByLogonUser(Context.User.Identity.Name);
 
@@ -45,6 +45,7 @@ namespace Shoutbox.NET.Hubs
                 Timestamp = DateTime.Now,
                 Tag = new Regex("[^a-zA-Z0-9-]").Replace(tag.ToUpper(), ""), //Upper cased & alphanumeric tags only
                 Text = text,
+                Type = MessageType.Types.FirstOrDefault(f => f == type) //Only allow message types that are defined by us
             };
 
             message.User.UserID = user.UserID;
@@ -52,7 +53,7 @@ namespace Shoutbox.NET.Hubs
             _messageService.Create(message);
 
             return Clients.All.ReceiveChatMessage(
-                message.User.Name, message.User.Division, message.Timestamp, message.Tag, message.Text);
+                message.User.Name, message.User.Division, message.Timestamp, message.Tag, message.Text, message.Type);
         }
     }
 

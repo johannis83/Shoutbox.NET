@@ -10,3 +10,14 @@
     background-color: #fff;
     padding: 10px;
 }
+
+.tile-titlebar {
+    position: relative;
+    z-index: 1;
+    margin: 0px 10px 0px 10px;
+    color: #fd6400;
+    text-align: center;
+    background-color: rgba(255,255,255,0.993);
+    font-size:20px;
+    font-family: "Myriad Pro Light";
+}

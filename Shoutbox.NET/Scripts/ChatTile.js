@@ -1,5 +1,5 @@
-﻿$.fn.ProcessInput = function (event, textbox) {
-    textbox = $(this);
+﻿$.fn.ProcessInput = function (event, type) {
+    var textbox = $(this);
     var tagDisplay = textbox.parent().find(".tag-display");
 
     var textboxvalue = $(textbox).val();
@@ -31,7 +31,7 @@
         //Message requires atleast 5 characters
         if (textboxvalue.length < 5) { return; } 
 
-        sendChatMessage($(tagDisplay).text(), $(textbox).val());
+        sendMessage($(tagDisplay).text(), $(textbox).val(), type);
         tagDisplay.html("");
         tagDisplay.removeClass("tag-word-active");
         $(textbox).val("");
@@ -91,16 +91,30 @@
     }
 
 
-    $.fn.AddMessages = function (messages, autoscroll) {
+    addMessages = function (messages, autoscroll) {
         for (var i = 0; i < messages.length; i++) {
-            $("#chat-window").AddMessage(messages[i]["User"]["Name"], messages[i]["User"]["Division"], messages[i]["Timestamp"], messages[i]["Tag"], messages[i]["Text"], false);
-
+            //Add to the appropriate message window depending on the messages type
+            if (messages[i]["Type"] == "Chat") {
+                $("#chat-window").AddMessage(messages[i]["User"]["Name"], messages[i]["User"]["Division"], messages[i]["Timestamp"], messages[i]["Tag"], messages[i]["Text"], false);
+            } else if (messages[i]["Type"] == "Announcement") {
+                $("#announcement-window").AddMessage(messages[i]["User"]["Name"], messages[i]["User"]["Division"], messages[i]["Timestamp"], messages[i]["Tag"], messages[i]["Text"], false);
+            }
         }
             if (autoscroll) {
                 $(this).parent().animate({ scrollTop: $(this).prop("scrollHeight") }, 500, 'easeOutQuart');
             }
     };
 
+    addMessagesTagViewer = function (messages, autoscroll) {
+        for (var i = 0; i < messages.length; i++) {
+            //Add to the appropriate message window depending on the messages type
+            $("#chat-window").AddMessage(messages[i]["User"]["Name"], messages[i]["User"]["Division"], messages[i]["Timestamp"], messages[i]["Tag"], messages[i]["Text"], false);
+        }
+
+        if (autoscroll) {
+            //  $(this).parent().animate({ scrollTop: $(this).prop("scrollHeight") }, 500, 'easeOutQuart');
+        }
+    }
 //Extension method to make a tile autoscroll to the bottom
 $.fn.ScrollToBottom = function () {
     $(this).parent().getNiceScroll(0).doScrollTop($(this).height(), 5000);
@@ -117,6 +131,16 @@ $(document).ready(function () {
         horizrailenabled: false
     });
 
+    $("#announcement-window").parent().niceScroll({
+        cursorwidth: 5,
+        cursorborder: 0,
+        cursorcolor: '#d8d8d8',
+        cursorborderradius: 0,
+        autohidemode: true,
+        horizrailenabled: false
+    });
+
     //Auto scroll to bottom
     $('#chat-window').ScrollToBottom();
+    $('#announcement-window').ScrollToBottom();
 });
