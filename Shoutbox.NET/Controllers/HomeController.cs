@@ -44,6 +44,8 @@ namespace Shoutbox.NET.Controllers
 
                 #endregion
 
+                indexViewModel.SSTStatus = SSTStatusController.Get();
+
                 return View(indexViewModel);
             }
         }

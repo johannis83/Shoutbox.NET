@@ -98,6 +98,8 @@
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.DirectoryServices.AccountManagement" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -190,9 +192,27 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Bootstrapper.cs" />
+    <Content Include="Connected Services\SSTMonitorService\Shoutbox.NET.SSTMonitorService.Status.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Connected Services\SSTMonitorService\SSTMonitorService.disco" />
+    <None Include="Connected Services\SSTMonitorService\configuration91.svcinfo" />
+    <None Include="Connected Services\SSTMonitorService\configuration.svcinfo" />
+    <None Include="Connected Services\SSTMonitorService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <Content Include="Content\Images\Shoutbox-bullhorn.png" />
+    <Content Include="Content\Sststatus.css" />
     <Content Include="Content\sweetalert.css" />
     <Content Include="Content\Vraagbaak.css" />
+    <Compile Include="Connected Services\SSTMonitorService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SSTStatusController.cs" />
     <Compile Include="Controllers\TagController.cs" />
     <Compile Include="Controllers\UserPrincipalController.cs" />
     <Compile Include="Controllers\VraagbaakController.cs" />
@@ -296,6 +316,16 @@
     <Content Include="Content\Fonts\fontawesome-webfont.woff" />
     <Content Include="Content\Fonts\fontawesome-webfont.ttf" />
     <Content Include="Content\Fonts\fontawesome-webfont.eot" />
+    <None Include="Connected Services\SSTMonitorService\SSTMonitorService.wsdl" />
+    <None Include="Connected Services\SSTMonitorService\SSTMonitorService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\SSTMonitorService\SSTMonitorService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\SSTMonitorService\SSTMonitorService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\chattile.js" />
     <Content Include="Scripts\gridstack.js" />
@@ -329,6 +359,7 @@
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Content\Chat.css" />
+    <Content Include="Scripts\sststatus.js" />
     <Content Include="Scripts\sweetalert.min.js" />
     <Content Include="Scripts\tagcloud.js" />
     <Content Include="Scripts\vraagbaaktile.js" />
@@ -351,9 +382,16 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\SSTStatus\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\SSTMonitorService\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

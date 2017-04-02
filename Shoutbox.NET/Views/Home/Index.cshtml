@@ -9,6 +9,7 @@ ViewBag.Icon = "fa fa-bullhorn";
 @Scripts.Render("/signalr/hubs")
 <link href="~/Content/Chat.css" rel="stylesheet" />
 <link href="~/Content/Shoutbox.css" rel="stylesheet" />
+<link href="~/Content/Sststatus.css" rel="stylesheet" />
 <link href="~/Content/tagcloud.css" rel="stylesheet" />
 <link href="~/Content/Vraagbaak.css" rel="stylesheet" />
 <link href="~/Content/sweetalert.css" rel="stylesheet" />
@@ -24,6 +25,7 @@ ViewBag.Icon = "fa fa-bullhorn";
 <script src="~/Scripts/chattile.js"></script>
 <script src="~/Scripts/tagcloud.js"></script>
 <script src="~/Scripts/vraagbaaktile.js"></script>
+<script src="~/Scripts/sststatus.js"></script>
 
 <!-- Begin tile grid -->
 <div class="grid-stack">
@@ -152,9 +154,61 @@ data-gs-width="3" data-gs-height="2">
     </div>
 </div>
 <!-- End Vraagbaak tile -->
+    <!-- Begin SOS monitor tile -->
+    <div class="grid-stack-item" data-gs-no-resize="true" data-gs-x="5" data-gs-y="6"
+         data-gs-width="2" data-gs-height="1">
+        <div class="tile-titlebar">SOS Meldingen</div>
+        <div class="grid-stack-item-content rabo-drop-shadow">
+        </div>
+    </div>
+    <!-- End SOS monitor tile -->
+    <!-- Begin SST status tile -->
+    <div class="grid-stack-item" data-gs-no-resize="true" data-gs-x="7" data-gs-y="6"
+         data-gs-width="1" data-gs-height="1">
+        <div class="tile-titlebar">SST status</div>
+        <div class="grid-stack-item-content rabo-drop-shadow sst-status-tile">
+            @{
+                if (Model.SSTStatus == Shoutbox.NET.SSTMonitorService.Status.Online)
+                {
+                    <i class="fa fa-check-circle" aria-hidden="true" title="Drupal formulieren komen SM9 binnen" style="color:green"></i>
+                }
+                else if (Model.SSTStatus == Shoutbox.NET.SSTMonitorService.Status.Warning)
+                {
+                    <i class="fa fa-exclamation-triangle" aria-hidden="true" title="Opgelet, er is een vertraging in het import proces" style="color:orange"></i>
+                }
+                else if (Model.SSTStatus == Shoutbox.NET.SSTMonitorService.Status.Offline)
+                {
+                    <i class="fa fa-minus-circle" aria-hidden="true" title="Drupal formulieren komen SM9 niet binnen" style="color:red"></i>
+                }
+            }
+        </div>
+    </div>
+    <!-- End SST status tile -->
 </div>
 
+
 <script>
+
+    //If the browser supports notifications. TODO: Add ability to turn notifications on/off per message type
+    if (("Notification" in window)) {
+        Notification.requestPermission();
+    }
+
+    function spawnNotification(theTitle, theBody) {
+        var options = {
+            body: theBody,
+            icon: "/Content/Images/Shoutbox-bullhorn.png",
+            requireInteraction: false
+        }
+        var n = new Notification(theTitle, options);
+
+        n.onclick = function () {
+            parent.focus();
+            window.focus(); //just in case, older browsers
+            this.close(); //Closes the notification
+        }
+    }
+
     var sendMessage;
     var sendEditVraagbaak;
 
@@ -180,6 +234,7 @@ chat.server.registerIfNotRegistered();
 // EVENT: Fired when receiving a command to update the vraagbaak tile
     chat.client.updateVraagbaak = function (functie, naam, changer) {
         updateVraagbaak(functie, naam, changer);
+        spawnNotification("Shoutbox", changer + ": " + functie + " van de dag is " + naam);
 }
 
 
@@ -188,8 +243,10 @@ chat.server.registerIfNotRegistered();
         //Add message to the appropriate tile depending on the message type
         if (type == "Chat") {
             $("#chat-window").AddMessage(name, division, time, tag, text, true);
+            spawnNotification("Shoutbox", name + ": " + tag + " " + text);
         } else if (type == "Announcement") {
             $("#announcement-window").AddMessage(name, division, time, tag, text, true);
+            spawnNotification("Shoutbox", name + ": #" + tag + " " + text);
         }
     updateTagCloud(tag); //Update tags real time
 };
@@ -198,12 +255,12 @@ chat.server.registerIfNotRegistered();
 function htmlEncode(value) {
 var encodedValue = $('<div />').text(value).html();
 return encodedValue;
-    }
+}
 
 
 
 @{
-//Add all of today's messages to the page upon loading
+    //Add all of today's messages to the page upon loading
 <text>
     addMessages(@Html.Raw(Model.SerializedMessages), true);
     updateVraagbaken(@Html.Raw(Model.SerializedVraagbaken));

@@ -1,9 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.4
+VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shoutbox.NET", "Shoutbox.NET\Shoutbox.NET.csproj", "{517A369E-92F8-43D0-B8BB-854E767AF2C4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{652024A2-3DE3-4D8A-86F4-E7F962365864} = {652024A2-3DE3-4D8A-86F4-E7F962365864}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSTMonitorService", "SSTMonitorService\SSTMonitorService.csproj", "{652024A2-3DE3-4D8A-86F4-E7F962365864}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSTTestClient", "SSTTestClient\SSTTestClient.csproj", "{286CD9C6-5C06-4059-B009-7D1F5C401359}"
+	ProjectSection(ProjectDependencies) = postProject
+		{652024A2-3DE3-4D8A-86F4-E7F962365864} = {652024A2-3DE3-4D8A-86F4-E7F962365864}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +25,14 @@ Global
 		{517A369E-92F8-43D0-B8BB-854E767AF2C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{517A369E-92F8-43D0-B8BB-854E767AF2C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{517A369E-92F8-43D0-B8BB-854E767AF2C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{652024A2-3DE3-4D8A-86F4-E7F962365864}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{652024A2-3DE3-4D8A-86F4-E7F962365864}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{652024A2-3DE3-4D8A-86F4-E7F962365864}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{652024A2-3DE3-4D8A-86F4-E7F962365864}.Release|Any CPU.Build.0 = Release|Any CPU
+		{286CD9C6-5C06-4059-B009-7D1F5C401359}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{286CD9C6-5C06-4059-B009-7D1F5C401359}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{286CD9C6-5C06-4059-B009-7D1F5C401359}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{286CD9C6-5C06-4059-B009-7D1F5C401359}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

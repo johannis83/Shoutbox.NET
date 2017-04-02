@@ -25,10 +25,10 @@
 
     // 13 = Enter
     else if (event.keyCode == '13') {
-        //Tag is required
-        if (tagDisplay.html() == "") { return; }
-        //Message requires atleast 5 characters
-        if (textboxvalue.length < 5) { return; } 
+        //Tag is required on announcement mssages
+        if (tagDisplay.html() == "" && type == 'Announcement') { return; }
+        //Message requires atleast 4 characters
+        if (textboxvalue.length < 4) { return; } 
         
         sendMessage($(tagDisplay).text(), $(textbox).val(), type);
         tagDisplay.html("");
@@ -104,8 +104,8 @@
         }
                 //Scroll both chat containers down
                 if (autoscroll) {
-                    $("#announcement-window").parent().stop().animate({ scrollTop: $("#announcement-window").prop("scrollHeight") }, 3000, 'easeOutQuart');
-                    $("#chat-window").parent().stop().animate({ scrollTop: $("#chat-window").prop("scrollHeight") }, 3000, 'easeOutQuart');
+                    $("#announcement-window").parent().stop().animate({ scrollTop: $("#announcement-window").prop("scrollHeight") }, 1000, 'easeOutQuart');
+                    $("#chat-window").parent().stop().animate({ scrollTop: $("#chat-window").prop("scrollHeight") }, 1000, 'easeOutQuart');
                 }
     };
 

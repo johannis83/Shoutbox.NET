@@ -22,7 +22,6 @@ namespace Shoutbox.NET.Hubs
         private IUserPrincipalRepository _userPrincipalRepository;
         private IVraagbaakRepository _vraagbaakRepository;
 
-
         public ChatHub(IUserRepository userService, IMessageRepository messageService, IUserPrincipalRepository userPrincipalRepository, IVraagbaakRepository vraagbaakRepository)
         {
             _userRepository = userService;

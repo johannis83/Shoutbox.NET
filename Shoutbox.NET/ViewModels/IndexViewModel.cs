@@ -5,12 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Newtonsoft.Json;
+using Shoutbox.NET.SSTMonitorService;
 
 namespace Shoutbox.NET.ViewModels
 {
     public class IndexViewModel
     {
-
+        public Status SSTStatus { get; set; }
         public ICollection<Message> Messages
         {
             get

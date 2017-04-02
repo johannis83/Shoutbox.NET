@@ -1,0 +1,12 @@
+﻿.sst-status-tile {
+    text-align: center;
+    overflow-y: hidden !important; 
+}
+
+.sst-status-tile > i {
+    z-index: 1;
+    position: relative;
+    font-size:30px;
+    margin-top:25px;
+    cursor: help;
+}

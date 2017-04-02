@@ -26,8 +26,10 @@ namespace Shoutbox.NET.Controllers
             PrincipalContext AD = new PrincipalContext(ContextType.Domain, WebConfigurationManager.AppSettings[domain].Split(',')[0]);
 
             // Create search user and add criteria  
-            UserPrincipal u = new UserPrincipal(AD);
-            u.SamAccountName = username;
+            UserPrincipal u = new UserPrincipal(AD)
+            {
+                SamAccountName = username
+            };
 
             // Search for user  
             using (PrincipalSearcher search = new PrincipalSearcher(u))

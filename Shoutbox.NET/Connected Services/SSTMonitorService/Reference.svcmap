@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="044bab1e-1821-4d3a-b5ba-e0aa9600a8f9" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>false</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:55979/SSTMonitorService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="SSTMonitorService.disco" MetadataType="Disco" ID="d6429110-89b3-446a-9a44-4432b5926599" SourceId="1" SourceUrl="http://localhost:55979/SSTMonitorService.svc?disco" />
+    <MetadataFile FileName="SSTMonitorService.xsd" MetadataType="Schema" ID="0857adc2-f810-4931-8f70-bc883db81180" SourceId="1" SourceUrl="http://localhost:55979/SSTMonitorService.svc?xsd=xsd2" />
+    <MetadataFile FileName="SSTMonitorService.wsdl" MetadataType="Wsdl" ID="fd800cab-e04d-4c03-b824-5d1e4dadfbd8" SourceId="1" SourceUrl="http://localhost:55979/SSTMonitorService.svc?wsdl" />
+    <MetadataFile FileName="SSTMonitorService1.xsd" MetadataType="Schema" ID="1adb697c-77bf-4f5a-b91c-5502f1c644a5" SourceId="1" SourceUrl="http://localhost:55979/SSTMonitorService.svc?xsd=xsd0" />
+    <MetadataFile FileName="SSTMonitorService2.xsd" MetadataType="Schema" ID="098ec3e2-e9ea-4bef-964c-87a5b477ec98" SourceId="1" SourceUrl="http://localhost:55979/SSTMonitorService.svc?xsd=xsd1" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
