@@ -44,7 +44,7 @@ namespace Shoutbox.NET.Hubs
                 Naam = naam,
                 ModifiedAt = DateTime.Now,
                 //We wanna know who modified it to prevent abuse
-                ModifiedBy = "Bubu Kirichenko"// _userRepository.GetByLogonUser(Context.User.Identity.Name).Name
+                ModifiedBy = _userRepository.GetByLogonUser(Context.User.Identity.Name).Name
             };
 
             //Validate that the functie is an existing and allowed functie
