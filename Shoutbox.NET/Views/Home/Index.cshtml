@@ -11,15 +11,19 @@ ViewBag.Icon = "fa fa-bullhorn";
 <link href="~/Content/Shoutbox.css" rel="stylesheet" />
 <link href="~/Content/tagcloud.css" rel="stylesheet" />
 <link href="~/Content/Vraagbaak.css" rel="stylesheet" />
+<link href="~/Content/sweetalert.css" rel="stylesheet" />
 
 <!-- Unsorted plugins -->
 <script src="~/Scripts/jquery.timeago.js"></script>
 <script src="~/Scripts/jquery.timeago.nl.js"></script>
 <script src="~/Scripts/jquery.tagcloud.js"></script>
+<script src="~/Scripts/sweetalert.min.js"></script>
+
 
 <!-- Scripts for each individual tile type -->
 <script src="~/Scripts/chattile.js"></script>
 <script src="~/Scripts/tagcloud.js"></script>
+<script src="~/Scripts/vraagbaaktile.js"></script>
 
 <!-- Begin tile grid -->
 <div class="grid-stack">
@@ -27,7 +31,7 @@ ViewBag.Icon = "fa fa-bullhorn";
 <!-- Begin Announcement Tile-->
 <div class="grid-stack-item"
         data-gs-x="0" data-gs-y="0"
-        data-gs-width="5" data-gs-height="6" data-gs-min-width="3" data-gs-min-height="4">
+        data-gs-width="5" data-gs-height="8" data-gs-min-width="3" data-gs-min-height="4">
 
     <div class="tile-titlebar">Omroepen</div>
     <div class="grid-stack-item-content rabo-drop-shadow">
@@ -58,7 +62,7 @@ ViewBag.Icon = "fa fa-bullhorn";
 <!-- Begin Chat Tile-->
 <div class="grid-stack-item"
 data-gs-x="9" data-gs-y="0"
-data-gs-width="4" data-gs-height="6" data-gs-min-width="3" data-gs-min-height="4">
+data-gs-width="4" data-gs-height="8" data-gs-min-width="3" data-gs-min-height="4">
         
 <div class="tile-titlebar">Chat</div>
 <div class="grid-stack-item-content rabo-drop-shadow">
@@ -125,19 +129,23 @@ data-gs-width="3" data-gs-height="2">
         <tbody>
             <tr>
                 <td>MCS</td>
-                <td>Collin Williams</td>
-            </tr>
-            <tr>
-                <td>WFM</td>
-                <td>Gerrie Vlaanderen</td>
-            </tr>
-            <tr>
-                <td>Teamlead</td>
-                <td>Connie Verbeek</td>
+                <td id="MCS"></td>
+                <td><i class="fa fa-pencil edit-function-icon" aria-hidden="true" onclick="editVraagbaak('MCS')"></i></td>
             </tr>
             <tr>
                 <td>SDA</td>
-                <td>Jong Ping Teung</td>
+                <td id="SDA"></td>
+                <td><i class="fa fa-pencil edit-function-icon" aria-hidden="true" onclick="editVraagbaak('SDA')"></i></td>
+            </tr>
+            <tr>
+                <td>Teamlead</td>
+                <td id="Teamlead"></td>
+                <td><i class="fa fa-pencil edit-function-icon" aria-hidden="true" onclick="editVraagbaak('Teamlead')"></i></td>
+            </tr>
+            <tr>
+                <td>WFM</td>
+                <td id="WFM"></td>
+                <td><i class="fa fa-pencil edit-function-icon" aria-hidden="true" onclick="editVraagbaak('WFM')"></i></td>
             </tr>
         </tbody>
     </table>
@@ -147,7 +155,8 @@ data-gs-width="3" data-gs-height="2">
 </div>
 
 <script>
-var sendMessage;
+    var sendMessage;
+    var sendEditVraagbaak;
 
 // Reference the auto-generated proxy for the hub.
 var chat = $.connection.chatHub;
@@ -158,11 +167,21 @@ var chat = $.connection.chatHub;
 //Check if the connecting user exists in our database, if not register
 chat.server.registerIfNotRegistered();
 
-// Call the Send method on the hub.
-sendMessage = function (tag, text, type) {
-    chat.server.broadcastChatMessage(tag, text, type)
-        }
+    sendMessage = function (tag, text, type) {
+        chat.server.broadcastChatMessage(tag, text, type)
+    }
+
+//Tell the server to change a vraagbaak
+    sendEditVraagbaak = function (functie, naam) {
+        return chat.server.setVraagbaak(functie, naam);
+    }
 });
+    
+// EVENT: Fired when receiving a command to update the vraagbaak tile
+    chat.client.updateVraagbaak = function (functie, naam, changer) {
+        updateVraagbaak(functie, naam, changer);
+}
+
 
 // EVENT: Fired when receiving a chat message from the server
     chat.client.receiveChatMessage = function (name, division, time, tag, text, type) {
@@ -179,12 +198,15 @@ sendMessage = function (tag, text, type) {
 function htmlEncode(value) {
 var encodedValue = $('<div />').text(value).html();
 return encodedValue;
-}
+    }
+
+
 
 @{
 //Add all of today's messages to the page upon loading
 <text>
     addMessages(@Html.Raw(Model.SerializedMessages), true);
+    updateVraagbaken(@Html.Raw(Model.SerializedVraagbaken));
 </text>
 }
 

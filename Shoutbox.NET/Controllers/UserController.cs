@@ -9,8 +9,8 @@ using System.Web.Mvc;
 using Shoutbox.NET.Data;
 using Shoutbox.NET.Models;
 using System.DirectoryServices.AccountManagement;
-using Shoutbox.NET.Services;
 using System.Web.Configuration;
+using Shoutbox.NET.Repositories;
 
 namespace Shoutbox.NET.Controllers
 {

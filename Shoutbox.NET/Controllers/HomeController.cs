@@ -1,6 +1,5 @@
 ﻿using Shoutbox.NET.Data;
 using Shoutbox.NET.Models;
-using Shoutbox.NET.Services;
 using Shoutbox.NET.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -37,6 +36,13 @@ namespace Shoutbox.NET.Controllers
                 }).Where(f => f.Timestamp.Value.Day == DateTime.Now.Day)); //Only get TODAY's messages for the home page
                 #endregion
 
+                #region Set IndexViewModel's vraagbaken
+
+                //Only get vraagbaken that are set TODAY
+                indexViewModel.SerializedVraagbaken = Newtonsoft.Json.JsonConvert.SerializeObject(
+                    db.Vraagbaken.Where(f => f.ModifiedAt.Day == DateTime.Now.Day).ToList());
+
+                #endregion
 
                 return View(indexViewModel);
             }

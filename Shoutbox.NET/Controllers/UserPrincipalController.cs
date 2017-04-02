@@ -1,4 +1,4 @@
-﻿using Shoutbox.NET.Services;
+﻿using Shoutbox.NET.Repositories;
 using System;
 using System.Collections.Generic;
 using System.DirectoryServices;

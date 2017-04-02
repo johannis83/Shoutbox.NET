@@ -2,13 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
 namespace Shoutbox.NET.Repositories
 {
-    public interface IMessageRepository
+    public interface IVraagbaakRepository
     {
-        Message Create(Message message);
+        Vraagbaak Set(Vraagbaak vraagbaak);
     }
 }

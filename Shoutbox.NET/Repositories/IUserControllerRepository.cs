@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shoutbox.NET.Services
+namespace Shoutbox.NET.Repositories
 {
     public interface IUserRepository
     {

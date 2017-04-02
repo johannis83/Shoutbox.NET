@@ -1,12 +1,12 @@
 using System.Web.Mvc;
 using Microsoft.Practices.Unity;
 using Unity.Mvc3;
-using Shoutbox.NET.Services;
 using Shoutbox.NET.Data;
 using Shoutbox.NET.Controllers;
 using Shoutbox.NET.Hubs;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
+using Shoutbox.NET.Repositories;
 
 namespace Shoutbox.NET
 {
@@ -23,16 +23,14 @@ namespace Shoutbox.NET
         {
             var container = new UnityContainer();
 
-
-
-
             // register all your components with the container here
-            //To allow DI with SignalR
+            //To allow DI usage with SignalR
             GlobalHost.DependencyResolver.Register(typeof(IHubActivator), () => new UnityHubActivator(container));
             // it is NOT necessary to register your controllers
-            container.RegisterType<IUserPrincipalRepository, UserPrincipalController>();
             container.RegisterType<IMessageRepository, MessageController>();
+            container.RegisterType<IUserPrincipalRepository, UserPrincipalController>();
             container.RegisterType<IUserRepository, UserController>();
+            container.RegisterType<IVraagbaakRepository, VraagbaakController>();
 
             return container;
         }

@@ -7,7 +7,6 @@ using Microsoft.Owin;
 using Microsoft.AspNet.SignalR;
 using Shoutbox.NET.Hubs;
 using Shoutbox.NET.Controllers;
-using Shoutbox.NET.Services;
 using Microsoft.AspNet.SignalR.Hubs;
 using System.Web.Mvc;
 

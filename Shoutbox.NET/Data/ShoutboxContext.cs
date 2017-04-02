@@ -16,6 +16,7 @@ namespace Shoutbox.NET.Data
 
         public DbSet<User> Users { get; set; }
         public DbSet<Message> Messages { get; set; }
+        public DbSet<Vraagbaak> Vraagbaken { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.DirectoryServices.AccountManagement;
 
-namespace Shoutbox.NET.Services
+namespace Shoutbox.NET.Repositories
 {
     public interface IUserPrincipalRepository
     {

@@ -19,6 +19,15 @@ namespace Shoutbox.NET.ViewModels
             }
         }
 
+        public ICollection<Vraagbaak> Vraagbaken
+        {
+            get
+            {
+                return JsonConvert.DeserializeObject<ICollection<Vraagbaak>>(SerializedVraagbaken);
+            }
+        }
+
+        public string SerializedVraagbaken { get; set; }
         public string SerializedMessages { get; set; }
         
 

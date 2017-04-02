@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Shoutbox.NET.Data;
 using Shoutbox.NET.Models;
-using Shoutbox.NET.Services;
+using Shoutbox.NET.Repositories;
 
 namespace Shoutbox.NET.Controllers
 {
