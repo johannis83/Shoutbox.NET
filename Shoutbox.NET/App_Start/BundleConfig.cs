@@ -30,7 +30,6 @@ namespace Shoutbox.NET
                       "~/Content/bootstrap.css",
                       "~/Content/Rabo.css",
                       "~/Content/Fonts/font-awesome.min.css",
-                      "~/Content/Fonts/font-awesome.min.css",
                       "~/Content/gridstack.min.css",
                       "~/Content/jqcloud.min.css"));
 

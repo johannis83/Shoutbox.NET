@@ -9,7 +9,7 @@ a:hover {
 
 body {
     background-color: #F7F7F7;
-    background-image: url(/Content//Images/rb_bg.png);
+    background-image: url('Images/rb_bg.png');
     margin: 0px;
 }
 

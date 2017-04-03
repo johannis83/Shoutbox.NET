@@ -17,7 +17,7 @@
     <AssemblyName>Shoutbox.NET</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication>disabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
@@ -202,6 +202,8 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\Images\Shoutbox-bullhorn.png" />
     <Content Include="Content\Sststatus.css" />
     <Content Include="Content\sweetalert.css" />
@@ -240,8 +242,6 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\Fonts\font-awesome.css" />
-    <Content Include="Content\Fonts\font-awesome.min.css" />
     <Content Include="Content\gridstack.min.css" />
     <Content Include="Content\Images\rabobank-logo.png" />
     <Content Include="Content\Images\rb_bg.png" />
@@ -290,8 +290,8 @@
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
     <Content Include="favicon.ico" />
-    <Content Include="Content\Fonts\fontawesome-webfont.svg" />
     <Content Include="Content\Fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\Fonts\fontawesome-webfont.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Rabo.css" />
     <Content Include="ApplicationInsights.config">
@@ -311,11 +311,6 @@
     <Content Include="Content\Fonts\Myriad-Pro-Bold.ttf" />
     <Content Include="Content\Fonts\Myriad-Pro-Light-SemiExtended.ttf" />
     <Content Include="Content\Fonts\Myriad-Pro-Light.ttf" />
-    <Content Include="Content\Fonts\FontAwesome.otf" />
-    <Content Include="Content\Fonts\fontawesome-webfont.woff2" />
-    <Content Include="Content\Fonts\fontawesome-webfont.woff" />
-    <Content Include="Content\Fonts\fontawesome-webfont.ttf" />
-    <Content Include="Content\Fonts\fontawesome-webfont.eot" />
     <None Include="Connected Services\SSTMonitorService\SSTMonitorService.wsdl" />
     <None Include="Connected Services\SSTMonitorService\SSTMonitorService.xsd">
       <SubType>Designer</SubType>
@@ -326,6 +321,11 @@
     <None Include="Connected Services\SSTMonitorService\SSTMonitorService2.xsd">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Content\Fonts\FontAwesome.otf" />
+    <Content Include="Content\Fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\Fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\Fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\Fonts\fontawesome-webfont.eot" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\chattile.js" />
@@ -412,7 +412,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>64554</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost</IISUrl>
+          <IISUrl>http://localhost/Shoutbox.NET</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
