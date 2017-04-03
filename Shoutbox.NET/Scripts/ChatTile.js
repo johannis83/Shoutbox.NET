@@ -44,7 +44,7 @@
             verticalMargin: 10,
             draggable: {
                 handle: '.tile-titlebar',
-            }
+            },
         };
         $('.grid-stack').gridstack(options);
     });
@@ -129,40 +129,15 @@ $.fn.ScrollToBottom = function () {
 
 // Instantiate nice scroll
 $(document).ready(function () {
-    $("#chat-window").parent().niceScroll({
+    $(".grid-stack-item-content").niceScroll({
         cursorwidth: 5,
         cursorborder: 0,
         cursorcolor: '#d8d8d8',
         cursorborderradius: 0,
         autohidemode: true,
-        horizrailenabled: false
-    });
-
-    $("#announcement-window").parent().niceScroll({
-        cursorwidth: 5,
-        cursorborder: 0,
-        cursorcolor: '#d8d8d8',
-        cursorborderradius: 0,
-        autohidemode: true,
-        horizrailenabled: false
-    });
-
-    $("#announcement-window").parent().niceScroll({
-        cursorwidth: 5,
-        cursorborder: 0,
-        cursorcolor: '#d8d8d8',
-        cursorborderradius: 0,
-        autohidemode: true,
-        horizrailenabled: false
-    });
-
-    $("#vraagbaak-window").niceScroll({
-        cursorwidth: 5,
-        cursorborder: 0,
-        cursorcolor: '#d8d8d8',
-        cursorborderradius: 0,
-        autohidemode: true,
-        horizrailenabled: false
+        horizrailenabled: false,
+        touchbehavior: false,
+        grabcursorenabled: false
     });
 
     //Auto scroll to bottom

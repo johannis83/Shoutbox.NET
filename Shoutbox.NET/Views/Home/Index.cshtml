@@ -194,6 +194,7 @@
 
     function spawnNotification(theTitle, theBody) {
         if (!("Notification" in window)) return;
+        if (!document.hidden) return; //Only display notifications if the window isn't focused
         var options = {
             body: theBody,
             icon: "../Content/Images/Shoutbox-bullhorn.png",
