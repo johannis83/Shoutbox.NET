@@ -107,7 +107,7 @@
                 foreach (KeyValuePair<string, int> tag in Model.Tags)
                 {
                     string uppercaseFirst = char.ToUpper(tag.Key[0]) + tag.Key.Substring(1).ToLower();
-                    <a href="/Tag/@uppercaseFirst" rel="@tag.Value" title="@tag.Value tags">#@tag.Key</a>
+                    <a href="~/Tag/@uppercaseFirst" rel="@tag.Value" title="@tag.Value tags">#@tag.Key</a>
                 }
             }
             <!-- End tags-->

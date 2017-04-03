@@ -2,7 +2,7 @@
     $("#tagcloud a").tagcloud({
         size: {
             start: 8,
-            end: 20,
+            end: 15,
             unit: 'pt'
         },
         color: {
@@ -34,6 +34,8 @@ $(document).ready(function () {
 var updateTagCloud = function (newTag) {
     var tagfound = false;
 
+    if (newTag == '#') return;
+
     $(".tagcloud-filler").remove();
 
     $("#tagcloud").children('a').each(function () {
@@ -51,6 +53,6 @@ var updateTagCloud = function (newTag) {
     if (tagfound) { return; }
 
     //New tag? add it
-    $("#tagcloud").append('<a href="/Tag/' + newTag + '" rel="' + 1 + '">#'+newTag+'</a>');
+    $("#tagcloud").append('<a href="~/Tag/' + newTag + '" rel="' + 1 + '">#'+newTag+'</a>');
     initializeTagCloud();
 }

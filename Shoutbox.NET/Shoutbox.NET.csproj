@@ -245,7 +245,6 @@
     <Content Include="Content\gridstack.min.css" />
     <Content Include="Content\Images\rabobank-logo.png" />
     <Content Include="Content\Images\rb_bg.png" />
-    <Content Include="Content\MVP.css" />
     <Content Include="Content\Shoutbox.css" />
     <Content Include="Content\tagcloud.css" />
     <Content Include="Content\themes\base\accordion.css" />
@@ -291,7 +290,7 @@
     <Content Include="Content\themes\base\tooltip.css" />
     <Content Include="favicon.ico" />
     <Content Include="Content\Fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="Content\Fonts\fontawesome-webfont.svg" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Rabo.css" />
     <Content Include="ApplicationInsights.config">
@@ -307,10 +306,6 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Content\Fonts\Myriad Pro Regular.ttf" />
-    <Content Include="Content\Fonts\Myriad-Pro-Bold.ttf" />
-    <Content Include="Content\Fonts\Myriad-Pro-Light-SemiExtended.ttf" />
-    <Content Include="Content\Fonts\Myriad-Pro-Light.ttf" />
     <None Include="Connected Services\SSTMonitorService\SSTMonitorService.wsdl" />
     <None Include="Connected Services\SSTMonitorService\SSTMonitorService.xsd">
       <SubType>Designer</SubType>
@@ -321,11 +316,11 @@
     <None Include="Connected Services\SSTMonitorService\SSTMonitorService2.xsd">
       <SubType>Designer</SubType>
     </None>
-    <Content Include="Content\Fonts\FontAwesome.otf" />
-    <Content Include="Content\Fonts\fontawesome-webfont.woff2" />
-    <Content Include="Content\Fonts\fontawesome-webfont.woff" />
-    <Content Include="Content\Fonts\fontawesome-webfont.ttf" />
-    <Content Include="Content\Fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\chattile.js" />

@@ -42,6 +42,9 @@
         var options = {
             cellHeight: 80,
             verticalMargin: 10,
+            draggable: {
+                handle: '.tile-titlebar',
+            }
         };
         $('.grid-stack').gridstack(options);
     });
@@ -82,7 +85,7 @@
             message = message.concat('<div id="message-time"><i class="fa fa-clock-o" aria-hidden="true"></i><abbr class="timeago" title="' + time + '">' + time + ' </abbr> </div>');
             message = message.concat('<div id="message-content">');
             //Only add a tag label if a tag is specified. Chat messages don't use tags, so..
-            if(tag != "") message = message.concat('<div id="message-tag" onclick="location.href=\'/Tag/' + uppercaseFirstCharacterTag + '\';" class="label label-primary">' + tag + '</div>');
+            if(tag != "") message = message.concat('<div id="message-tag" onclick="location.href=\'Tag/' + uppercaseFirstCharacterTag + '\';" class="label label-primary">' + tag + '</div>');
             message = message.concat('<div id="message-text">' + text);
             message = message.concat('</div>');
             message = message.concat('</div>');

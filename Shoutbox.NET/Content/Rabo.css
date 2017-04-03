@@ -1,5 +1,5 @@
 ﻿* {
-    font-family: Myriad Pro Regular, Verdana, Sans Serif;
+    font-family: Verdana
 }
 
 a:hover {
@@ -20,7 +20,7 @@ body {
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
+   will truncate terms that are too long to fit in the left column s
 */
 .dl-horizontal dt {
     white-space: normal;
@@ -124,7 +124,8 @@ body {
     margin-left: 10px;
     font-size: 17px;
     height: 33px;
-    font-family: "Myriad Pro Light",Verdana,Helvetica,Arial,sans-serif;   
+    font-family: Verdana;
+    font-weight: lighter;
 }
 
 #topnav > span > i {

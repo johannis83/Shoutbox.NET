@@ -29,7 +29,7 @@ namespace Shoutbox.NET
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/Rabo.css",
-                      "~/Content/Fonts/font-awesome.min.css",
+                      "~/Content/font-awesome.min.css",
                       "~/Content/gridstack.min.css",
                       "~/Content/jqcloud.min.css"));
 
