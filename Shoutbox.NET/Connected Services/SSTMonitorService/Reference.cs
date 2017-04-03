@@ -24,6 +24,9 @@ namespace Shoutbox.NET.SSTMonitorService {
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
         Offline = 2,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Unknown = 3,
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -31,10 +34,10 @@ namespace Shoutbox.NET.SSTMonitorService {
     public interface ISSTMonitorService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISSTMonitorService/GetStatus", ReplyAction="http://tempuri.org/ISSTMonitorService/GetStatusResponse")]
-        Shoutbox.NET.SSTMonitorService.Status GetStatus();
+        Shoutbox.NET.SSTMonitorService.Status GetStatus(string Service);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISSTMonitorService/GetStatus", ReplyAction="http://tempuri.org/ISSTMonitorService/GetStatusResponse")]
-        System.Threading.Tasks.Task<Shoutbox.NET.SSTMonitorService.Status> GetStatusAsync();
+        System.Threading.Tasks.Task<Shoutbox.NET.SSTMonitorService.Status> GetStatusAsync(string Service);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -64,12 +67,12 @@ namespace Shoutbox.NET.SSTMonitorService {
                 base(binding, remoteAddress) {
         }
         
-        public Shoutbox.NET.SSTMonitorService.Status GetStatus() {
-            return base.Channel.GetStatus();
+        public Shoutbox.NET.SSTMonitorService.Status GetStatus(string Service) {
+            return base.Channel.GetStatus(Service);
         }
         
-        public System.Threading.Tasks.Task<Shoutbox.NET.SSTMonitorService.Status> GetStatusAsync() {
-            return base.Channel.GetStatusAsync();
+        public System.Threading.Tasks.Task<Shoutbox.NET.SSTMonitorService.Status> GetStatusAsync(string Service) {
+            return base.Channel.GetStatusAsync(Service);
         }
     }
 }

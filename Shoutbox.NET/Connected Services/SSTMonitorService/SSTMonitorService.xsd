@@ -5,6 +5,7 @@
       <xs:enumeration value="Online" />
       <xs:enumeration value="Warning" />
       <xs:enumeration value="Offline" />
+      <xs:enumeration value="Unknown" />
     </xs:restriction>
   </xs:simpleType>
   <xs:element name="Status" nillable="true" type="tns:Status" />

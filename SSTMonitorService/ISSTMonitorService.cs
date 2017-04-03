@@ -13,7 +13,7 @@ namespace SSTMonitorService
     public interface ISSTMonitorService
     {
         [OperationContract]
-        Status GetStatus();
+        Status GetStatus(string Service);
     }
 
 }

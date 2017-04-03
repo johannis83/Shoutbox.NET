@@ -1,0 +1,98 @@
+﻿* {
+    font-family: "Myriad Pro"
+}
+
+abbr {
+    border-bottom: none !important;
+    text-decoration: none !important;
+    margin-left: 5px;
+}
+
+hr {
+    border-top: 1px dotted #8c8b8b;
+}
+
+.textbox-wrapper {
+    background-color: white;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.text-input {
+    
+}
+
+.tag-display {
+    margin: 0px;
+}
+
+.tag-word-active {
+    background-color: forestgreen;
+    border-top-left-radius: 7px !important;
+    border-bottom-left-radius: 7px !important;
+    font-weight: 600;
+    color: white;
+}
+
+#chat-window {
+    width: 100%;
+    height: 100%;
+}
+
+#chat-filler {
+    color: lightgray;
+    height: 96%;
+    text-align: center;
+}
+
+#chat-filler > i  {
+    color: inherit;
+    font-size: 100px;
+    margin-top: 30px;
+}
+
+#chat-filler > p {
+    margin-top: 50px;
+    font-size: 25px;
+}
+
+#message-container {
+}
+
+#message {
+}
+
+#message-name {
+    
+    display: inline-block;
+}
+
+#message-division {
+    font-size: smaller;
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 5px;
+}
+
+#message-time {
+    float: right;
+    font-size: small;
+    color: gray;
+}
+
+#message-content {
+    margin-top: 10px;
+}
+
+#message-tag {
+    padding: 7px;
+    display: inline-block;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+#message-text {
+    margin-top: 10px;
+    display: inline-block;
+    width: 100%;
+}

@@ -64,7 +64,6 @@
     <div class="grid-stack-item"
          data-gs-x="9" data-gs-y="0"
          data-gs-width="4" data-gs-height="8" data-gs-min-width="3" data-gs-min-height="4">
-
         <div class="tile-titlebar">Chat</div>
         <div class="grid-stack-item-content rabo-drop-shadow">
             <!-- Chat Container -->
@@ -154,31 +153,35 @@
     <!-- End Vraagbaak tile -->
     <!-- Begin SOS monitor tile -->
     <div class="grid-stack-item" data-gs-no-resize="true" data-gs-x="5" data-gs-y="6"
-         data-gs-width="2" data-gs-height="1">
+         data-gs-width="3" data-gs-height="1">
         <div class="tile-titlebar">SOS Meldingen</div>
         <div class="grid-stack-item-content rabo-drop-shadow">
         </div>
     </div>
     <!-- End SOS monitor tile -->
-    <!-- Begin SST status tile -->
-    <div class="grid-stack-item" data-gs-no-resize="true" data-gs-x="7" data-gs-y="6"
-         data-gs-width="1" data-gs-height="1">
-        <div class="tile-titlebar">SST status</div>
+    <!-- Begin service monitor tile -->
+    <div class="grid-stack-item" data-gs-no-resize="true" data-gs-x="5" data-gs-y="6"
+         data-gs-width="3" data-gs-height="1">
+        <div class="tile-titlebar">Service monitor</div>
         <div class="grid-stack-item-content rabo-drop-shadow sst-status-tile">
-            @{
-                if (Model.SSTStatus == Shoutbox.NET.SSTMonitorService.Status.Online)
-                {
-                    <i class="fa fa-check-circle" aria-hidden="true" title="Drupal formulieren komen SM9 binnen" style="color:green"></i>
-                }
-                else if (Model.SSTStatus == Shoutbox.NET.SSTMonitorService.Status.Warning)
-                {
-                    <i class="fa fa-exclamation-triangle" aria-hidden="true" title="Opgelet, er is een vertraging in het import proces" style="color:orange"></i>
-                }
-                else if (Model.SSTStatus == Shoutbox.NET.SSTMonitorService.Status.Offline)
-                {
-                    <i class="fa fa-minus-circle" aria-hidden="true" title="Drupal formulieren komen SM9 niet binnen" style="color:red"></i>
-                }
-            }
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>SM9</td>
+                        <td id="SM9"></td>
+                    </tr>
+                    <tr>
+                        <td>EasyVista</td>
+                        <td id="EasyVista"></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
     <!-- End SST status tile -->
@@ -193,20 +196,20 @@
     }
 
     function spawnNotification(theTitle, theBody) {
-        if (!("Notification" in window)) return;
-        if (!document.hidden) return; //Only display notifications if the window isn't focused
-        var options = {
+                    if (!("Notification" in window)) return;
+                    if (!document.hidden) return; //Only display notifications if the window isn't focused
+                    var options = {
             body: theBody,
             icon: "../Content/Images/Shoutbox-bullhorn.png",
             requireInteraction: false
         }
-        var n = new Notification(theTitle, options);
+                var n = new Notification(theTitle, options);
 
-        n.onclick = function () {
-            parent.focus();
-            window.focus(); //just in case, older browsers
-            this.close(); //Closes the notification
-        }
+                n.onclick = function () {
+                    parent.focus();
+                    window.focus(); //just in case, older browsers
+                    this.close(); //Closes the notification
+                }
     }
 
 
@@ -215,7 +218,6 @@
 
 // Reference the auto-generated proxy for the hub.
     var chat = $.connection.chatHub;
-    $.connection.hub.logging = true;
 // Start the connection.
     $.connection.hub.start().done(function () {
 
@@ -261,14 +263,17 @@ return encodedValue;
 
 
 @{
-    //Add all of today's messages to the page upon loading
+           //Add all of today's messages to the page upon loading
 <text>
     addMessages(@Html.Raw(Model.SerializedMessages), true);
     updateVraagbaken(@Html.Raw(Model.SerializedVraagbaken));
+    setServiceStatus("SM9");
+    setServiceStatus("EasyVista");
 </text>
 }
 
     //Set up the tag cloud
     initializeTagCloud();
     //Check if we're new to the shoutbox. If we are, we'll be registered
+
 </script>

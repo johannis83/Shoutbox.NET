@@ -1,6 +1,7 @@
 ﻿.sst-status-tile {
     text-align: center;
     overflow-y: hidden !important; 
+    padding-bottom: 0px;
 }
 
 .sst-status-tile > i {
@@ -8,5 +9,22 @@
     position: relative;
     font-size:30px;
     margin-top:25px;
-    cursor: help;
+}
+
+.sst-status-tile > .table {
+    margin-top: 0px !important;
+}
+
+.sst-status-tile > .table > thead {
+    border: none;
+}
+
+.sst-status-tile > .table > thead > tr > th  {
+    text-align: center;
+    padding-bottom: 0px;
+}
+
+.sst-status-tile > .table > tbody > tr > td {
+    border: none;
+    padding: 0px !important;
 }

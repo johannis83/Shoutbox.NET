@@ -11,7 +11,9 @@ namespace Shoutbox.NET.ViewModels
 {
     public class IndexViewModel
     {
-        public Status SSTStatus { get; set; }
+        public Status SM9Status { get; set; }
+        public Status EasyVistaStatus { get; set; }
+
         public ICollection<Message> Messages
         {
             get

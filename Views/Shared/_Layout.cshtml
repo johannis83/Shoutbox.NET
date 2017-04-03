@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/jquery.nicescroll.min.js"></script>
+</head>
+<body>
+    <div id="container">
+        <div id="wrapper">
+            <div id="pageheader" class="rabo-drop-shadow">
+                <div id="logo"></div>
+                <div id="header-center">
+                    <ul id="headermenu">
+                        <li>@Html.ActionLink("Shoutbox", "Index", "Home")</li>
+                        <li>@Html.ActionLink("Historie", "Historie", "Home")</li>
+                        <li>@Html.ActionLink("Gebruik", "Index", "Home")</li>
+                        <li>@Html.ActionLink("Uitwijk Delphi SDA", "Index", "Home")</li>
+                    </ul>
+                    <span id="department">CCSDEU Shoutbox</span>
+                </div>
+            </div>
+            <div id="topnav" class="rabo-drop-shadow">
+                <span><i class="@ViewBag.Icon" aria-hidden="true"></i> @ViewBag.Title</span>
+            </div>
+
+            <div class="container body-content" id="body-container">
+                @RenderBody()
+                <hr />
+                <footer>
+                    <p>&copy; @DateTime.Now.Year - Shoutbox</p>
+                </footer>
+            </div>
+        </div>
+    </div>
+    <script>
+        $("a:contains('@ViewBag.Title')").addClass("selectedMenuItem");
+    </script>
+</body>
+</html>

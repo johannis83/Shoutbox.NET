@@ -13,9 +13,13 @@ namespace SSTMonitorService
 {
     public class SSTMonitorService : ISSTMonitorService
     {
-        private Status CurrentStatus;
+        private Status SM9Status;
+        private Status EasyVistaStatus;
+
         private Timer timer;
-        private string XMLDirectory;
+        private string SM9Directory;
+        private string EasyVistaDirectory;
+
         private bool LoggingEnabled;
         private string LogDirectory;
 
@@ -32,7 +36,10 @@ namespace SSTMonitorService
             Online = TimeSpan.FromMilliseconds(Double.Parse(ConfigurationManager.AppSettings["Online"]));
             Warning = TimeSpan.FromMilliseconds(Double.Parse(ConfigurationManager.AppSettings["Warning"]));
             Offline = TimeSpan.FromMilliseconds(Double.Parse(ConfigurationManager.AppSettings["Offline"]));
-            XMLDirectory = ConfigurationManager.AppSettings["XMLDirectory"];
+
+            SM9Directory = ConfigurationManager.AppSettings["SM9Directory"];
+            EasyVistaDirectory = ConfigurationManager.AppSettings["EasyVistaDirectory"];
+
             LogDirectory = ConfigurationManager.AppSettings["LogDirectory"];
 
             timer = new Timer()
@@ -43,56 +50,105 @@ namespace SSTMonitorService
             timer.Elapsed += new ElapsedEventHandler(Timer_elapsed);
             timer.Start();
 
-            SetStatus();
+            CheckSM9Status();
+            CheckEasyVistaStatus();
         }
 
         private void Timer_elapsed(object sender, ElapsedEventArgs e)
         {
-            SetStatus();
+            CheckSM9Status();
+            CheckEasyVistaStatus();
         }
 
-
-        private void SetStatus()
+        private void CheckSM9Status()
         {
-            //No files there? Service must be running fine!
-            if(Directory.GetFiles(XMLDirectory).Length == 0)
+            //Invalid directory? We can't know!
+            if (!Directory.Exists(SM9Directory))
             {
-                CurrentStatus = Status.Online;
+                SM9Status = Status.Unknown;
+                return;
+            }
+
+            //No files there? Service must be running fine!
+            if (Directory.GetFiles(SM9Directory, "*.xml", SearchOption.TopDirectoryOnly).Length == 0)
+            {
+                SM9Status = Status.Online;
                 return;
             }
 
             //Get the oldest file in the specified directory
-            DateTime oldestFileDate = Directory.GetFiles(XMLDirectory, "*.xml", SearchOption.TopDirectoryOnly).
+            DateTime oldestFileDate = Directory.GetFiles(SM9Directory, "*.xml", SearchOption.TopDirectoryOnly).
                 Select(f => new FileInfo(f)).OrderByDescending(f => f.CreationTime).FirstOrDefault().CreationTime;
 
             TimeSpan fileAge = DateTime.Now - oldestFileDate;
 
             if (fileAge.Minutes <= Online.Minutes)
-                CurrentStatus = Status.Online;
+                SM9Status = Status.Online;
             else if (fileAge.Minutes >= Offline.Minutes)
             {
-                CurrentStatus = Status.Offline;
-                Log(CurrentStatus, fileAge);
+                SM9Status = Status.Offline;
+                Log(SM9Status, fileAge, "SM9");
             }
             else if (fileAge.Minutes >= Warning.Minutes)
             {
-                CurrentStatus = Status.Warning;
-                Log(CurrentStatus, fileAge);
+                SM9Status = Status.Warning;
+                Log(SM9Status, fileAge, "SM9");
+            }
+        }
+
+        private void CheckEasyVistaStatus()
+        {
+            //Invalid directory? We can't know!
+            if(!Directory.Exists(EasyVistaDirectory))
+            {
+                EasyVistaStatus = Status.Unknown;
+                return;
+            }
+
+            //No files there? Service must be running fine!
+            if (Directory.GetFiles(EasyVistaDirectory, "*.json", SearchOption.TopDirectoryOnly).Length == 0)
+            {
+                EasyVistaStatus = Status.Online;
+                return;
+            }
+
+            //Get the oldest file in the specified directory
+            DateTime oldestFileDate = Directory.GetFiles(EasyVistaDirectory, "*.json", SearchOption.TopDirectoryOnly).
+                Select(f => new FileInfo(f)).OrderByDescending(f => f.CreationTime).FirstOrDefault().CreationTime;
+
+            TimeSpan fileAge = DateTime.Now - oldestFileDate;
+
+            if (fileAge.Minutes <= Online.Minutes)
+                EasyVistaStatus = Status.Online;
+            else if (fileAge.Minutes >= Offline.Minutes)
+            {
+                EasyVistaStatus = Status.Offline;
+                Log(EasyVistaStatus, fileAge, "EasyVista");
+            }
+            else if (fileAge.Minutes >= Warning.Minutes)
+            {
+                EasyVistaStatus = Status.Warning;
+                Log(EasyVistaStatus, fileAge, "EasyVista");
             }
         }
 
 
-        private void Log(Status status, TimeSpan fileAge)
+        private void Log(Status status, TimeSpan fileAge, string Service)
         {
             if (!LoggingEnabled) return;
 
             File.AppendAllText(Path.Combine(LogDirectory, LOGFILENAME),
-                        string.Format("[{0}] {1}: The SST form process is {2} minutes late with processing SST files. \n", DateTime.Now, status.ToString().ToUpper(), fileAge.Minutes - Online.Minutes));
+                        string.Format("[{0} {1}: The {2} process is {2} minutes late with processing SST files. \n", 
+                               DateTime.Now, status.ToString().ToUpper(), fileAge.Minutes - Online.Minutes, Service));
         }
 
-        public Status GetStatus()
+        public Status GetStatus(string Service)
         {
-            return CurrentStatus;
+            if (Service == "SM9")
+                return SM9Status;
+            else if (Service == "EasyVista")
+                return EasyVistaStatus;
+            return Status.Unknown;
         }
     }
 }

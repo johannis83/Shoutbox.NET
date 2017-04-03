@@ -9,12 +9,12 @@ namespace Shoutbox.NET.Controllers
 {
     public class SSTStatusController : Controller
     {
-        // GET: SSTStatus
-        public static Status Get()
+        [HttpGet]
+        public ActionResult Get(string Service)
         {
             using (SSTMonitorServiceClient serviceClient = new SSTMonitorServiceClient())
             {
-                return serviceClient.GetStatus();
+                return Content(serviceClient.GetStatus(Service).ToString());
             }
         }
     }

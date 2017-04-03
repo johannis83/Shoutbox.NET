@@ -64,6 +64,9 @@
         //Hide (fade) the chatbox filler if no were present yet
         if (messageCount == 0) {
             chatTile.find(".chat-filler").fadeTo(1000, 0);
+        } else if (messageCount > 7) {
+            //Remove the chat filler if the messagebox is filled up with messages
+            chatTile.find(".chat-filler").hide();
         }
 
         messageContainer.append(messageTemplate(name, division, time, tag, text));

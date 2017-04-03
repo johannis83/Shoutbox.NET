@@ -17,12 +17,11 @@ namespace Shoutbox.NET.Controllers
         {
             using (ShoutboxContext db = new ShoutboxContext())
             {
-                //Check if the vraagbaak for that role already exists, if it does, change the name to the updated value
+                //Check if the vraagbaak for that role already exists, if it does, remove it
                 if (db.Vraagbaken.FirstOrDefault(f => f.Functie == vraagbaak.Functie) != null)
-                    db.Vraagbaken.FirstOrDefault(f => f.Functie == vraagbaak.Functie).Naam = vraagbaak.Naam;
-                //If it doesn't exist yet, add it
-                else
-                    db.Vraagbaken.Add(vraagbaak);
+                    db.Vraagbaken.Remove(db.Vraagbaken.FirstOrDefault(f => f.Functie == vraagbaak.Functie));
+
+                db.Vraagbaken.Add(vraagbaak);
 
                 db.SaveChanges();
 

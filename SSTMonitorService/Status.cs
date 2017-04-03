@@ -9,6 +9,7 @@ namespace SSTMonitorService
     {
         Online,
         Warning,
-        Offline
+        Offline,
+        Unknown
     }
 }

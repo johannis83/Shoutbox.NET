@@ -1,0 +1,86 @@
+﻿@{
+    ViewBag.Title = "Shoutbox";
+    ViewBag.Icon = "fa fa-comments";
+}
+
+@Scripts.Render("~/bundles/signalr")
+@Scripts.Render("/signalr/hubs")
+<!-- <link href="~/Content/Chat.css" rel="stylesheet" />-->
+<link href="~/Content/Shoutbox.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.timeago.js"></script>
+<script src="~/Scripts/chattile.js"></script>
+
+<!-- Begin tile grid -->
+<div class="grid-stack">
+    <div class="grid-stack-item" data-gs-x="0" data-gs-y="0" data-gs-width="4" data-gs-height="6">
+        <div class="grid-stack-item-content">
+            test 123
+        </div>
+    </div>
+</div>
+
+@*<div class="grid-stack" id="shoutbox-grid">
+    <!-- Begin Chat tile -->
+    <div class="grid-stack-item tile-wrapper"
+         data-gs-x="0" data-gs-y="0"
+         data-gs-width="3" data-gs-height="4" data-gs-min-width="3" data-gs-min-height="4">
+        <div class="grid-stack-item-content rabo-drop-shadow" id="chat-tile" onmouseover="UpdateScrollBar($(this))">
+            <!-- Chat Container -->
+            <div id="chat-window">
+                <div id="chat-filler">
+                    <i class="fa fa-comment-o" aria-hidden="true"></i> <br />
+                    <p>Er zijn nog geen berichten geplaatst...</p>
+                </div>
+                <div class="messages-container">
+                    <!-- Begin messages -->
+                    <!-- End messages -->
+                </div>
+
+                <div class="textbox-wrapper">
+                    <div class="input-group input-group-sm text-input">
+                        <span class="input-group-addon tag-display"></span>
+                        <input type="text" class="form-control" placeholder="Bericht.." aria-describedby="sizing-addon3" onkeyup="$(this).ProcessInput(event)">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- End Chat tile -->
+    <!-- Begin MVP tile -->
+    <div class="grid-stack-item tile-wrapper rabo-drop-shadow" data-gs-x="3" data-gs-y="0"
+         data-gs-width="3" data-gs-height="4" data-gs-min-width="3" data-gs-min-height="4" id="mvp-tile">
+        
+        <div class="grid-stack-item-content">
+            ssad
+        </div>
+    </div>
+</div>*@
+
+@*<script>
+    var sendChatMessage;
+
+        // Reference the auto-generated proxy for the hub.
+        var chat = $.connection.chatHub;
+
+        // Start the connection.
+        $.connection.hub.start().done(function () {
+            // Call the Send method on the hub.
+            //Call a server function with parameters: chat.server.send($('#displayname').val(), $('#message').val());
+
+            sendChatMessage = function (tag, text) {
+                chat.server.broadcastChatMessage(tag, text)
+            }
+        });
+
+        // When receiving a normal chat message
+        chat.client.receiveChatMessage = function (name, division, time, tag, text) {
+            $("#chat-tile").AddMessage(name, division, time, tag, text, true);
+        };
+
+        // This function html-encodes messages for display in the page, prevents XSS
+        function htmlEncode(value) {
+            var encodedValue = $('<div />').text(value).html();
+            return encodedValue;
+        }
+</script>*@
