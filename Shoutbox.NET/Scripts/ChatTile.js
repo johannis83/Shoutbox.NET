@@ -147,6 +147,24 @@ $(document).ready(function () {
         horizrailenabled: false
     });
 
+    $("#announcement-window").parent().niceScroll({
+        cursorwidth: 5,
+        cursorborder: 0,
+        cursorcolor: '#d8d8d8',
+        cursorborderradius: 0,
+        autohidemode: true,
+        horizrailenabled: false
+    });
+
+    $("#vraagbaak-window").niceScroll({
+        cursorwidth: 5,
+        cursorborder: 0,
+        cursorcolor: '#d8d8d8',
+        cursorborderradius: 0,
+        autohidemode: true,
+        horizrailenabled: false
+    });
+
     //Auto scroll to bottom
     $('#chat-window').ScrollToBottom();
     $('#announcement-window').ScrollToBottom();
