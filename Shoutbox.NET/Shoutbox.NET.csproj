@@ -205,9 +205,10 @@
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\Images\Shoutbox-bullhorn.png" />
+    <Content Include="Content\Masterincidents.css" />
     <Content Include="Content\Sststatus.css" />
     <Content Include="Content\sweetalert.css" />
-    <Content Include="Content\Vraagbaak.css" />
+    <Content Include="Content\Team.css" />
     <Compile Include="Connected Services\SSTMonitorService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -217,9 +218,9 @@
     <Compile Include="Controllers\SSTStatusController.cs" />
     <Compile Include="Controllers\TagController.cs" />
     <Compile Include="Controllers\UserPrincipalController.cs" />
-    <Compile Include="Controllers\VraagbaakController.cs" />
+    <Compile Include="Controllers\TeamController.cs" />
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\Vraagbaak.cs" />
+    <Compile Include="Models\Team.cs" />
     <Compile Include="Repositories\IMessageRepository.cs" />
     <Compile Include="Repositories\IUserControllerRepository.cs" />
     <Compile Include="Controllers\MessageController.cs" />
@@ -349,6 +350,7 @@
     <Content Include="Scripts\lodash.core.min.js" />
     <Content Include="Scripts\lodash.js" />
     <Content Include="Scripts\lodash.min.js" />
+    <Content Include="Scripts\masterincidents.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
@@ -358,7 +360,7 @@
     <Content Include="Scripts\sststatus.js" />
     <Content Include="Scripts\sweetalert.min.js" />
     <Content Include="Scripts\tagcloud.js" />
-    <Content Include="Scripts\vraagbaaktile.js" />
+    <Content Include="Scripts\team.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

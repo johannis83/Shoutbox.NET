@@ -20,14 +20,14 @@ namespace Shoutbox.NET.Hubs
         private IUserRepository _userRepository;
         private IMessageRepository _messageRepository;
         private IUserPrincipalRepository _userPrincipalRepository;
-        private IVraagbaakRepository _vraagbaakRepository;
+        private ITeamRepository _TeamRepository;
 
-        public ChatHub(IUserRepository userService, IMessageRepository messageService, IUserPrincipalRepository userPrincipalRepository, IVraagbaakRepository vraagbaakRepository)
+        public ChatHub(IUserRepository userService, IMessageRepository messageService, IUserPrincipalRepository userPrincipalRepository, ITeamRepository TeamRepository)
         {
             _userRepository = userService;
             _messageRepository = messageService;
             _userPrincipalRepository = userPrincipalRepository;
-            _vraagbaakRepository = vraagbaakRepository;
+            _TeamRepository = TeamRepository;
         }
 
         public void RegisterIfNotRegistered()
@@ -36,9 +36,9 @@ namespace Shoutbox.NET.Hubs
             if (user == null) _userRepository.Create(Context.User.Identity.Name);
         }
 
-        public Task SetVraagbaak(string functie, string naam)
+        public Task SetTeam(string functie, string naam)
         {
-            Vraagbaak vraagbaak = new Vraagbaak
+            Team Team = new Team
             {
                 Functie = functie,
                 Naam = naam,
@@ -48,11 +48,11 @@ namespace Shoutbox.NET.Hubs
             };
 
             //Validate that the functie is an existing and allowed functie
-            if (VraagbaakFuncties.Functies.Contains(vraagbaak.Functie))
+            if (TeamFuncties.Functies.Contains(Team.Functie))
             {
-                _vraagbaakRepository.Set(vraagbaak);
+                _TeamRepository.Set(Team);
 
-                return Clients.All.UpdateVraagbaak(vraagbaak.Functie, vraagbaak.Naam, vraagbaak.ModifiedBy);
+                return Clients.All.UpdateTeam(Team.Functie, Team.Naam, Team.ModifiedBy);
             }
 
             return null;

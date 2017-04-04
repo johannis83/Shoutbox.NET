@@ -36,11 +36,11 @@ namespace Shoutbox.NET.Controllers
                 }).Where(f => f.Timestamp.Value.Day == DateTime.Now.Day)); //Only get TODAY's messages for the home page
                 #endregion
 
-                #region Set IndexViewModel's vraagbaken
+                #region Set IndexViewModel's Teams
 
-                //Only get vraagbaken that are set TODAY
-                indexViewModel.SerializedVraagbaken = Newtonsoft.Json.JsonConvert.SerializeObject(
-                    db.Vraagbaken.Where(f => f.ModifiedAt.Day == DateTime.Now.Day).ToList());
+                //Only get Teams that are set TODAY
+                indexViewModel.SerializedTeams = Newtonsoft.Json.JsonConvert.SerializeObject(
+                    db.Teams.Where(f => f.ModifiedAt.Day == DateTime.Now.Day).ToList());
 
                 #endregion
 

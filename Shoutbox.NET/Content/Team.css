@@ -24,7 +24,7 @@
     border: none !important;
 }
 
-#vraagbaak-window > .table > tbody > tr > td {
+#Team-window > .table > tbody > tr > td {
     padding: 0px !important;
     cursor: help;
 }

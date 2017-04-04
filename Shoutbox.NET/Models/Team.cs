@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Shoutbox.NET.Models
 {
-    public class Vraagbaak
+    public class Team
     {
         public int ID { get; set; }
         public string Functie { get; set; }
@@ -15,13 +15,13 @@ namespace Shoutbox.NET.Models
     }
 
     //Defined functies used for validation in the hub
-    public static class VraagbaakFuncties
+    public static class TeamFuncties
     {
         public static List<string> Functies = new List<string>
         {
             "MCS",
-            "SDA",
-            "Teamlead",
+            "WFM",
+            "Vraagbaak",
             "WFM"
         };
     }

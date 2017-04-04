@@ -22,15 +22,15 @@ namespace Shoutbox.NET.ViewModels
             }
         }
 
-        public ICollection<Vraagbaak> Vraagbaken
+        public ICollection<Team> Teams
         {
             get
             {
-                return JsonConvert.DeserializeObject<ICollection<Vraagbaak>>(SerializedVraagbaken);
+                return JsonConvert.DeserializeObject<ICollection<Team>>(SerializedTeams);
             }
         }
 
-        public string SerializedVraagbaken { get; set; }
+        public string SerializedTeams { get; set; }
         public string SerializedMessages { get; set; }
         
 

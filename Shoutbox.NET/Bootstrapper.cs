@@ -30,7 +30,7 @@ namespace Shoutbox.NET
             container.RegisterType<IMessageRepository, MessageController>();
             container.RegisterType<IUserPrincipalRepository, UserPrincipalController>();
             container.RegisterType<IUserRepository, UserController>();
-            container.RegisterType<IVraagbaakRepository, VraagbaakController>();
+            container.RegisterType<ITeamRepository, TeamController>();
 
             return container;
         }

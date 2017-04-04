@@ -1,18 +1,18 @@
-﻿//Update a single vraagbaak
-var updateVraagbaak = function (functie, naam, changer) {
+﻿//Update a single Team
+var updateTeam = function (functie, naam, changer) {
     $('#' + functie).html(naam);
     //Also set the title, so people can see who updated it
     $('#' + functie).parent().attr("title", "Geplaatst door " + changer);
 }
 
-//Update all vraagbaken at once
-var updateVraagbaken = function (vraagbaken) {
-    for (var i = 0; i < vraagbaken.length; i++) {
-        updateVraagbaak(vraagbaken[i]["Functie"], vraagbaken[i]["Naam"], vraagbaken[i]["ModifiedBy"]);
+//Update all Teams at once
+var updateTeams = function (Teams) {
+    for (var i = 0; i < Teams.length; i++) {
+        updateTeam(Teams[i]["Functie"], Teams[i]["Naam"], Teams[i]["ModifiedBy"]);
     }
 }
 
-var editVraagbaak = function (functie) {
+var editTeam = function (functie) {
     swal({
         title: functie + " van de dag wijzigen",
         text: "Geef de naam van de nieuwe " + functie + " van de dag op",
@@ -30,7 +30,7 @@ var editVraagbaak = function (functie) {
                 return false
             }
 
-            if (sendEditVraagbaak(functie, inputValue) != null) {
+            if (sendEditTeam(functie, inputValue) != null) {
                 swal({
                     title: "Done!",
                     text: "De nieuwe " + functie + " van de dag is " + inputValue,
@@ -40,7 +40,7 @@ var editVraagbaak = function (functie) {
             } else {
                 swal({
                     title: "Fout!",
-                    text: "Het wijzigen van de vraagbaak is niet gelukt, probeer de pagina te verversen.",
+                    text: "Het wijzigen van de Team is niet gelukt, probeer de pagina te verversen.",
                     type: "error",
                     showCancelButton: false,
                 });

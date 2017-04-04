@@ -6,8 +6,8 @@ using System.Web;
 
 namespace Shoutbox.NET.Repositories
 {
-    public interface IVraagbaakRepository
+    public interface ITeamRepository
     {
-        Vraagbaak Set(Vraagbaak vraagbaak);
+        Team Set(Team Team);
     }
 }
