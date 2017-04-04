@@ -30,91 +30,8 @@
 <!-- Begin tile grid -->
 <div class="grid-stack">
 
-    <!-- Begin Announcement Tile-->
-    <div class="grid-stack-item"
-         data-gs-x="0" data-gs-y="0"
-         data-gs-width="5" data-gs-height="8" data-gs-min-width="3" data-gs-min-height="4">
-
-        <div class="tile-titlebar">Omroepen</div>
-        <div class="grid-stack-item-content rabo-drop-shadow">
-            <!-- Announcement Container -->
-            <div id="announcement-window">
-                <div class="chat-filler">
-                    <i class="fa fa-bullhorn" aria-hidden="true"></i> <br />
-                    <p>Er zijn nog geen omroepen geplaatst...</p>
-                </div>
-                <div class="message-container">
-                    <input class="message-counter" type="hidden" value="0" />
-                    <!-- Begin messages -->
-                    <!-- End messages -->
-                </div>
-
-                <div class="textbox-wrapper">
-                    <div class="input-group input-group-sm text-input">
-                        <span class="input-group-addon tag-display"></span>                                                  <!--This textbox sends Announcement messages -->
-                        <input type="text" class="form-control" placeholder="Omroep..." aria-describedby="sizing-addon3" onkeyup="$(this).ProcessInput(event, 'Announcement')">
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <!-- End Announcement Tile-->
-    <!-- Begin Chat Tile-->
-    <div class="grid-stack-item"
-         data-gs-x="9" data-gs-y="0"
-         data-gs-width="4" data-gs-height="8" data-gs-min-width="3" data-gs-min-height="4">
-        <div class="tile-titlebar">Chat</div>
-        <div class="grid-stack-item-content rabo-drop-shadow">
-            <!-- Chat Container -->
-            <div id="chat-window">
-                <div class="chat-filler">
-                    <i class="fa fa-comment-o" aria-hidden="true"></i> <br />
-                    <p>Er zijn nog geen berichten geplaatst...</p>
-                </div>
-                <div class="message-container">
-                    <input class="message-counter" type="hidden" value="0" />
-                    <!-- Begin messages -->
-                    <!-- End messages -->
-                </div>
-
-                <div class="textbox-wrapper">
-                    <div class="input-group input-group-sm text-input">
-                        <span class="input-group-addon tag-display"></span>                                                     <!--This textbox sends Chat messages -->
-                        <input type="text" class="form-control" placeholder="Bericht..." aria-describedby="sizing-addon3" onkeyup="$(this).ProcessInput(event, 'Chat')">
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <!-- Begin TagCloud tile -->
-    <div class="grid-stack-item" data-gs-no-resize="true" data-gs-x="5" data-gs-y="0"
-         data-gs-width="3" data-gs-height="2">
-        <div class="tile-titlebar">Trending topics</div>
-        <div class="grid-stack-item-content rabo-drop-shadow tag-cloud-tile" id="tagcloud">
-            <!-- Begin tags-->
-            @if (Model.Tags.Count == 0)
-            {
-                <div class="tagcloud-filler">
-                    <p>Er is nog niks getagd</p>
-                </div>
-            }
-            else
-            {
-                foreach (KeyValuePair<string, int> tag in Model.Tags)
-                {
-                    string uppercaseFirst = char.ToUpper(tag.Key[0]) + tag.Key.Substring(1).ToLower();
-                    <a href="~/Tag/@uppercaseFirst" rel="@tag.Value" title="@tag.Value tags">#@tag.Key</a>
-                }
-            }
-            <!-- End tags-->
-        </div>
-    </div>
-    <!-- End TagCloud tile -->
     <!-- Begin Vraagbaak tile -->
-    <div class="grid-stack-item vraagbaak-tile" data-gs-no-resize="true" data-gs-x="5" data-gs-y="0"
+    <div class="grid-stack-item vraagbaak-tile" data-gs-no-resize="true" data-gs-x="0" data-gs-y="0"
          data-gs-width="3" data-gs-height="2">
         <div class="tile-titlebar">Vraagbaken van vandaag</div>
         <div class="grid-stack-item-content rabo-drop-shadow" id="vraagbaak-window">
@@ -151,16 +68,100 @@
         </div>
     </div>
     <!-- End Vraagbaak tile -->
+
     <!-- Begin SOS monitor tile -->
-    <div class="grid-stack-item" data-gs-no-resize="true" data-gs-x="5" data-gs-y="6"
+    <div class="grid-stack-item" data-gs-no-resize="true" data-gs-x="0" data-gs-y="6"
          data-gs-width="3" data-gs-height="1">
         <div class="tile-titlebar">SOS Meldingen</div>
         <div class="grid-stack-item-content rabo-drop-shadow">
         </div>
     </div>
     <!-- End SOS monitor tile -->
+
+    <!-- Begin Announcement Tile-->
+    <div class="grid-stack-item"
+         data-gs-x="3" data-gs-y="0"
+         data-gs-width="4" data-gs-height="8" data-gs-min-width="3" data-gs-min-height="4">
+
+        <div class="tile-titlebar">Omroepen</div>
+        <div class="grid-stack-item-content rabo-drop-shadow">
+            <!-- Announcement Container -->
+            <div id="announcement-window">
+                <div class="chat-filler">
+                    <i class="fa fa-bullhorn" aria-hidden="true"></i> <br />
+                    <p>Er zijn nog geen omroepen geplaatst...</p>
+                </div>
+                <div class="message-container">
+                    <input class="message-counter" type="hidden" value="0" />
+                    <!-- Begin messages -->
+                    <!-- End messages -->
+                </div>
+
+                <div class="textbox-wrapper">
+                    <div class="input-group input-group-sm text-input">
+                        <span class="input-group-addon tag-display"></span>                                                  <!--This textbox sends Announcement messages -->
+                        <input type="text" class="form-control" placeholder="Omroep..." aria-describedby="sizing-addon3" onkeyup="$(this).ProcessInput(event, 'Announcement')">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- End Announcement Tile-->
+    <!-- Begin Chat Tile-->
+    <div class="grid-stack-item"
+         data-gs-x="7" data-gs-y="0"
+         data-gs-width="5" data-gs-height="6" data-gs-min-width="3" data-gs-min-height="4">
+        <div class="tile-titlebar">Chat</div>
+        <div class="grid-stack-item-content rabo-drop-shadow">
+            <!-- Chat Container -->
+            <div id="chat-window">
+                <div class="chat-filler">
+                    <i class="fa fa-comment-o" aria-hidden="true"></i> <br />
+                    <p>Er zijn nog geen berichten geplaatst...</p>
+                </div>
+                <div class="message-container">
+                    <input class="message-counter" type="hidden" value="0" />
+                    <!-- Begin messages -->
+                    <!-- End messages -->
+                </div>
+                <div class="textbox-wrapper">
+                    <div class="input-group input-group-sm text-input">
+                        <span class="input-group-addon tag-display"></span>                                                     <!--This textbox sends Chat messages -->
+                        <input type="text" class="form-control" placeholder="Bericht..." aria-describedby="sizing-addon3" onkeyup="$(this).ProcessInput(event, 'Chat')">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Begin Trending topics tile -->
+    <div class="grid-stack-item" data-gs-no-resize="true" data-gs-x="7" data-gs-y="6"
+         data-gs-width="3" data-gs-height="2">
+        <div class="tile-titlebar">Trending topics</div>
+        <div class="grid-stack-item-content rabo-drop-shadow tag-cloud-tile" id="tagcloud">
+            <!-- Begin tags-->
+            @if (Model.Tags.Count == 0)
+            {
+                <div class="tagcloud-filler">
+                    <p>Er is nog niks getagd</p>
+                </div>
+            }
+            else
+            {
+                foreach (KeyValuePair<string, int> tag in Model.Tags)
+                {
+                    string uppercaseFirst = char.ToUpper(tag.Key[0]) + tag.Key.Substring(1).ToLower();
+                    <a href="~/Tag/@uppercaseFirst" rel="@tag.Value" title="@tag.Value tags">#@tag.Key</a>
+                }
+            }
+            <!-- End tags-->
+        </div>
+    </div>
+    <!-- End TagCloud tile -->
+
     <!-- Begin service monitor tile -->
-    <div class="grid-stack-item" data-gs-no-resize="true" data-gs-x="5" data-gs-y="6"
+    @*<div class="grid-stack-item" data-gs-no-resize="true" data-gs-x="5" data-gs-y="6"
          data-gs-width="3" data-gs-height="1">
         <div class="tile-titlebar">Service monitor</div>
         <div class="grid-stack-item-content rabo-drop-shadow sst-status-tile">
@@ -183,7 +184,7 @@
                 </tbody>
             </table>
         </div>
-    </div>
+    </div>*@
     <!-- End SST status tile -->
 </div>
 
@@ -200,7 +201,7 @@
                     if (!document.hidden) return; //Only display notifications if the window isn't focused
                     var options = {
             body: theBody,
-            icon: "../Content/Images/Shoutbox-bullhorn.png",
+            icon: "~/Content/Images/Shoutbox-bullhorn.png",
             requireInteraction: false
         }
                 var n = new Notification(theTitle, options);

@@ -34,7 +34,7 @@ $(document).ready(function () {
 var updateTagCloud = function (newTag) {
     var tagfound = false;
 
-    if (newTag == '#') return;
+    if ((newTag == '#') || (newTag == '')) return;
 
     $(".tagcloud-filler").remove();
 

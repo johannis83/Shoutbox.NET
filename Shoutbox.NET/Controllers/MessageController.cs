@@ -42,6 +42,5 @@ namespace Shoutbox.NET.Controllers
 
             return null;
         }
-
     }
 }
