@@ -22,7 +22,7 @@ namespace Shoutbox.NET.Models
             "MCS",
             "WFM",
             "Vraagbaak",
-            "WFM"
+            "Teamlead"
         };
     }
 }

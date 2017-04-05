@@ -13,6 +13,7 @@
 <link href="~/Content/tagcloud.css" rel="stylesheet" />
 <link href="~/Content/Team.css" rel="stylesheet" />
 <link href="~/Content/sweetalert.css" rel="stylesheet" />
+<link href="~/Content/Masterincidents.css" rel="stylesheet" />
 
 <!-- Unsorted plugins -->
 <script src="~/Scripts/jquery.timeago.js"></script>
@@ -20,20 +21,19 @@
 <script src="~/Scripts/jquery.tagcloud.js"></script>
 <script src="~/Scripts/sweetalert.min.js"></script>
 
-
 <!-- Scripts for each individual tile type -->
 <script src="~/Scripts/chattile.js"></script>
 <script src="~/Scripts/tagcloud.js"></script>
 <script src="~/Scripts/team.js"></script>
 <script src="~/Scripts/sststatus.js"></script>
+<script src="~/Scripts/masterincidents.js"></script>
 
 <!-- Begin tile grid -->
 <div class="grid-stack">
-
     <!-- Begin Team tile -->
     <div class="grid-stack-item Team-tile" data-gs-no-resize="true" data-gs-x="0" data-gs-y="0"
          data-gs-width="3" data-gs-height="2">
-        <div class="tile-titlebar">Team van vandaag</div>
+        <div class="tile-titlebar">Team van de dag</div>
         <div class="grid-stack-item-content rabo-drop-shadow" id="Team-window">
             <table class="table">
                 <thead>
@@ -68,19 +68,49 @@
         </div>
     </div>
     <!-- End Team tile -->
-
-    <!-- Begin Master Incident -->
-    <div class="grid-stack-item" data-gs-no-resize="true" data-gs-x="0" data-gs-y="6"
-         data-gs-width="3" data-gs-height="1">
+    <!-- Begin Master Incident tile -->
+    <div class="grid-stack-item" data-gs-x="0" data-gs-y="6"
+         data-gs-width="3" data-gs-height="4">
         <div class="tile-titlebar">Master Incidenten</div>
-        <div class="grid-stack-item-content rabo-drop-shadow">
+            <div class="grid-stack-item-content rabo-drop-shadow master-incident-window">
+                <div class="incident-container">
+                    <input class="incident-counter" type="hidden" value="0" />
+                    <!-- Begin incidents -->
+                    <div class="incident well">
+                        <div class="incident-description">
+                            <!-- start slipsum code -->
+                            Siebel ligt weer is op z'n gat
+
+                            <!-- end slipsum code -->
+                        </div>
+                        <div class="incident-KM">Gebruik: KM6661337</div>
+                        <div class="incident-IM">Relateer: IM0014934736</div>
+                    </div>
+
+                    <div class="incident well">
+                        <div class="incident-description">
+                            <!-- start slipsum code -->
+                            Outlook is kapot man.. :(
+
+                            <!-- end slipsum code -->
+                        </div>
+                        <div class="incident-KM">Gebruik: KM6661337</div>
+                        <div class="incident-IM">Relateer: IM0014934736</div>
+                    </div>
+                    <!-- End incidents -->
+                    <div id="add-incident-button-container">
+                        <button type="button" class="btn btn-default" id="add-incident-button">
+                            Toevoegen
+                        </button>
+                    </div>
+                </div>
         </div>
     </div>
     <!-- End Master Incident tile -->
 
     <!-- Begin SOS monitor tile -->
     <div class="grid-stack-item" data-gs-no-resize="true" data-gs-x="0" data-gs-y="7"
-         data-gs-width="3" data-gs-height="1">
+         data-gs-width="3" data-gs-height="2">
         <div class="tile-titlebar">SOS Meldingen</div>
         <div class="grid-stack-item-content rabo-drop-shadow">
         </div>
@@ -92,7 +122,7 @@
          data-gs-x="3" data-gs-y="0"
          data-gs-width="4" data-gs-height="8" data-gs-min-width="3" data-gs-min-height="4">
 
-        <div class="tile-titlebar">Omroepen</div>
+        <div class="tile-titlebar">Meldingen</div>
         <div class="grid-stack-item-content rabo-drop-shadow">
             <!-- Announcement Container -->
             <div id="announcement-window">
@@ -146,7 +176,7 @@
 
     <!-- Begin Trending topics tile -->
     <div class="grid-stack-item" data-gs-no-resize="true" data-gs-x="7" data-gs-y="6"
-         data-gs-width="3" data-gs-height="2">
+         data-gs-width="2" data-gs-height="2">
         <div class="tile-titlebar">Trending topics</div>
         <div class="grid-stack-item-content rabo-drop-shadow tag-cloud-tile" id="tagcloud">
             <!-- Begin tags-->

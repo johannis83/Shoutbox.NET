@@ -21,6 +21,8 @@ namespace Shoutbox.NET.Hubs
         private IMessageRepository _messageRepository;
         private IUserPrincipalRepository _userPrincipalRepository;
         private ITeamRepository _TeamRepository;
+        private IMasterIncidentRepository _MasterIncidentRepository;
+
 
         public ChatHub(IUserRepository userService, IMessageRepository messageService, IUserPrincipalRepository userPrincipalRepository, ITeamRepository TeamRepository)
         {
@@ -73,10 +75,29 @@ namespace Shoutbox.NET.Hubs
 
             message.User.UserID = user.UserID;
 
+            //Add the message to the database
             _messageRepository.Create(message);
+
 
             return Clients.All.ReceiveChatMessage(
                 message.User.Name, message.User.Division, message.Timestamp, message.Tag, message.Text, message.Type);
+        }
+
+
+        public MasterIncident CreateMasterIncident(string description, string km, string im)
+        {
+            MasterIncident masterincident = new MasterIncident
+            {
+                Description = description,
+                IM = im,
+                KM = km,
+                Timestamp = DateTime.Now,
+                User = _userRepository.GetByLogonUser(Context.User.Identity.Name),
+            };
+
+            _MasterIncidentRepository.Create(masterincident);
+
+            return Clients.All.AddMasterIncident(masterincident.Description, masterincident.IM, masterincident.KM, masterincident.Timestamp);
         }
     }
 

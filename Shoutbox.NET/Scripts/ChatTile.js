@@ -13,9 +13,9 @@
         }
     }
     //On setting a hashtag, only announcement messages can be tagged
-    else if (textboxvalue.charAt(0) == '#' && type == 'Announcement') {
+    else if (type == 'Announcement') {
         if (textboxwords.length > 1) {
-            tagDisplay.html(htmlEncode(textboxwords[0].substring(1))
+            tagDisplay.html(htmlEncode(textboxwords[0])
                 .toUpperCase()                   // Force uppercasing of hashtags
                 .replace(/[^0-9a-zA-Z]/g, '')); // Only alphanumeric characters
             tagDisplay.addClass("tag-word-active")
@@ -82,9 +82,17 @@
         var uppercaseFirstCharacterTag = tag.toLowerCase().charAt(0).toUpperCase() + tag.slice(1);
         var message = "";
             message = message.concat('<!-- Begin message -->');
-            message = message.concat('<div id="message">');
+            message = message.concat('<div id="message" class="well">');
             message = message.concat('<div id="message-name">' + name + '</div>');
-            message = message.concat('<div id="message-division" class="badge">' + division + '</div>');
+
+            //Dutch users get orange badges. Hup oranje!
+            if (division == "RN") {
+                message = message.concat('<div id="message-division" class="badge" style="background-color: #fd4500">' + division + '</div>');
+            } else {
+                message = message.concat('<div id="message-division" class="badge">' + division + '</div>');
+            }
+
+
             message = message.concat('<div id="message-time"><i class="fa fa-clock-o" aria-hidden="true"></i><abbr class="timeago" title="' + time + '">' + time + ' </abbr> </div>');
             message = message.concat('<div id="message-content">');
             //Only add a tag label if a tag is specified. Chat messages don't use tags, so..
@@ -92,7 +100,7 @@
             message = message.concat('<div id="message-text">' + text);
             message = message.concat('</div>');
             message = message.concat('</div>');
-            message = message.concat('<hr>');
+            //message = message.concat('<hr>');
             message = message.concat('</div>');
             message = message.concat('<!-- End message -->');
 
@@ -140,7 +148,8 @@ $(document).ready(function () {
         autohidemode: true,
         horizrailenabled: false,
         touchbehavior: false,
-        grabcursorenabled: false
+        grabcursorenabled: false,
+        cursordragontouch: false
     });
 
     //Auto scroll to bottom

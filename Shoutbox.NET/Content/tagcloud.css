@@ -1,6 +1,7 @@
 ﻿#tagcloud {
     word-wrap: break-word;
     overflow-y: hidden !important;
+    overflow-wrap: break-word;
 }
 
 .tag-cloud-tile {

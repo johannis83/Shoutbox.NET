@@ -65,7 +65,7 @@ body {
     margin-top: 0px;
     font-size: .7em !important;
     color: #009;
-    height: 143px;
+    height: 110px;
     margin-bottom: 0px;
     background: #fff;
     position: relative;
@@ -80,7 +80,7 @@ body {
 }
 
 #logo {
-    margin: 30px 30px;
+    margin: 15px 30px;
     width: 72px;
     height: 83px;
     background-image: url(Images/rabobank-logo.png);

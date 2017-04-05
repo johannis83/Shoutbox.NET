@@ -215,12 +215,16 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MasterIncidentController.cs" />
     <Compile Include="Controllers\SSTStatusController.cs" />
     <Compile Include="Controllers\TagController.cs" />
     <Compile Include="Controllers\UserPrincipalController.cs" />
     <Compile Include="Controllers\TeamController.cs" />
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\MasterIncident.cs" />
     <Compile Include="Models\Team.cs" />
+    <Compile Include="Models\UserSetting.cs" />
+    <Compile Include="Repositories\IMasterIncidentRepository.cs" />
     <Compile Include="Repositories\IMessageRepository.cs" />
     <Compile Include="Repositories\IUserControllerRepository.cs" />
     <Compile Include="Controllers\MessageController.cs" />
