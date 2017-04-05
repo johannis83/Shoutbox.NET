@@ -25,6 +25,35 @@ namespace Shoutbox.NET.Controllers
         {
         }
 
+        public IEnumerable<Message> GetByDay(DateTime datetime)
+        {
+            if (ModelState.IsValid)
+            {
+                using (ShoutboxContext db = new ShoutboxContext())
+                {
+                    //Disable dynamic proxy objects. Database is disposed in the view so we want these to be available 'offline'
+                    db.Configuration.ProxyCreationEnabled = false;
+
+                    return db.Messages.Include(f => f.User).Where(f => f.Timestamp.Value.Day == datetime.Day).ToList();
+                }
+            }
+
+            return null;
+        }
+
+        public Dictionary<string, int> GetTagPopularityByDay(DateTime datetime)
+        {
+            using (ShoutboxContext db = new ShoutboxContext())
+            {
+                Dictionary<string, int> tags = new Dictionary<string, int>();
+                //Get all of today's messages, select them distinct by the tags. Add those tags to the dictionary with the amount of each particular tag
+                db.Messages.Where(f => f.Tag != "" && f.Timestamp.Value.Day == DateTime.Now.Day).GroupBy(t => t.Tag).Select(g => g.FirstOrDefault()).ToList().
+                    ForEach(i => tags.Add(i.Tag, db.Messages.Count(x => x.Tag == i.Tag)));
+
+                return tags;
+            }
+        }
+
         public Message Create(Message message)
         {
             if (ModelState.IsValid)

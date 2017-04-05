@@ -28,5 +28,24 @@ namespace Shoutbox.NET.Controllers
                 return Team;
             }
         }
+
+        // GET : Team
+        public IEnumerable<Team> GetByDay(DateTime datetime)
+        {
+            if (ModelState.IsValid)
+            {
+                using (ShoutboxContext db = new ShoutboxContext())
+                {
+                    db.Configuration.LazyLoadingEnabled = false;
+                    db.Configuration.ProxyCreationEnabled = false;
+
+                    return db.Teams.Where(f => f.ModifiedAt.Day == DateTime.Now.Day).ToList();
+
+                }
+            }
+
+            return null;
+        }
+
     }
 }

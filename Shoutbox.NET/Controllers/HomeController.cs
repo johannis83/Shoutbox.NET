@@ -1,5 +1,6 @@
 ﻿using Shoutbox.NET.Data;
 using Shoutbox.NET.Models;
+using Shoutbox.NET.Repositories;
 using Shoutbox.NET.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -12,40 +13,30 @@ namespace Shoutbox.NET.Controllers
 {
     public class HomeController : Controller
     {
+        private IMessageRepository _messageRepository;
+        private ITeamRepository _teamRepository;
+        private IMasterIncidentRepository _masterIncidentRepository;
+
+        public HomeController(IMessageRepository messageRepository, ITeamRepository teamRepository, IMasterIncidentRepository masterIncidentRepository)
+        {
+            _messageRepository = messageRepository;
+            _teamRepository = teamRepository;
+            _masterIncidentRepository = masterIncidentRepository;
+        }
+
         public ActionResult Index()
         {
-            IndexViewModel indexViewModel = new IndexViewModel();
-            using (ShoutboxContext db = new ShoutboxContext())
+            DateTime pageDate = DateTime.Now;
+            //Only get todays objects for the homepage
+            IndexViewModel indexViewModel = new IndexViewModel()
             {
-                #region Set IndexViewModel's serialized messages
-                //To avoid an infinite self referencing loops we store the values into an anonymous type first and then serialize it
-                indexViewModel.SerializedMessages = Newtonsoft.Json.JsonConvert.SerializeObject(db.Messages.Select(f => new
-                {
-                    //Select the properties we want..
-                    f.MessageID,
-                    f.Tag,
-                    f.Text,
-                    f.Timestamp,
-                    f.Type,
+                Messages = _messageRepository.GetByDay(pageDate),
+                Tags = _messageRepository.GetTagPopularityByDay(pageDate),
+                Teams = _teamRepository.GetByDay(pageDate),
+                MasterIncidents = _masterIncidentRepository.GetByDay(pageDate)
 
-                    User = new
-                    {
-                        f.User.Division,
-                        f.User.Name
-                    }
-                }).Where(f => f.Timestamp.Value.Day == DateTime.Now.Day)); //Only get TODAY's messages for the home page
-                #endregion
-
-                #region Set IndexViewModel's Teams
-
-                //Only get Teams that are set TODAY
-                indexViewModel.SerializedTeams = Newtonsoft.Json.JsonConvert.SerializeObject(
-                    db.Teams.Where(f => f.ModifiedAt.Day == DateTime.Now.Day).ToList());
-
-                #endregion
-
-                return View(indexViewModel);
-            }
+            };
+            return View(indexViewModel);
         }
 
         public ActionResult Historie()

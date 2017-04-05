@@ -11,6 +11,16 @@ namespace Shoutbox.NET.Controllers
 {
     public class MasterIncidentController : Controller, IMasterIncidentRepository
     {
+        public IEnumerable<MasterIncident> GetByDay(DateTime datetime)
+        {
+            using (ShoutboxContext db = new ShoutboxContext())
+            {
+                //Disable dynamic proxy objects. Database is disposed in the view so we want these to be available 'offline'
+                db.Configuration.ProxyCreationEnabled = false;
+                return db.MasterIncidents.Where(f => f.Timestamp.Day == datetime.Day).ToList();
+            }
+        }
+
         public MasterIncident Create(MasterIncident masterIncident)
         {
             using (ShoutboxContext db = new ShoutboxContext())

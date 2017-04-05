@@ -4,39 +4,47 @@
 
     var textboxvalue = $(textbox).val();
     var textboxwords = textboxvalue.split(' ');
-    // Remove the defined tag if backspace is pressed while the textbox is empty
-    if (textboxvalue == "") {
-        // 8 = Backspace
-        if (event.keyCode == '8') {
-            tagDisplay.html("");
-            tagDisplay.removeClass("tag-word-active");
-        }
-    }
-    //On setting a hashtag, only announcement messages can be tagged
-    else if (type == 'Announcement') {
-        if (textboxwords.length > 1) {
-            tagDisplay.html(htmlEncode(textboxwords[0])
-                .toUpperCase()                   // Force uppercasing of hashtags
-                .replace(/[^0-9a-zA-Z]/g, '')); // Only alphanumeric characters
-            tagDisplay.addClass("tag-word-active")
-            $(textbox).val(textboxwords.slice(1, textboxwords.length).join(" "));
-        }
-    }
 
-    // 13 = Enter
-    else if (event.keyCode == '13') {
+     // 13 = Enter
+    if (event.keyCode == '13') {
         //Tag is required on announcement mssages
         if (tagDisplay.html() == "" && type == 'Announcement') { return; }
         //Message requires atleast 4 characters
-        if (textboxvalue.length < 4) { return; } 
-        
+        if (textboxvalue.length < 3) { return; }
+
         sendMessage($(tagDisplay).text(), $(textbox).val(), type);
         tagDisplay.html("");
         tagDisplay.removeClass("tag-word-active");
         $(textbox).val("");
     }
 
+    // Remove the defined tag if backspace is pressed while the textbox is empty
+    else if (textboxvalue == "") {
+        // 8 = Backspace
+        if (event.keyCode == '8') {
+            tagDisplay.html("");
+            tagDisplay.removeClass("tag-word-active");
+        }
+    }
+    //Use the first typed word as hashtag
+    else if (type == 'Announcement') {
+        if (textboxwords.length > 1 && tagDisplay.hasClass('tag-word-active') == false) {
+            tagDisplay.html("#" + textboxwords[0]
+                .toUpperCase()                   // Force uppercasing of hashtags
+                .replace(/[^0-9a-zA-Z]/g, '')); // Only alphanumeric characters
+            tagDisplay.addClass("tag-word-active")
+            $(textbox).val(textboxwords.slice(1, textboxwords.length).join(" "));
+        }
+    }
 }
+
+//Rescroll the chat down when resizing the window
+$(window).resize(function () {
+    clearTimeout(window.resizedFinished);
+    window.resizedFinished = setTimeout(function () {
+        scrollWindowsToBottom(0);
+    }, 100);
+});
 
     $(function () {
         var options = {
@@ -49,10 +57,6 @@
         $('.grid-stack').gridstack(options);
     });
 
-
-    var UpdateScrollBar = function (obj) {
-        obj.getNiceScroll().resize();
-    }
 
     //Must be hooked to a #chat-window object
     $.fn.AddMessage = function (name, division, time, tag, text, autoscroll) {
@@ -100,10 +104,8 @@
             message = message.concat('<div id="message-text">' + text);
             message = message.concat('</div>');
             message = message.concat('</div>');
-            //message = message.concat('<hr>');
             message = message.concat('</div>');
             message = message.concat('<!-- End message -->');
-
             return message;
         }
 
@@ -118,8 +120,7 @@
         }
                 //Scroll both chat containers down
                 if (autoscroll) {
-                    $("#announcement-window").parent().stop().animate({ scrollTop: $("#announcement-window").prop("scrollHeight") }, 1000, 'easeOutQuart');
-                    $("#chat-window").parent().stop().animate({ scrollTop: $("#chat-window").prop("scrollHeight") }, 1000, 'easeOutQuart');
+                    scrollWindowsToBottom(1000);
                 }
     };
 
@@ -133,10 +134,11 @@
             $("#chat-window").parent().stop().animate({ scrollTop: $("#chat-window").prop("scrollHeight") }, 3000, 'easeOutQuart');
         }
     }
-//Extension method to make a tile autoscroll to the bottom
-$.fn.ScrollToBottom = function () {
-    $(this).parent().getNiceScroll(0).doScrollTop($(this).height(), 5000);
-};
+
+var scrollWindowsToBottom = function (duration) {
+    $("#announcement-window").parent().stop().animate({ scrollTop: $("#announcement-window").prop("scrollHeight") }, duration, 'easeOutQuart');
+    $("#chat-window").parent().stop().animate({ scrollTop: $("#chat-window").prop("scrollHeight") }, duration, 'easeOutQuart');
+}
 
 // Instantiate nice scroll
 $(document).ready(function () {
@@ -152,7 +154,4 @@ $(document).ready(function () {
         cursordragontouch: false
     });
 
-    //Auto scroll to bottom
-    $('#chat-window').ScrollToBottom();
-    $('#announcement-window').ScrollToBottom();
 });

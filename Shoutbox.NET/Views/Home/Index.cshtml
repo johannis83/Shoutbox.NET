@@ -30,6 +30,8 @@
 <script src="~/Scripts/masterincidents.js"></script>
 
 
+<script src="~/Scripts/Preload.js"></script>
+
 <!-- Begin tile grid -->
 <div class="grid-stack">
     <!-- Begin Team tile -->
@@ -76,36 +78,22 @@
         <div class="tile-titlebar">Master Incidenten</div>
             <div class="grid-stack-item-content rabo-drop-shadow master-incident-window">
                 <div class="incident-container">
-                    <input class="incident-counter" type="hidden" value="0" />
                     <!-- Begin incidents -->
                     <div class="incident well">
                         <div class="incident-description">
-                            <!-- start slipsum code -->
                             Siebel ligt weer is op z'n gat
-
-                            <!-- end slipsum code -->
                         </div>
                         <div class="incident-KM">Gebruik: KM6661337</div>
                         <div class="incident-IM">Relateer: IM0014934736</div>
-                    </div>
-
-                    <div class="incident well">
-                        <div class="incident-description">
-                            <!-- start slipsum code -->
-                            Outlook is kapot man.. :(
-
-                            <!-- end slipsum code -->
-                        </div>
-                        <div class="incident-KM">Gebruik: KM6661337</div>
-                        <div class="incident-IM">Relateer: IM0014934736</div>
+                        <div class="incident-time"><i class="fa fa-clock-o" aria-hidden="true"></i><abbr class="timeago" title="2017-04-05T15:29:23.7">6 uur geleden</abbr> </div>
                     </div>
                     <!-- End incidents -->
-                    <div id="add-incident-button-container">
-                        <button type="button" class="btn btn-default" id="add-incident-button" onclick="createMasterIncident()">
-                            Toevoegen
-                        </button>
-                    </div>
                 </div>
+                <div id="add-incident-button-container">
+                    <button type="button" class="btn btn-default" id="add-incident-button" onclick="createMasterIncident()">
+                        Toevoegen
+                    </button>
+                </div>   it's alive!! ----------^
         </div>
     </div>
     <!-- End Master Incident tile -->
@@ -115,6 +103,17 @@
          data-gs-width="3" data-gs-height="2">
         <div class="tile-titlebar">SOS Meldingen</div>
         <div class="grid-stack-item-content rabo-drop-shadow">
+            <ul>
+                <b>TODO:</b>
+                <li>SOS</li>
+                <li>TOP 10 KM</li>
+                <li>Security vulnerabilities</li>
+                <li>Notification configuration</li>
+                <li>User roles/permissions [Delete Master incidents]</li>
+                <li>History</li>
+                <li>Required format Melding textbox and.... [scroll]</li>
+                <li>Secret.. ;)</li>
+            </ul>
         </div>
     </div>
     <!-- End SOS monitor tile -->
@@ -229,6 +228,7 @@
     </div>*@
     <!-- End SST status tile -->
 </div>
+<div class="preloader"></div>
 
 
 <script>
@@ -239,25 +239,26 @@
     }
 
     function spawnNotification(theTitle, theBody) {
-                    if (!("Notification" in window)) return;
-                    if (!document.hidden) return; //Only display notifications if the window isn't focused
-                    var options = {
+        if (!("Notification" in window)) return;
+        if (!document.hidden) return; //Only display notifications if the window isn't focused
+        var options = {
             body: theBody,
             icon: "Content/Images/Shoutbox-bullhorn.png",
             requireInteraction: false
         }
-                var n = new Notification(theTitle, options);
+        var n = new Notification(theTitle, options);
 
-                n.onclick = function () {
-                    parent.focus();
-                    window.focus(); //just in case, older browsers
-                    this.close(); //Closes the notification
-                }
+        n.onclick = function () {
+            parent.focus();
+            window.focus(); //just in case, older browsers
+            this.close(); //Closes the notification
+        }
     }
 
 
     var sendMessage;
     var sendEditTeam;
+    var sendCreateMasterIncident;
 
 // Reference the auto-generated proxy for the hub.
     var chat = $.connection.chatHub;
@@ -275,13 +276,24 @@ chat.server.registerIfNotRegistered();
     sendEditTeam = function (functie, naam) {
         return chat.server.setTeam(functie, naam);
     }
+
+//Tell the server to create a Master incident
+    sendCreateMasterIncident = function (description, km, im) {
+        return chat.server.createMasterIncident(description, km, im);
+    }
 });
 
 // EVENT: Fired when receiving a command to update the Team tile
     chat.client.updateTeam = function (functie, naam, changer) {
         updateTeam(functie, naam, changer);
         spawnNotification("Shoutbox", changer + ": " + functie + " van de dag is " + naam);
-}
+    }
+
+// EVENT: Fired when receiving a command to add a new masterIncident
+    chat.client.addMasterIncident = function (description, km, im, time) {
+        addMasterIncident(description, km, im, time);
+        spawnNotification("Shoutbox", "Nieuw master incident: " + description);
+    }
 
 
 // EVENT: Fired when receiving a chat message from the server
@@ -294,29 +306,20 @@ chat.server.registerIfNotRegistered();
             $("#announcement-window").AddMessage(name, division, time, tag, text, true);
             spawnNotification("Shoutbox", name + ": #" + tag + " " + text);
         }
-    updateTagCloud(tag); //Update tags real time
-};
+        updateTagCloud(tag); //Update tags real time
+    };
 
-// This function html-encodes messages for display in the page, prevents XSS
-function htmlEncode(value) {
-var encodedValue = $('<div />').text(value).html();
-return encodedValue;
-}
+// XSS prevention
+    function htmlEncode(value) {
+        var encodedValue = $('<div />').text(value).html();
+        return encodedValue;
+    }
 
-
-
-@{
-           //Add all of today's messages to the page upon loading
-<text>
+   //Load all messages, teams, tags and incidents
     addMessages(@Html.Raw(Model.SerializedMessages), true);
     updateTeams(@Html.Raw(Model.SerializedTeams));
-    setServiceStatus("SM9");
-    setServiceStatus("EasyVista");
-</text>
-}
+    addMasterIncidents(@Html.Raw(Model.SerializedMasterIncidents));
 
     //Set up the tag cloud
     initializeTagCloud();
-    //Check if we're new to the shoutbox. If we are, we'll be registered
-
 </script>

@@ -50,8 +50,14 @@ hr {
     font-size: 25px;
 }
 
+#message {
+    margin-bottom: 10px;
+}
+
 #message-name {
     display: inline-block;
+    font-weight: bold;
+    color: #009;
 }
 
 #message-division {
@@ -68,18 +74,18 @@ hr {
 }
 
 #message-content {
-    margin-top: 10px;
 }
 
 #message-tag {
-    padding: 7px;
+    margin-top:5px;
+    padding: 6px;
     display: inline-block;
     font-size: 12px;
     cursor: pointer;
 }
 
 #message-text {
-    margin-top: 10px;
+    margin-top: 5px;
     display: inline-block;
     width: 100%;
     overflow-wrap: break-word;

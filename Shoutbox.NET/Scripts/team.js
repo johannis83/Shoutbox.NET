@@ -13,16 +13,17 @@ var updateTeams = function (Teams) {
 }
 
 var editTeam = function (functie) {
+
     swal({
         title: functie + " van de dag wijzigen",
         text: "Geef de naam van de nieuwe " + functie + " van de dag op",
-        type: "input",
+        input: "text",
+        type: "info",
         showCancelButton: true,
-        closeOnConfirm: false,
-        animation: "slide-from-top",
-        inputPlaceholder: "Naam..."
-    },
-        function (inputValue) {
+        inputPlaceholder: "Naam...",
+        confirmButtonText: "Prima!",
+        confirmButtonColor: "#009",
+    }).then(function (inputValue) {
             if (inputValue === false) return false;
 
             if (inputValue === "") {
@@ -30,7 +31,7 @@ var editTeam = function (functie) {
                 return false
             }
 
-            if (sendEditTeam(functie, inputValue) != null) {
+            if (sendEditTeam(functie, inputValue) != "") {
                 swal({
                     title: "Done!",
                     text: "De nieuwe " + functie + " van de dag is " + inputValue,

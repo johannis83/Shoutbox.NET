@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 
 namespace Shoutbox.NET.Repositories
 {
-    interface IMasterIncidentRepository
+    public interface IMasterIncidentRepository
     {
         MasterIncident Create(MasterIncident masterIncident);
 
         MasterIncident Delete(MasterIncident masterIncident);
+        IEnumerable<MasterIncident> GetByDay(DateTime datetime);
     }
 }

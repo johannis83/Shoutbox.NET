@@ -24,12 +24,14 @@ namespace Shoutbox.NET.Hubs
         private IMasterIncidentRepository _MasterIncidentRepository;
 
 
-        public ChatHub(IUserRepository userService, IMessageRepository messageService, IUserPrincipalRepository userPrincipalRepository, ITeamRepository TeamRepository)
+        public ChatHub(IUserRepository userService, IMessageRepository messageService, IUserPrincipalRepository userPrincipalRepository, 
+            ITeamRepository TeamRepository, IMasterIncidentRepository masterIncidentRepository)
         {
             _userRepository = userService;
             _messageRepository = messageService;
             _userPrincipalRepository = userPrincipalRepository;
             _TeamRepository = TeamRepository;
+            _MasterIncidentRepository = masterIncidentRepository;
         }
 
         public void RegisterIfNotRegistered()
@@ -84,20 +86,20 @@ namespace Shoutbox.NET.Hubs
         }
 
 
-        public MasterIncident CreateMasterIncident(string description, string km, string im)
+        public Task CreateMasterIncident(string description, string km, string im)
         {
             MasterIncident masterincident = new MasterIncident
             {
                 Description = description,
-                IM = im,
                 KM = km,
+                IM = im,
                 Timestamp = DateTime.Now,
                 User = _userRepository.GetByLogonUser(Context.User.Identity.Name),
             };
 
             _MasterIncidentRepository.Create(masterincident);
 
-            return Clients.All.AddMasterIncident(masterincident.Description, masterincident.IM, masterincident.KM, masterincident.Timestamp);
+            return Clients.All.AddMasterIncident(masterincident.Description, masterincident.KM, masterincident.IM, masterincident.Timestamp);
         }
     }
 

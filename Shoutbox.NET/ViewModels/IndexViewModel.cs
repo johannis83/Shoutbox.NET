@@ -11,40 +11,41 @@ namespace Shoutbox.NET.ViewModels
 {
     public class IndexViewModel
     {
-        public Status SM9Status { get; set; }
-        public Status EasyVistaStatus { get; set; }
-
-        public ICollection<Message> Messages
+        public IEnumerable<MasterIncident> MasterIncidents { get; set; }
+        public IEnumerable<Message> Messages { get; set; }
+        public IEnumerable<Team> Teams { get; set; }
+        public Dictionary<string, int> Tags { get; set; }
+        public string SerializedMasterIncidents
         {
             get
             {
-                return JsonConvert.DeserializeObject<ICollection<Message>>(SerializedMessages);
+                return JsonConvert.SerializeObject(MasterIncidents, Formatting.Indented,
+                new JsonSerializerSettings
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                });
             }
         }
-
-        public ICollection<Team> Teams
+        public string SerializedTeams
         {
             get
             {
-                return JsonConvert.DeserializeObject<ICollection<Team>>(SerializedTeams);
+                return JsonConvert.SerializeObject(Teams, Formatting.Indented,
+                        new JsonSerializerSettings
+                        {
+                            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                        });
             }
         }
-
-        public string SerializedTeams { get; set; }
-        public string SerializedMessages { get; set; }
-        
-
-        public Dictionary<string, int> Tags
+        public string SerializedMessages
         {
             get
             {
-                Dictionary<string, int> tags = new Dictionary<string, int>();
-
-                //Get all of today's messages, select them distinct by the tags. Add those tags to the dictionary with the amount of each particular tag
-                Messages.Where(f => f.Tag != "" && f.Timestamp.Value.Day == DateTime.Now.Day).GroupBy(t => t.Tag).Select(g => g.First()).ToList().
-                    ForEach(i => tags.Add(i.Tag, Messages.Count(x => x.Tag == i.Tag)));
-
-                return tags;
+                return JsonConvert.SerializeObject(Messages, Formatting.Indented,
+                new JsonSerializerSettings
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                });
             }
         }
     }
