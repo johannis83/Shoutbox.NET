@@ -10,16 +10,17 @@
 <link href="~/Content/Chat.css" rel="stylesheet" />
 <link href="~/Content/Shoutbox.css" rel="stylesheet" />
 <link href="~/Content/Sststatus.css" rel="stylesheet" />
+<link href="~/Content/sweetalert2.min.css" rel="stylesheet" />
 <link href="~/Content/tagcloud.css" rel="stylesheet" />
 <link href="~/Content/Team.css" rel="stylesheet" />
-<link href="~/Content/sweetalert.css" rel="stylesheet" />
 <link href="~/Content/Masterincidents.css" rel="stylesheet" />
 
 <!-- Unsorted plugins -->
 <script src="~/Scripts/jquery.timeago.js"></script>
 <script src="~/Scripts/jquery.timeago.nl.js"></script>
 <script src="~/Scripts/jquery.tagcloud.js"></script>
-<script src="~/Scripts/sweetalert.min.js"></script>
+<script src="~/Scripts/sweetalert2.min.js"></script>
+
 
 <!-- Scripts for each individual tile type -->
 <script src="~/Scripts/chattile.js"></script>
@@ -27,6 +28,7 @@
 <script src="~/Scripts/team.js"></script>
 <script src="~/Scripts/sststatus.js"></script>
 <script src="~/Scripts/masterincidents.js"></script>
+
 
 <!-- Begin tile grid -->
 <div class="grid-stack">
@@ -99,7 +101,7 @@
                     </div>
                     <!-- End incidents -->
                     <div id="add-incident-button-container">
-                        <button type="button" class="btn btn-default" id="add-incident-button">
+                        <button type="button" class="btn btn-default" id="add-incident-button" onclick="createMasterIncident()">
                             Toevoegen
                         </button>
                     </div>

@@ -207,7 +207,7 @@
     <Content Include="Content\Images\Shoutbox-bullhorn.png" />
     <Content Include="Content\Masterincidents.css" />
     <Content Include="Content\Sststatus.css" />
-    <Content Include="Content\sweetalert.css" />
+    <Content Include="Content\sweetalert2.min.css" />
     <Content Include="Content\Team.css" />
     <Compile Include="Connected Services\SSTMonitorService\Reference.cs">
       <AutoGen>True</AutoGen>
@@ -362,7 +362,7 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Content\Chat.css" />
     <Content Include="Scripts\sststatus.js" />
-    <Content Include="Scripts\sweetalert.min.js" />
+    <Content Include="Scripts\sweetalert2.min.js" />
     <Content Include="Scripts\tagcloud.js" />
     <Content Include="Scripts\team.js" />
     <Content Include="Web.config" />
