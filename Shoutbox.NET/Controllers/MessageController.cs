@@ -54,6 +54,7 @@ namespace Shoutbox.NET.Controllers
             }
         }
 
+        [ValidateInput(true)]
         public Message Create(Message message)
         {
             if (ModelState.IsValid)

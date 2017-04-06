@@ -60,6 +60,9 @@ $(window).resize(function () {
 
     //Must be hooked to a #chat-window object
     $.fn.AddMessage = function (name, division, time, tag, text, autoscroll) {
+
+        console.log(text);
+
         var chatTile = $(this);
         var messageContainer = chatTile.find(".message-container");
         //Keep count of all the message in this container
@@ -83,6 +86,7 @@ $(window).resize(function () {
 
 
     var messageTemplate = function (name, division, time, tag, text) {
+
         var uppercaseFirstCharacterTag = tag.toLowerCase().charAt(0).toUpperCase() + tag.slice(1);
         var message = "";
             message = message.concat('<!-- Begin message -->');

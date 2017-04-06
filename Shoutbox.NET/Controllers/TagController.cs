@@ -21,10 +21,10 @@ namespace Shoutbox.NET.Controllers
 
         public ActionResult Tag(string tag)
         {
-            IndexViewModel tagViewModel = new IndexViewModel();
-
-            tagViewModel.Messages = _messageRepository.GetByDay(DateTime.Now);
-
+            IndexViewModel tagViewModel = new IndexViewModel()
+            {
+                Messages = _messageRepository.GetByDay(DateTime.Now)
+            };
             return View(tagViewModel);
 
         }

@@ -19,6 +19,8 @@
 <script src="~/Scripts/jquery.timeago.js"></script>
 <script src="~/Scripts/jquery.timeago.nl.js"></script>
 <script src="~/Scripts/jquery.tagcloud.js"></script>
+<!-- Required for sweetalert2 to work -->
+<script src="~/Scripts/core.min.js"></script>
 <script src="~/Scripts/sweetalert2.min.js"></script>
 
 
@@ -111,8 +113,8 @@
                 <li>Notification configuration</li>
                 <li>User roles/permissions [Delete Master incidents]</li>
                 <li>History</li>
-                <li>Required format Melding textbox and.... [scroll]</li>
-                <li>Secret.. ;)</li>
+                <li>Required format Melding textbox and.... [scroll down]</li>
+                <li>Secret.. :3</li>
             </ul>
         </div>
     </div>
@@ -311,7 +313,7 @@ chat.server.registerIfNotRegistered();
 
 // XSS prevention
     function htmlEncode(value) {
-        var encodedValue = $('<div />').text(value).html();
+        var encodedValue = $('<div />').textContent(value);
         return encodedValue;
     }
 
