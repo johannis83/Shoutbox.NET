@@ -54,7 +54,7 @@ namespace Shoutbox.NET.Hubs
             //Validate that the functie is an existing and allowed functie
             if (TeamFuncties.Functies.Contains(Team.Functie))
             {
-                _TeamRepository.Set(Team);
+                _TeamRepository.SetMember(Team);
 
                 return Clients.All.UpdateTeam(Team.Functie, Team.Naam, Team.ModifiedBy);
             }

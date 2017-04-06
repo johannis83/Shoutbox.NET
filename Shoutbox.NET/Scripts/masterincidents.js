@@ -42,25 +42,13 @@
             cancelButtonText: 'Nee',
             cancelButtonColor: '#d33',
         }).then(function () {
-
-            //If MI is successfully created, let the user know
-            if (sendCreateMasterIncident(result[0], result[1], result[2]) != "") {
-                swal({
-                    title: "Done!",
-                    text: "Het nieuwe master incident is geplaatst",
-                    type: "success",
-                    confirmButtonText: 'Top!',
-                    showCancelButton: false,
-                });
-            //Failed? Also let them know
-            } else {
-                swal({
-                    title: "Fout!",
-                    text: "Het plaatsen van het nieuwe master incident is niet gelukt, probeer te pagina te verversen.",
-                    type: "error",
-                    showCancelButton: false,
-                });
-            }
+            swal({
+                title: "Done!",
+                text: "Het nieuwe master incident is geplaatst",
+                type: "success",
+                confirmButtonText: 'Top!',
+                showCancelButton: false,
+            });
         });
     });
 }

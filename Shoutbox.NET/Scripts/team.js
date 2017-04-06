@@ -24,27 +24,19 @@ var editTeam = function (functie) {
         confirmButtonText: "Prima!",
         confirmButtonColor: "#009",
     }).then(function (inputValue) {
-            if (inputValue === false) return false;
 
-            if (inputValue === "") {
-                swal.showInputError("Geef een naam op");
-                return false
-            }
+        if (inputValue === false) return false;
+        if (inputValue === "") {
+            swal.showInputError("Geef een naam op");
+            return false
+        }
 
-            if (sendEditTeam(functie, inputValue) != "") {
-                swal({
-                    title: "Done!",
-                    text: "De nieuwe " + functie + " van de dag is " + inputValue,
-                    type: "success",
-                    showCancelButton: false,
-                });
-            } else {
-                swal({
-                    title: "Fout!",
-                    text: "Het wijzigen van de Team is niet gelukt, probeer de pagina te verversen.",
-                    type: "error",
-                    showCancelButton: false,
-                });
-            }
+        swal({
+            title: "Done!",
+            text: "De nieuwe " + functie + " van de dag is " + inputValue,
+            type: "success",
+            showCancelButton: false,
+            confirmButtonText: "Top!"
         });
+    });
 }

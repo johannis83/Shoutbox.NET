@@ -8,7 +8,7 @@ namespace Shoutbox.NET.Repositories
 {
     public interface ITeamRepository
     {
-        Team Set(Team Team);
+        Team SetMember(Team Team);
         IEnumerable<Team> GetByDay(DateTime datetime);
     }
 }

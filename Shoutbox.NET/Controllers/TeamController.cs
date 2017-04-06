@@ -1,4 +1,5 @@
-﻿using Shoutbox.NET.Data;
+﻿using Microsoft.Security.Application;
+using Shoutbox.NET.Data;
 using Shoutbox.NET.Models;
 using Shoutbox.NET.Repositories;
 using System;
@@ -13,8 +14,12 @@ namespace Shoutbox.NET.Controllers
     {
 
         // GET: Team
-        public Team Set(Team Team)
+        public Team SetMember(Team Team)
         {
+            //Sanitize user input, prevent XSS.
+            Team.Functie = Encoder.HtmlEncode(Team.Functie);
+            Team.Naam = Encoder.HtmlEncode(Team.Naam);
+
             using (ShoutboxContext db = new ShoutboxContext())
             {
                 //Check if the Team for that role already exists, if it does, remove it

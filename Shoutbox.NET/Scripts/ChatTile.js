@@ -7,8 +7,8 @@
 
      // 13 = Enter
     if (event.keyCode == '13') {
-        //Tag is required on announcement mssages
-        if (tagDisplay.html() == "" && type == 'Announcement') { return; }
+        //Valid tag is required on announcement mssages
+        if (tagDisplay.html().length < 3 && type == 'Announcement') { return; }
         //Message requires atleast 4 characters
         if (textboxvalue.length < 3) { return; }
 
@@ -60,8 +60,6 @@ $(window).resize(function () {
 
     //Must be hooked to a #chat-window object
     $.fn.AddMessage = function (name, division, time, tag, text, autoscroll) {
-
-        console.log(text);
 
         var chatTile = $(this);
         var messageContainer = chatTile.find(".message-container");

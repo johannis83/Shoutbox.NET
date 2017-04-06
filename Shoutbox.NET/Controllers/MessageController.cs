@@ -44,7 +44,7 @@ namespace Shoutbox.NET.Controllers
             {
                 Dictionary<string, int> tags = new Dictionary<string, int>();
                 //Get all of today's messages, select them distinct by the tags. Add those tags to the dictionary with the amount of each particular tag
-                db.Messages.Where(f => f.Tag != "" && f.Timestamp.Value.Day == DateTime.Now.Day).GroupBy(t => t.Tag).Select(g => g.FirstOrDefault()).ToList().
+                db.Messages.Where(f     => f.Tag != "" && f.Timestamp.Value.Day == DateTime.Now.Day).GroupBy(t => t.Tag).Select(g => g.FirstOrDefault()).ToList().
                     ForEach(i => tags.Add(i.Tag, db.Messages.Count(x => x.Tag == i.Tag)));
 
                 return tags;
@@ -58,7 +58,7 @@ namespace Shoutbox.NET.Controllers
                 //Html encode all user submitted input to prevent XSS
                 message.Text = Encoder.HtmlEncode(message.Text);
                 message.Tag = Encoder.HtmlEncode(message.Tag);
-                message.Type = Encoder.HtmlEncode(message.Tag);
+                message.Type = Encoder.HtmlEncode(message.Type);
 
                 /*Attach the user to help EF understand the context. 
                  This basically avoids it from re-creating the user along with the message.*/
