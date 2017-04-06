@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using Shoutbox.NET.Models;
 using Shoutbox.NET.Data;
+using Microsoft.Security.Application;
 
 namespace Shoutbox.NET.Controllers
 {
@@ -25,6 +26,11 @@ namespace Shoutbox.NET.Controllers
         {
             using (ShoutboxContext db = new ShoutboxContext())
             {
+                //Html encode all user submitted input to prevent XSS
+                masterIncident.IM = Encoder.HtmlEncode(masterIncident.IM);
+                masterIncident.KM = Encoder.HtmlEncode(masterIncident.KM);
+                masterIncident.Description = Encoder.HtmlEncode(masterIncident.Description);
+
                 db.Users.Attach(masterIncident.User);
                 db.MasterIncidents.Add(masterIncident);
                 db.SaveChanges();

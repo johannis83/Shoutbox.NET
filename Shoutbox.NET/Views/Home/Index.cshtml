@@ -30,8 +30,6 @@
 <script src="~/Scripts/team.js"></script>
 <script src="~/Scripts/sststatus.js"></script>
 <script src="~/Scripts/masterincidents.js"></script>
-
-
 <script src="~/Scripts/Preload.js"></script>
 
 <!-- Begin tile grid -->
@@ -235,6 +233,7 @@
 
 <script>
 
+
     //If the browser supports notifications. TODO: Add ability to turn notifications on/off per message type
     if (("Notification" in window)) {
         Notification.requestPermission();
@@ -244,7 +243,7 @@
         if (!("Notification" in window)) return;
         if (!document.hidden) return; //Only display notifications if the window isn't focused
         var options = {
-            body: theBody,
+            body: htmlDecode(theBody), //Allow special characters in notifications as this does not execute scripts
             icon: "Content/Images/Shoutbox-bullhorn.png",
             requireInteraction: false
         }
@@ -311,10 +310,15 @@ chat.server.registerIfNotRegistered();
         updateTagCloud(tag); //Update tags real time
     };
 
-// XSS prevention
     function htmlEncode(value) {
         var encodedValue = $('<div />').textContent(value);
         return encodedValue;
+    }
+
+    function htmlDecode(encodedString) {
+        var textArea = document.createElement('textarea');
+        textArea.innerHTML = encodedString;
+        return textArea.value;
     }
 
    //Load all messages, teams, tags and incidents

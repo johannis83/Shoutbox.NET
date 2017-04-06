@@ -9,9 +9,11 @@ using System.Web.Mvc;
 using Shoutbox.NET.Data;
 using Shoutbox.NET.Models;
 using Shoutbox.NET.Repositories;
+using Microsoft.Security.Application;
 
 namespace Shoutbox.NET.Controllers
 {
+    [ValidateInput(true)]
     public class MessageController : Controller, IMessageRepository
     {
         private IUserRepository _UserService;
@@ -27,18 +29,13 @@ namespace Shoutbox.NET.Controllers
 
         public IEnumerable<Message> GetByDay(DateTime datetime)
         {
-            if (ModelState.IsValid)
+            using (ShoutboxContext db = new ShoutboxContext())
             {
-                using (ShoutboxContext db = new ShoutboxContext())
-                {
-                    //Disable dynamic proxy objects. Database is disposed in the view so we want these to be available 'offline'
-                    db.Configuration.ProxyCreationEnabled = false;
+                //Disable dynamic proxy objects. Database is disposed in the view so we want these to be available 'offline'
+                db.Configuration.ProxyCreationEnabled = false;
 
-                    return db.Messages.Include(f => f.User).Where(f => f.Timestamp.Value.Day == datetime.Day).ToList();
-                }
+                return db.Messages.Include(f => f.User).Where(f => f.Timestamp.Value.Day == datetime.Day).ToList();
             }
-
-            return null;
         }
 
         public Dictionary<string, int> GetTagPopularityByDay(DateTime datetime)
@@ -54,23 +51,22 @@ namespace Shoutbox.NET.Controllers
             }
         }
 
-        [ValidateInput(true)]
         public Message Create(Message message)
         {
-            if (ModelState.IsValid)
-            {
-                using (ShoutboxContext db = new ShoutboxContext())
-                {
-                    /*Attach the user to help EF understand the context. 
-                     This basically avoids it from re-creating the user along with the message.*/
-                    db.Users.Attach(message.User);
-                    db.Messages.Add(message);
-                    db.SaveChanges();
-                    return message;
-                }
-            }
+            using (ShoutboxContext db = new ShoutboxContext())
+            {                
+                //Html encode all user submitted input to prevent XSS
+                message.Text = Encoder.HtmlEncode(message.Text);
+                message.Tag = Encoder.HtmlEncode(message.Tag);
+                message.Type = Encoder.HtmlEncode(message.Tag);
 
-            return null;
+                /*Attach the user to help EF understand the context. 
+                 This basically avoids it from re-creating the user along with the message.*/
+                db.Users.Attach(message.User);
+                db.Messages.Add(message);
+                db.SaveChanges();
+                return message;
+            }
         }
     }
 }
