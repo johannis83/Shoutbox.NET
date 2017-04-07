@@ -14,6 +14,7 @@ namespace Shoutbox.NET.ViewModels
         public IEnumerable<MasterIncident> MasterIncidents { get; set; }
         public IEnumerable<Message> Messages { get; set; }
         public IEnumerable<Team> Teams { get; set; }
+        public IEnumerable<SOS> SOSList { get; set; }
         public Dictionary<string, int> Tags { get; set; }
         public string SerializedMasterIncidents
         {
@@ -46,6 +47,13 @@ namespace Shoutbox.NET.ViewModels
                 {
                     ReferenceLoopHandling = ReferenceLoopHandling.Ignore
                 });
+            }
+        }
+        public string SerializedSOS
+        {
+            get
+            {
+                return JsonConvert.SerializeObject(SOSList);
             }
         }
     }

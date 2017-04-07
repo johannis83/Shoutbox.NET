@@ -16,21 +16,25 @@ namespace Shoutbox.NET.Controllers
         private IMessageRepository _messageRepository;
         private ITeamRepository _teamRepository;
         private IMasterIncidentRepository _masterIncidentRepository;
+        private ISOSRepository _sosRepository;
 
-        public HomeController(IMessageRepository messageRepository, ITeamRepository teamRepository, IMasterIncidentRepository masterIncidentRepository)
+        public HomeController(IMessageRepository messageRepository, ITeamRepository teamRepository, 
+            IMasterIncidentRepository masterIncidentRepository, ISOSRepository sosRepository)
         {
             _messageRepository = messageRepository;
             _teamRepository = teamRepository;
             _masterIncidentRepository = masterIncidentRepository;
+            _sosRepository = sosRepository;
         }
 
         public ActionResult Index()
         {
-            DateTime pageDate = DateTime.Now;
             //Only get todays objects for the homepage
+            DateTime pageDate = DateTime.Now;
             IndexViewModel indexViewModel = new IndexViewModel()
             {
                 Messages = _messageRepository.GetByDay(pageDate),
+                SOSList = _sosRepository.GetList(),
                 Tags = _messageRepository.GetTagPopularityByDay(pageDate),
                 Teams = _teamRepository.GetByDay(pageDate),
                 MasterIncidents = _masterIncidentRepository.GetByDay(pageDate)

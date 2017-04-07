@@ -24,19 +24,22 @@ var editTeam = function (functie) {
         confirmButtonText: "Prima!",
         confirmButtonColor: "#009",
     }).then(function (inputValue) {
-
         if (inputValue === false) return false;
+
         if (inputValue === "") {
             swal.showInputError("Geef een naam op");
             return false
         }
 
+        //Tell server to change team
+        sendEditTeam(functie, inputValue);
+
+        //Notify user
         swal({
             title: "Done!",
             text: "De nieuwe " + functie + " van de dag is " + inputValue,
             type: "success",
-            showCancelButton: false,
-            confirmButtonText: "Top!"
+            showCancelButton: false
         });
     });
 }

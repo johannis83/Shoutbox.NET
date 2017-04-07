@@ -42,6 +42,9 @@
             cancelButtonText: 'Nee',
             cancelButtonColor: '#d33',
         }).then(function () {
+
+            sendCreateMasterIncident(result[0], result[1], result[2]);
+
             swal({
                 title: "Done!",
                 text: "Het nieuwe master incident is geplaatst",

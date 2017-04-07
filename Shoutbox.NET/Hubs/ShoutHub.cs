@@ -12,26 +12,55 @@ using Shoutbox.NET.Controllers;
 using Microsoft.Practices.Unity;
 using System.Text.RegularExpressions;
 using Shoutbox.NET.Repositories;
+using System.Configuration;
+using System.Timers;
 
 namespace Shoutbox.NET.Hubs
 {
-    public class ChatHub : Hub
+    public class ShoutHub : Hub
     {
         private IUserRepository _userRepository;
         private IMessageRepository _messageRepository;
         private IUserPrincipalRepository _userPrincipalRepository;
         private ITeamRepository _TeamRepository;
         private IMasterIncidentRepository _MasterIncidentRepository;
+        private ISOSRepository _sosRepository;
 
+        //SOS timer to send periodic updates to all clients
+        private Timer timer;
 
-        public ChatHub(IUserRepository userService, IMessageRepository messageService, IUserPrincipalRepository userPrincipalRepository, 
-            ITeamRepository TeamRepository, IMasterIncidentRepository masterIncidentRepository)
+        public ShoutHub(IUserRepository userService, IMessageRepository messageService, IUserPrincipalRepository userPrincipalRepository, 
+            ITeamRepository TeamRepository, IMasterIncidentRepository masterIncidentRepository, ISOSRepository sosRepository)
         {
             _userRepository = userService;
             _messageRepository = messageService;
             _userPrincipalRepository = userPrincipalRepository;
             _TeamRepository = TeamRepository;
             _MasterIncidentRepository = masterIncidentRepository;
+            _sosRepository = sosRepository;
+
+            //SOS Timer
+            timer = new Timer(int.Parse(ConfigurationManager.AppSettings["SOSUpdateInerval"]));
+            timer.Elapsed += new ElapsedEventHandler(UpdateSOS);
+            timer.Start();
+        }
+
+        private void UpdateSOS(object sender, ElapsedEventArgs e)
+        {
+            //Store old state
+            List<SOS> oldList = _sosRepository.GetList();
+            //Update the previous list
+            _sosRepository.UpdateSOSList();
+            //Store new state
+            List<SOS> newList = _sosRepository.GetList();
+
+            //TODO: Comparing by length is not enough in my opinion
+            //need a proper way to compare two lists with custom objects for equality
+            //Compare old to new, if there were changes, broadcast it to our clients
+            if (newList.Count != oldList.Count)
+            {
+                Clients.All.UpdateSOS(Newtonsoft.Json.JsonConvert.SerializeObject(newList));
+            }
         }
 
         public void RegisterIfNotRegistered()

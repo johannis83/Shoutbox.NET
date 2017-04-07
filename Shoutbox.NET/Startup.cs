@@ -9,6 +9,7 @@ using Shoutbox.NET.Hubs;
 using Shoutbox.NET.Controllers;
 using Microsoft.AspNet.SignalR.Hubs;
 using System.Web.Mvc;
+using Shoutbox.NET.Repositories;
 
 [assembly: OwinStartup(typeof(Shoutbox.NET.Startup))]
 namespace Shoutbox.NET

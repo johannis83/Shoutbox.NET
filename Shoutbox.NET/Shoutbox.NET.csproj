@@ -101,6 +101,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.DirectoryServices.AccountManagement" />
     <Reference Include="System.Drawing" />
@@ -213,6 +214,7 @@
     <Content Include="Content\Images\Preloader_2.gif" />
     <Content Include="Content\Images\Shoutbox-bullhorn.png" />
     <Content Include="Content\Masterincidents.css" />
+    <Content Include="Content\SOS.css" />
     <Content Include="Content\Sststatus.css" />
     <Content Include="Content\sweetalert2.min.css" />
     <Content Include="Content\Team.css" />
@@ -223,16 +225,24 @@
     </Compile>
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MasterIncidentController.cs" />
+    <Compile Include="Controllers\SOSController.cs" />
     <Compile Include="Controllers\SSTStatusController.cs" />
     <Compile Include="Controllers\TagController.cs" />
     <Compile Include="Controllers\UserPrincipalController.cs" />
     <Compile Include="Controllers\TeamController.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\MasterIncident.cs" />
+    <Compile Include="Models\SOS.cs" />
     <Compile Include="Models\Team.cs" />
     <Compile Include="Models\UserSetting.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Repositories\IMasterIncidentRepository.cs" />
     <Compile Include="Repositories\IMessageRepository.cs" />
+    <Compile Include="Repositories\ISOSRepository.cs" />
     <Compile Include="Repositories\IUserControllerRepository.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -241,7 +251,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Hubs\ChatHub.cs" />
+    <Compile Include="Hubs\ShoutHub.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -300,6 +310,7 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
+    <EmbeddedResource Include="Data\SQLQueries\GetSOSMeldingen.sql" />
     <Content Include="favicon.ico" />
     <Content Include="Content\Fonts\glyphicons-halflings-regular.svg" />
     <Content Include="fonts\fontawesome-webfont.svg" />
@@ -323,6 +334,10 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.eot" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <None Include="Connected Services\SSTMonitorService\SSTMonitorService.wsdl" />
     <None Include="Connected Services\SSTMonitorService\SSTMonitorService.xsd">
       <SubType>Designer</SubType>
@@ -370,6 +385,7 @@
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Content\Chat.css" />
+    <Content Include="Scripts\SOS.js" />
     <Content Include="Scripts\sststatus.js" />
     <Content Include="Scripts\sweetalert2.min.js" />
     <Content Include="Scripts\tagcloud.js" />
@@ -393,6 +409,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\SOS\" />
     <Folder Include="Views\SSTStatus\" />
   </ItemGroup>
   <ItemGroup>
@@ -403,6 +420,9 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Connected Services\SSTMonitorService\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

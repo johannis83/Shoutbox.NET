@@ -1,5 +1,6 @@
 ﻿using Shoutbox.NET.Controllers;
 using Shoutbox.NET.Models;
+using Shoutbox.NET.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +13,7 @@ using System.Web.Routing;
 namespace Shoutbox.NET
 {
     public class MvcApplication : System.Web.HttpApplication
-    {
-
+    {       
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();

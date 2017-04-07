@@ -14,6 +14,7 @@
 <link href="~/Content/tagcloud.css" rel="stylesheet" />
 <link href="~/Content/Team.css" rel="stylesheet" />
 <link href="~/Content/Masterincidents.css" rel="stylesheet" />
+<link href="~/Content/SOS.css" rel="stylesheet" />
 
 <!-- Unsorted plugins -->
 <script src="~/Scripts/jquery.timeago.js"></script>
@@ -79,41 +80,38 @@
             <div class="grid-stack-item-content rabo-drop-shadow master-incident-window">
                 <div class="incident-container">
                     <!-- Begin incidents -->
-                    <div class="incident well">
-                        <div class="incident-description">
-                            Siebel ligt weer is op z'n gat
-                        </div>
-                        <div class="incident-KM">Gebruik: KM6661337</div>
-                        <div class="incident-IM">Relateer: IM0014934736</div>
-                        <div class="incident-time"><i class="fa fa-clock-o" aria-hidden="true"></i><abbr class="timeago" title="2017-04-05T15:29:23.7">6 uur geleden</abbr> </div>
-                    </div>
                     <!-- End incidents -->
                 </div>
                 <div id="add-incident-button-container">
                     <button type="button" class="btn btn-default" id="add-incident-button" onclick="createMasterIncident()">
                         Toevoegen
                     </button>
-                </div>   it's alive!! ----------^
+                </div>
         </div>
     </div>
     <!-- End Master Incident tile -->
 
     <!-- Begin SOS monitor tile -->
     <div class="grid-stack-item" data-gs-no-resize="true" data-gs-x="0" data-gs-y="7"
-         data-gs-width="3" data-gs-height="2">
+         data-gs-width="2" data-gs-height="2">
         <div class="tile-titlebar">SOS Meldingen</div>
-        <div class="grid-stack-item-content rabo-drop-shadow">
-            <ul>
-                <b>TODO:</b>
-                <li>SOS</li>
-                <li>TOP 10 KM</li>
-                <li><strike>Security vulnerabilities</strike></li>
-                <li>Notification configuration</li>
-                <li>User roles/permissions [Delete Master incidents]</li>
-                <li>History</li>
-                <li>Required format Melding textbox and.... [scroll down]</li>
-                <li>Secret.. :3</li>
-            </ul>
+        <div class="grid-stack-item-content rabo-drop-shadow SOS-Container">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td>Vraagbaak</td>
+                    </tr>
+                    <tr>
+                        <td>WFM</td>
+                    </tr>
+                    <tr>
+                        <td>Teamlead</td>
+                    </tr>
+                    <tr>
+                        <td>MCS</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
     <!-- End SOS monitor tile -->
@@ -177,7 +175,7 @@
 
     <!-- Begin Trending topics tile -->
     <div class="grid-stack-item" data-gs-no-resize="true" data-gs-x="7" data-gs-y="6"
-         data-gs-width="2" data-gs-height="2">
+         data-gs-width="3" data-gs-height="2">
         <div class="tile-titlebar">Trending topics</div>
         <div class="grid-stack-item-content rabo-drop-shadow tag-cloud-tile" id="tagcloud">
             <!-- Begin tags-->
@@ -227,6 +225,26 @@
         </div>
     </div>*@
     <!-- End SST status tile -->
+
+    <!-- Begin top 10 KM tile -->
+    <div class="grid-stack-item" data-gs-no-resize="true" data-gs-x="9" data-gs-y="6"
+         data-gs-width="3" data-gs-height="2">
+        <div class="tile-titlebar">TODO</div>
+        <div class="grid-stack-item-content rabo-drop-shadow SOS-Container">
+            <ul>
+                <li>SOS <i>- Work in progress</i></li>
+                <li>TOP 10 KM</li>
+                <li><strike>Security vulnerabilities</strike></li>
+                <li>Notification configuration</li>
+                <li>User permissions <i>- Work in progress</i></li>
+                <li>History</li>
+                <li>Required format Melding info bubble and.... </li>
+                <li>Secret.. :3</li>
+            </ul>
+        </div>
+    </div>
+    <!-- End top 10 KM tile -->
+
 </div>
 <div class="preloader"></div>
 
@@ -262,43 +280,48 @@
     var sendCreateMasterIncident;
 
 // Reference the auto-generated proxy for the hub.
-    var chat = $.connection.chatHub;
+    var shout = $.connection.shoutHub;
 // Start the connection.
     $.connection.hub.start().done(function () {
 
 //Check if the connecting user exists in our database, if not register
-chat.server.registerIfNotRegistered();
+shout.server.registerIfNotRegistered();
 
     sendMessage = function (tag, text, type) {
-        chat.server.broadcastChatMessage(tag, text, type)
+        shout.server.broadcastChatMessage(tag, text, type)
     }
 
 //Tell the server to change a Team
     sendEditTeam = function (functie, naam) {
-        return chat.server.setTeam(functie, naam);
+        return shout.server.setTeam(functie, naam);
     }
 
 //Tell the server to create a Master incident
     sendCreateMasterIncident = function (description, km, im) {
-        return chat.server.createMasterIncident(description, km, im);
+        return shout.server.createMasterIncident(description, km, im);
     }
 });
 
 // EVENT: Fired when receiving a command to update the Team tile
-    chat.client.updateTeam = function (functie, naam, changer) {
+    shout.client.updateTeam = function (functie, naam, changer) {
         updateTeam(functie, naam, changer);
         spawnNotification("Shoutbox", changer + ": " + functie + " van de dag is " + naam);
     }
 
 // EVENT: Fired when receiving a command to add a new masterIncident
-    chat.client.addMasterIncident = function (description, km, im, time) {
+    shout.client.addMasterIncident = function (description, km, im, time) {
         addMasterIncident(description, km, im, time);
         spawnNotification("Shoutbox", "Nieuw master incident: " + description);
     }
 
+// EVENT: Fired when receiving a command to update the SOS overview
+    shout.client.updateSOS = function (SOSList) {
+        console.log(SOSList);
+    }
+
 
 // EVENT: Fired when receiving a chat message from the server
-    chat.client.receiveChatMessage = function (name, division, time, tag, text, type) {
+    shout.client.receiveChatMessage = function (name, division, time, tag, text, type) {
         //Add message to the appropriate tile depending on the message type
         if (type == "Chat") {
             $("#chat-window").AddMessage(name, division, time, tag, text, true);
@@ -325,6 +348,7 @@ chat.server.registerIfNotRegistered();
     addMessages(@Html.Raw(Model.SerializedMessages), true);
     updateTeams(@Html.Raw(Model.SerializedTeams));
     addMasterIncidents(@Html.Raw(Model.SerializedMasterIncidents));
+    console.log('@Model.SerializedSOS');
 
     //Set up the tag cloud
     initializeTagCloud();

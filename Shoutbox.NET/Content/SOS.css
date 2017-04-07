@@ -1,0 +1,9 @@
+﻿.SOS-Container > ul {
+    margin-bottom: 14px;
+    list-style: none;
+}
+
+.SOS-Container > ul > li {
+    width:100%;
+    
+}
