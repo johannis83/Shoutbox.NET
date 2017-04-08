@@ -23,7 +23,7 @@ namespace Shoutbox.NET.Controllers
         {
             IndexViewModel tagViewModel = new IndexViewModel()
             {
-                Messages = _messageRepository.GetByDay(DateTime.Now)
+                Messages = _messageRepository.GetByDay(DateTime.Now).Where(f => f.Tag == tag)
             };
             return View(tagViewModel);
 

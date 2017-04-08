@@ -14,8 +14,15 @@ namespace Shoutbox.NET.Models
         public string Domain { get; set; }
         public string Settings { get; set; }
         public string Division { get; set; }
+        public Roles Role { get; set; }
 
         public virtual ICollection<Message> Messages { get; set; }
+    }
 
+    public enum Roles
+    {
+        User = 0,
+        Moderator = 1,
+        Administrator = 2
     }
 }

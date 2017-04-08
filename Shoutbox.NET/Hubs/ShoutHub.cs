@@ -71,6 +71,13 @@ namespace Shoutbox.NET.Hubs
 
         public Task SetTeam(string functie, string naam)
         {
+            User user = _userRepository.GetByLogonUser(Context.User.Identity.Name);
+
+            if (user.Role < Roles.User)
+            {
+                return null;
+            }
+
             Team Team = new Team
             {
                 Functie = functie,
@@ -114,16 +121,22 @@ namespace Shoutbox.NET.Hubs
                 message.User.Name, message.User.Division, message.Timestamp, message.Tag, message.Text, message.Type);
         }
 
-
         public Task CreateMasterIncident(string description, string km, string im)
         {
+            User user = _userRepository.GetByLogonUser(Context.User.Identity.Name);
+
+            if(user.Role < Roles.Moderator)
+            {
+                return null;
+            }
+
             MasterIncident masterincident = new MasterIncident
             {
                 Description = description,
                 KM = km,
                 IM = im,
                 Timestamp = DateTime.Now,
-                User = _userRepository.GetByLogonUser(Context.User.Identity.Name),
+                User = user
             };
 
             _MasterIncidentRepository.Create(masterincident);

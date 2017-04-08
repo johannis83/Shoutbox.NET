@@ -17,14 +17,16 @@ namespace Shoutbox.NET.Controllers
         private ITeamRepository _teamRepository;
         private IMasterIncidentRepository _masterIncidentRepository;
         private ISOSRepository _sosRepository;
+        private IUserRepository _userRepository; 
 
         public HomeController(IMessageRepository messageRepository, ITeamRepository teamRepository, 
-            IMasterIncidentRepository masterIncidentRepository, ISOSRepository sosRepository)
+            IMasterIncidentRepository masterIncidentRepository, ISOSRepository sosRepository, IUserRepository userRepository)
         {
             _messageRepository = messageRepository;
             _teamRepository = teamRepository;
             _masterIncidentRepository = masterIncidentRepository;
             _sosRepository = sosRepository;
+            _userRepository = userRepository;
         }
 
         public ActionResult Index()
@@ -37,7 +39,8 @@ namespace Shoutbox.NET.Controllers
                 SOSList = _sosRepository.GetList(),
                 Tags = _messageRepository.GetTagPopularityByDay(pageDate),
                 Teams = _teamRepository.GetByDay(pageDate),
-                MasterIncidents = _masterIncidentRepository.GetByDay(pageDate)
+                MasterIncidents = _masterIncidentRepository.GetByDay(pageDate).Where(f => f.Active),
+                CurrentUser = _userRepository.GetByLogonUser(User.Identity.Name) //Also registers the user if they don't exist yet
 
             };
             return View(indexViewModel);

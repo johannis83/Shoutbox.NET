@@ -26,6 +26,7 @@
 <script src="~/Scripts/core.min.js"></script>
 <script src="~/Scripts/sweetalert2.min.js"></script>
 <script src="~/Scripts/tooltipster.bundle.min.js"></script>
+<script src="//twemoji.maxcdn.com/2/twemoji.min.js?2.2.3"></script>
 
 <!-- Scripts for each individual tile type -->
 <script src="~/Scripts/chattile.js"></script>
@@ -76,20 +77,37 @@
         </div>
     </div>
     <!-- End Team tile -->
+
     <!-- Begin Master Incident tile -->
     <div class="grid-stack-item" data-gs-x="0" data-gs-y="6"
-         data-gs-width="3" data-gs-height="4">
+         data-gs-width="3" data-gs-height="5">
         <div class="tile-titlebar">Master Incidenten</div>
             <div class="grid-stack-item-content rabo-drop-shadow master-incident-window">
                 <div class="incident-container">
                     <!-- Begin incidents -->
+                    <div class="incident well">
+                    <div class="incident-description">We're All Gonna Be Like Three Little Fonzies Here</div>
+                    <div class="incident-KM">Gebruik: KM800813S </div>
+                    <div class="incident-IM">Relateer: KM69101404 </div>
+                    <div class="incident-time">
+                    <i class="fa fa-clock-o" aria-hidden="true"></i>
+                    <abbr class="timeago" title="2017-04-08T01:12:26.723">14 uur geleden</abbr> 
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                    </div>
+                    </div>
                     <!-- End incidents -->
                 </div>
-                <div id="add-incident-button-container">
-                    <button type="button" class="btn btn-default" id="add-incident-button" onclick="createMasterIncident()">
-                        Toevoegen
-                    </button>
-                </div>
+                
+                @{
+                    if (Model.CurrentUser.Role > 0)
+                    {
+                        <div id="add-incident-button-container">
+                            <button type="button" class="btn btn-default" id="add-incident-button" onclick="createMasterIncident()">
+                                Toevoegen
+                            </button>
+                        </div>
+                    }
+                }
         </div>
     </div>
     <!-- End Master Incident tile -->
@@ -124,7 +142,7 @@
     <!-- Begin Announcement Tile-->
     <div class="grid-stack-item"
          data-gs-x="3" data-gs-y="0"
-         data-gs-width="4" data-gs-height="8" data-gs-min-width="3" data-gs-min-height="4">
+         data-gs-width="4" data-gs-height="9" data-gs-min-width="3" data-gs-min-height="4">
 
         <div class="tile-titlebar">Meldingen</div>
         <div class="grid-stack-item-content rabo-drop-shadow">
@@ -154,7 +172,7 @@
     <!-- Begin Chat Tile-->
     <div class="grid-stack-item"
          data-gs-x="7" data-gs-y="0"
-         data-gs-width="5" data-gs-height="6" data-gs-min-width="3" data-gs-min-height="4">
+         data-gs-width="5" data-gs-height="7" data-gs-min-width="3" data-gs-min-height="4">
         <div class="tile-titlebar">Chat</div>
         <div class="grid-stack-item-content rabo-drop-shadow">
             <!-- Chat Container -->
@@ -237,14 +255,14 @@
         <div class="tile-titlebar">TODO</div>
         <div class="grid-stack-item-content rabo-drop-shadow SOS-Container">
             <ul>
-                <li>SOS <i>- Work in progress</i></li>
+                <li><strike>SOS</strike></li>
                 <li>TOP 10 KM</li>
                 <li><strike>Security vulnerabilities</strike></li>
                 <li>Notification configuration</li>
                 <li>User permissions <i>- Work in progress</i></li>
                 <li>History</li>
                 <li>Required format Melding info bubble and.... </li>
-                <li>Secret.. :3</li>
+                <li>User Settings</li>
             </ul>
         </div>
     </div>
@@ -358,4 +376,6 @@ shout.server.registerIfNotRegistered();
 
     //Set up the tag cloud
     initializeTagCloud();
+
+    var role = @Model.CurrentUser.Role
 </script>

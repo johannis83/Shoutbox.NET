@@ -12,7 +12,7 @@ namespace Shoutbox.NET.Models
         public string KM { get; set; }
         public string IM { get; set; }
         public DateTime Timestamp { get; set; }
-
+        public bool Active { get; set; }
         public virtual User User { get; set; }
     }
 }

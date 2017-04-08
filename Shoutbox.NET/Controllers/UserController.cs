@@ -61,7 +61,8 @@ namespace Shoutbox.NET.Controllers
                         Name = activeDirectoryUser.GivenName + " " + activeDirectoryUser.Surname,
                         Domain = WebConfigurationManager.AppSettings[domain].Split(',')[0],
                         Username = username,
-                        Division = WebConfigurationManager.AppSettings[domain].Split(',')[1]
+                        Division = WebConfigurationManager.AppSettings[domain].Split(',')[1],
+                        Role = Roles.User //Make a new user a normal user by default
                     };
 
                     db.Users.Add(user);

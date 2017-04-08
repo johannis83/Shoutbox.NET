@@ -76,7 +76,9 @@ var masterIncidentTemplate = function (description, km, im, time) {
     incident = incident.concat('</div>');
     incident = incident.concat('<div class="incident-KM">Gebruik: ' + km + ' </div>');
     incident = incident.concat('<div class="incident-IM">Relateer: ' + im + ' </div>');
-    incident = incident.concat('<div class="incident-time"><i class="fa fa-clock-o" aria-hidden="true"></i><abbr class="timeago" title="' + time + '">' + time + ' </abbr> </div>');
+    incident = incident.concat('<div class="incident-time"><i class="fa fa-clock-o" aria-hidden="true"></i><abbr class="timeago" title="' + time + '">' + time + ' </abbr>');
+    incident = incident.concat('<i class="fa fa-trash" aria-hidden="true"></i>');
+    incident = incident.concat('</div>');
     incident = incident.concat('</div>');
     return incident;
 }
