@@ -56,7 +56,8 @@ namespace Shoutbox.NET.Hubs
 
             //Compare the time of the latest updated issues, or the amount of SOS's in the list, if they're uneven, this means
             //the list has changed, so broadcast the new list to the clients
-            if (newList.FirstOrDefault().Time != oldList.FirstOrDefault().Time || newList.Count != oldList.Count)
+            if (!(oldList.Where(f => newList.Any(x => x.Time == f.Time)).Count() == newList.Count())|| 
+                newList.Count != oldList.Count)
             {
                 Clients.All.UpdateSOS(Newtonsoft.Json.JsonConvert.SerializeObject(newList));
             }

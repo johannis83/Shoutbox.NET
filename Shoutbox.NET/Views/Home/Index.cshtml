@@ -321,7 +321,8 @@ shout.server.registerIfNotRegistered();
 
 // EVENT: Fired when receiving a command to update the SOS overview
     shout.client.updateSOS = function (SOSList) {
-        console.log(SOSList);
+        updateSOS(JSON.parse(SOSList));
+        console.log(JSON.parse(SOSList));
     }
 
 
