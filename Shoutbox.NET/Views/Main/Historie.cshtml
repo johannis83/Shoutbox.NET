@@ -9,64 +9,58 @@
 @Scripts.Render("~/signalr/hubs")
 <link href="~/Content/Chat.css" rel="stylesheet" />
 <link href="~/Content/Shoutbox.css" rel="stylesheet" />
-<link href="~/Content/Sststatus.css" rel="stylesheet" />
-<link href="~/Content/sweetalert2.min.css" rel="stylesheet" />
 <link href="~/Content/tagcloud.css" rel="stylesheet" />
 <link href="~/Content/Team.css" rel="stylesheet" />
 <link href="~/Content/Masterincidents.css" rel="stylesheet" />
-<link href="~/Content/SOS.css" rel="stylesheet" />
 <link href="~/Content/tooltipster.bundle.min.css" rel="stylesheet" />
-<link href="~/Content/tooltipster-sideTip-light.min.css" rel="stylesheet" />
-
+<link href="~/Content/datepicker.min.css" rel="stylesheet" />
+<link href="~/Content/historytimemachine.css" rel="stylesheet" />
 
 <!-- Unsorted plugins -->
 <script src="~/Scripts/jquery.timeago.js"></script>
 <script src="~/Scripts/jquery.timeago.nl.js"></script>
 <script src="~/Scripts/jquery.tagcloud.js"></script>
-<!-- Required for sweetalert2 to work -->
-<script src="~/Scripts/core.min.js"></script>
-<script src="~/Scripts/sweetalert2.min.js"></script>
-<script src="~/Scripts/tooltipster.bundle.min.js"></script>
-<script src="~/Scripts/moment.min.js"></script>
-<script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+<script src="~/Scripts/datepicker.min.js"></script>
+
 
 <!-- Scripts for each individual tile type -->
 <script src="~/Scripts/chattile.js"></script>
 <script src="~/Scripts/tagcloud.js"></script>
 <script src="~/Scripts/team.js"></script>
-<script src="~/Scripts/sststatus.js"></script>
 <script src="~/Scripts/masterincidents.js"></script>
 <script src="~/Scripts/Preload.js"></script>
-<script src="~/Scripts/SOS.js"></script>
 
 <!-- Begin tile grid -->
 <div class="grid-stack">
     <!-- Begin Time selector tile -->
     <div class="grid-stack-item Team-tile" data-gs-x="0" data-gs-y="0"
-         data-gs-width="3" data-gs-height="1">
+         data-gs-width="3" data-gs-height="1" data-gs-no-resize="true">
         <div class="tile-titlebar">Tijd machine</div>
         <div class="grid-stack-item-content rabo-drop-shadow">
-            <div class="container">
-                <div class="row">
-                    <div class='col-sm-6'>
-                        <div class="form-group">
-                            <div class='input-group date' id='datetimepicker1'>
-                                <input type='text' class="form-control" />
-                                <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <script type="text/javascript">
-                        $(function () {
-                            $('#datetimepicker1').datetimepicker({
 
-                            });
-                        });
-                    </script>
-                </div>
+            <div class="input-group timemachine">
+                <input type="text" class="form-control datepicker" name="date" placeholder="@Model.HistoryViewDate.ToString("dd-MM-yyyy")">
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" onclick="browsehistory()"">
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                    </button>
+                </span>
             </div>
+
+            <script>
+                $(".datepicker").datepicker({
+                    format: 'dd-mm-yyyy',
+                    startDate: new Date(2017, 3, 1),
+                    endDate: new Date().getDate(),
+                });
+
+                var browsehistory = function () {
+                    var chosenDate = $(".datepicker").datepicker('getDate', true);
+                    var historyUrl = '@Url.Action("Historie", "Main", new { date = "_date_" })';
+                    window.location.href = historyUrl.replace('_date_', chosenDate);
+                }
+
+            </script>
         </div>
     </div>
     <!-- End Time selector tile -->

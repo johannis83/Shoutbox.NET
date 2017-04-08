@@ -5,13 +5,14 @@ using Shoutbox.NET.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
 namespace Shoutbox.NET.Controllers
 {
-    public class HomeController : Controller
+    public class MainController : Controller
     {
         private IMessageRepository _messageRepository;
         private ITeamRepository _teamRepository;
@@ -19,7 +20,7 @@ namespace Shoutbox.NET.Controllers
         private ISOSRepository _sosRepository;
         private IUserRepository _userRepository; 
 
-        public HomeController(IMessageRepository messageRepository, ITeamRepository teamRepository, 
+        public MainController(IMessageRepository messageRepository, ITeamRepository teamRepository, 
             IMasterIncidentRepository masterIncidentRepository, ISOSRepository sosRepository, IUserRepository userRepository)
         {
             _messageRepository = messageRepository;
@@ -46,15 +47,29 @@ namespace Shoutbox.NET.Controllers
             return View(indexViewModel);
         }
 
-        public ActionResult Historie()
+        [HttpGet]
+        public ActionResult Historie(string date)
         {
-            DateTime pageDate = DateTime.Now.AddDays(-1);
+            DateTime pageDate;
+
+            if(string.IsNullOrWhiteSpace(date))
+                pageDate = DateTime.Now;
+            else
+            {
+                if(!DateTime.TryParseExact(date, "d-M-yyyy", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None, out pageDate))
+                {
+                    pageDate = DateTime.Now;
+                }
+            }
+
+
             ShoutPageViewModel historyViewModel = new ShoutPageViewModel()
             {
                 Messages = _messageRepository.GetByDay(pageDate),
                 Tags = _messageRepository.GetTagPopularityByDay(pageDate),
                 Teams = _teamRepository.GetByDay(pageDate),
                 MasterIncidents = _masterIncidentRepository.GetByDay(pageDate).Where(f => f.Active),
+                HistoryViewDate = pageDate
             };
             return View(historyViewModel);
         }

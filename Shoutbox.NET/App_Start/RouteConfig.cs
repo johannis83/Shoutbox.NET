@@ -14,6 +14,12 @@ namespace Shoutbox.NET
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "Historie",
+                url: "{controller}/Historie/{date}",
+                defaults: new { controller = "Main", action = "Historie", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "SSTStatus",
                 url: "Status/{service}",
                 defaults: new { controller = "SSTStatus", action = "Get", id = UrlParameter.Optional }
@@ -28,7 +34,7 @@ namespace Shoutbox.NET
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Main", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

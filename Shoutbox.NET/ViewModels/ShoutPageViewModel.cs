@@ -11,6 +11,7 @@ namespace Shoutbox.NET.ViewModels
 {
     public class ShoutPageViewModel
     {
+        public DateTime HistoryViewDate { get; set; }
         public User CurrentUser { get; set; }
         public IEnumerable<MasterIncident> MasterIncidents { get; set; }
         public IEnumerable<Message> Messages { get; set; }

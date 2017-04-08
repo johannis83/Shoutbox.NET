@@ -188,8 +188,10 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <Content Include="Content\datepicker.min.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\historytimemachine.css" />
     <Content Include="Content\Images\Preloader_2.gif" />
     <Content Include="Content\Images\Shoutbox-bullhorn.png" />
     <Content Include="Content\Masterincidents.css" />
@@ -202,7 +204,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\MasterIncidentController.cs" />
     <Compile Include="Controllers\SOSController.cs" />
     <Compile Include="Controllers\SSTStatusController.cs" />
@@ -330,6 +332,7 @@
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\chattile.js" />
     <Content Include="Scripts\core.min.js" />
+    <Content Include="Scripts\datepicker.min.js" />
     <Content Include="Scripts\globalvars.js" />
     <Content Include="Scripts\gridstack.js" />
     <Content Include="Scripts\gridstack.min.js" />
@@ -378,8 +381,8 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Tag\Tag.cshtml" />
-    <Content Include="Views\Home\Historie.cshtml" />
-    <Content Include="Views\Home\Index.cshtml">
+    <Content Include="Views\Main\Historie.cshtml" />
+    <Content Include="Views\Main\Index.cshtml">
       <BrowseToURL>~/Home/Index</BrowseToURL>
     </Content>
   </ItemGroup>
