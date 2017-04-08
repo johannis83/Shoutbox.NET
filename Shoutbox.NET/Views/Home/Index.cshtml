@@ -15,6 +15,8 @@
 <link href="~/Content/Team.css" rel="stylesheet" />
 <link href="~/Content/Masterincidents.css" rel="stylesheet" />
 <link href="~/Content/SOS.css" rel="stylesheet" />
+<link href="~/Content/tooltipster.bundle.min.css" rel="stylesheet" />
+<link href="~/Content/tooltipster-sideTip-light.min.css" rel="stylesheet" />
 
 <!-- Unsorted plugins -->
 <script src="~/Scripts/jquery.timeago.js"></script>
@@ -23,7 +25,7 @@
 <!-- Required for sweetalert2 to work -->
 <script src="~/Scripts/core.min.js"></script>
 <script src="~/Scripts/sweetalert2.min.js"></script>
-
+<script src="~/Scripts/tooltipster.bundle.min.js"></script>
 
 <!-- Scripts for each individual tile type -->
 <script src="~/Scripts/chattile.js"></script>
@@ -32,6 +34,7 @@
 <script src="~/Scripts/sststatus.js"></script>
 <script src="~/Scripts/masterincidents.js"></script>
 <script src="~/Scripts/Preload.js"></script>
+<script src="~/Scripts/SOS.js"></script>
 
 <!-- Begin tile grid -->
 <div class="grid-stack">
@@ -93,25 +96,27 @@
 
     <!-- Begin SOS monitor tile -->
     <div class="grid-stack-item" data-gs-no-resize="true" data-gs-x="0" data-gs-y="7"
-         data-gs-width="2" data-gs-height="2">
+         data-gs-width="3" data-gs-height="2">
         <div class="tile-titlebar">SOS Meldingen</div>
         <div class="grid-stack-item-content rabo-drop-shadow SOS-Container">
-            <table class="table">
-                <tbody>
+            <table class="table invisible" id="sos-table">
+                <thead>
                     <tr>
-                        <td>Vraagbaak</td>
+                        <th>Applicatie</th>
+                        <th>Laatste update</th>
                     </tr>
-                    <tr>
-                        <td>WFM</td>
-                    </tr>
-                    <tr>
-                        <td>Teamlead</td>
-                    </tr>
-                    <tr>
-                        <td>MCS</td>
-                    </tr>
+                </thead>
+                <tbody id="SOS-table-body">
+                    <!--Begin SOS applications-->
+                    <!--End SOS applications-->
                 </tbody>
             </table>
+
+            <div id="sos-filler">
+                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                    <p>Geen SOS meldingen bekend</p>
+            </div>
+
         </div>
     </div>
     <!-- End SOS monitor tile -->
@@ -175,7 +180,7 @@
 
     <!-- Begin Trending topics tile -->
     <div class="grid-stack-item" data-gs-no-resize="true" data-gs-x="7" data-gs-y="6"
-         data-gs-width="3" data-gs-height="2">
+         data-gs-width="2" data-gs-height="2">
         <div class="tile-titlebar">Trending topics</div>
         <div class="grid-stack-item-content rabo-drop-shadow tag-cloud-tile" id="tagcloud">
             <!-- Begin tags-->
@@ -348,7 +353,7 @@ shout.server.registerIfNotRegistered();
     addMessages(@Html.Raw(Model.SerializedMessages), true);
     updateTeams(@Html.Raw(Model.SerializedTeams));
     addMasterIncidents(@Html.Raw(Model.SerializedMasterIncidents));
-    console.log('@Model.SerializedSOS');
+    updateSOS(@Html.Raw(Model.SerializedSOS));
 
     //Set up the tag cloud
     initializeTagCloud();

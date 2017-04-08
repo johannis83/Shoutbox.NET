@@ -49,6 +49,7 @@ $(window).resize(function () {
     $(function () {
         var options = {
             cellHeight: 80,
+            animate: true,
             verticalMargin: 10,
             draggable: {
                 handle: '.tile-titlebar',

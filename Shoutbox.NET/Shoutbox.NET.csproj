@@ -311,6 +311,8 @@
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
     <EmbeddedResource Include="Data\SQLQueries\GetSOSMeldingen.sql" />
+    <Content Include="Content\tooltipster-sideTip-light.min.css" />
+    <Content Include="Content\tooltipster.bundle.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Content\Fonts\glyphicons-halflings-regular.svg" />
     <Content Include="fonts\fontawesome-webfont.svg" />
@@ -391,6 +393,7 @@
     <Content Include="Scripts\sweetalert2.min.js" />
     <Content Include="Scripts\tagcloud.js" />
     <Content Include="Scripts\team.js" />
+    <Content Include="Scripts\tooltipster.bundle.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -439,16 +442,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
-          <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>64554</DevelopmentServerPort>
-          <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/Shoutbox.NET</IISUrl>
-          <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>
-          </CustomServerUrl>
-          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+          <SaveServerSettingsInUserFile>True</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
     </VisualStudio>

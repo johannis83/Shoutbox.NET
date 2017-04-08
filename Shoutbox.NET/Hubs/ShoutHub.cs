@@ -54,10 +54,9 @@ namespace Shoutbox.NET.Hubs
             //Store new state
             List<SOS> newList = _sosRepository.GetList();
 
-            //TODO: Comparing by length is not enough in my opinion
-            //need a proper way to compare two lists with custom objects for equality
-            //Compare old to new, if there were changes, broadcast it to our clients
-            if (newList.Count != oldList.Count)
+            //Compare the time of the latest updated issues, or the amount of SOS's in the list, if they're uneven, this means
+            //the list has changed, so broadcast the new list to the clients
+            if (newList.FirstOrDefault().Time != oldList.FirstOrDefault().Time || newList.Count != oldList.Count)
             {
                 Clients.All.UpdateSOS(Newtonsoft.Json.JsonConvert.SerializeObject(newList));
             }

@@ -1,4 +1,20 @@
-﻿.SOS-Container > ul {
+﻿.SOS-Container td {
+    padding: 0px !important;
+}
+
+.SOS-Container tbody tr {
+    cursor: help;
+}
+
+.SOS-Container tbody tr:hover {
+    background-color: #efe7e7;
+}
+
+.SOS-Container time {
+    margin-left: 0px;
+}
+
+.SOS-Container > ul {
     margin-bottom: 14px;
     list-style: none;
 }
@@ -6,4 +22,33 @@
 .SOS-Container > ul > li {
     width:100%;
     
+}
+
+.SOS-Time {
+    font-size: small;
+    color: gray;
+}
+
+.SOS-Time time {
+    margin-left: 5px !important;
+}
+
+#sos-filler {
+    display: inline;
+    font-size: 15px;
+    color: lightgray;
+    text-align: center;
+}
+#sos-filler i {
+    font-size: 30px;
+    display: block;
+    margin-top: 40px;
+}
+#sos-filler p {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.invisible {
+    display: none;
 }

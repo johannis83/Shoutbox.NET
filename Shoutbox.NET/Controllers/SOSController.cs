@@ -56,6 +56,8 @@ namespace Shoutbox.NET.Controllers
                                 });
                         }
 
+                        //Sort by time so we can easily put the newest items on top
+                        newSOSList = newSOSList.OrderByDescending(f => f.Time).ToList();
                         SOSList = newSOSList;
                         isSOSListInitialized = true;
                     }
