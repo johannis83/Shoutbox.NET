@@ -140,10 +140,12 @@ $(window).resize(function () {
         }
     }
 
+
 var scrollWindowsToBottom = function (duration) {
     $("#announcement-window").parent().stop().animate({ scrollTop: $("#announcement-window").prop("scrollHeight") }, duration, 'easeOutQuart');
     $("#chat-window").parent().stop().animate({ scrollTop: $("#chat-window").prop("scrollHeight") }, duration, 'easeOutQuart');
 }
+
 
 // Instantiate nice scroll
 $(document).ready(function () {

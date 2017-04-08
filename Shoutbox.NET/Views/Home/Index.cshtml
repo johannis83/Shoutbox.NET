@@ -3,7 +3,7 @@
     ViewBag.Icon = "fa fa-bullhorn";
 }
 
-@model Shoutbox.NET.ViewModels.IndexViewModel
+@model Shoutbox.NET.ViewModels.ShoutPageViewModel
 
 @Scripts.Render("~/bundles/signalr")
 @Scripts.Render("~/signalr/hubs")
@@ -40,8 +40,8 @@
 <!-- Begin tile grid -->
 <div class="grid-stack">
     <!-- Begin Team tile -->
-    <div class="grid-stack-item Team-tile" data-gs-no-resize="true" data-gs-x="0" data-gs-y="0"
-         data-gs-width="3" data-gs-height="2">
+    <div class="grid-stack-item Team-tile" data-gs-x="0" data-gs-y="0"
+         data-gs-width="3" data-gs-height="2" data-gs-min-width="3" data-gs-min-height="2">
         <div class="tile-titlebar">Team van de dag</div>
         <div class="grid-stack-item-content rabo-drop-shadow" id="Team-window">
             <table class="table">
@@ -80,7 +80,7 @@
 
     <!-- Begin Master Incident tile -->
     <div class="grid-stack-item" data-gs-x="0" data-gs-y="6"
-         data-gs-width="3" data-gs-height="5">
+         data-gs-width="3" data-gs-height="5" data-gs-min-width="3" data-gs-min-height="2">
         <div class="tile-titlebar">Master Incidenten</div>
             <div class="grid-stack-item-content rabo-drop-shadow master-incident-window">
                 <div class="incident-container">
@@ -103,8 +103,8 @@
     <!-- End Master Incident tile -->
 
     <!-- Begin SOS monitor tile -->
-    <div class="grid-stack-item" data-gs-no-resize="true" data-gs-x="0" data-gs-y="7"
-         data-gs-width="3" data-gs-height="2">
+    <div class="grid-stack-item" data-gs-x="0" data-gs-y="7"
+         data-gs-width="3" data-gs-height="2" data-gs-min-height="2" data-gs-min-width="1">
         <div class="tile-titlebar">SOS Meldingen</div>
         <div class="grid-stack-item-content rabo-drop-shadow SOS-Container">
             <table class="table invisible" id="sos-table">
@@ -151,7 +151,8 @@
                 <div class="textbox-wrapper">
                     <div class="input-group input-group-sm text-input">
                         <span class="input-group-addon tag-display"></span>                                                  <!--This textbox sends Announcement messages -->
-                        <input type="text" class="form-control" placeholder="Omroep..." aria-describedby="sizing-addon3" onkeyup="$(this).ProcessInput(event, 'Announcement')">
+                        <input type="text" id="announcement-textbox" class="form-control" placeholder="Melding..." aria-describedby="sizing-addon3" onkeyup="$(this).ProcessInput(event, 'Announcement')"
+                        title="Post als volgt: Onderwerp Beschrijving, Aantal gebruikers">
                     </div>
                 </div>
 
@@ -187,8 +188,8 @@
     </div>
 
     <!-- Begin Trending topics tile -->
-    <div class="grid-stack-item" data-gs-no-resize="true" data-gs-x="7" data-gs-y="6"
-         data-gs-width="2" data-gs-height="2">
+    <div class="grid-stack-item" data-gs-x="7" data-gs-y="7"
+         data-gs-width="2" data-gs-height="2" data-gs-min-height="1" data-gs-min-width="1">
         <div class="tile-titlebar">Trending topics</div>
         <div class="grid-stack-item-content rabo-drop-shadow tag-cloud-tile" id="tagcloud">
             <!-- Begin tags-->
@@ -240,19 +241,19 @@
     <!-- End SST status tile -->
 
     <!-- Begin top 10 KM tile -->
-    <div class="grid-stack-item" data-gs-no-resize="true" data-gs-x="9" data-gs-y="6"
+    <div class="grid-stack-item" data-gs-no-resize="true" data-gs-x="9" data-gs-y="7"
          data-gs-width="3" data-gs-height="2">
         <div class="tile-titlebar">TODO</div>
         <div class="grid-stack-item-content rabo-drop-shadow SOS-Container">
             <ul>
                 <li><strike>SOS</strike></li>
-                <li>TOP 10 KM</li>
+                <li><strike>User permissions</strike></li>
                 <li><strike>Security vulnerabilities</strike></li>
-                <li>Notification configuration</li>
-                <li>User permissions <i>- Work in progress</i></li>
-                <li>History</li>
-                <li>Required format Melding info bubble and.... </li>
+                <li><strike>Required format info bubble</strike> </li>
                 <li>User Settings</li>
+                <li>TOP 10 KM</li>
+                <li>Notification configuration</li>
+                <li>History</li>
             </ul>
         </div>
     </div>
@@ -263,6 +264,7 @@
 
 
 <script>
+    userRole = "@Model.CurrentUser.Role";
 
 
     //If the browser supports notifications. TODO: Add ability to turn notifications on/off per message type
@@ -376,4 +378,12 @@ shout.server.registerIfNotRegistered();
 
     //Set up the tag cloud
     initializeTagCloud();
+
+
+    $('#announcement-textbox').tooltipster({
+        animation: 'grow',
+        trigger: 'click',
+        position: 'bottom'
+    });
+
 </script>

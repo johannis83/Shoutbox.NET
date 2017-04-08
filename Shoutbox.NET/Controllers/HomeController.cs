@@ -33,7 +33,7 @@ namespace Shoutbox.NET.Controllers
         {
             //Only get todays objects for the homepage
             DateTime pageDate = DateTime.Now;
-            IndexViewModel indexViewModel = new IndexViewModel()
+            ShoutPageViewModel indexViewModel = new ShoutPageViewModel()
             {
                 Messages = _messageRepository.GetByDay(pageDate),
                 SOSList = _sosRepository.GetList(),
@@ -48,9 +48,15 @@ namespace Shoutbox.NET.Controllers
 
         public ActionResult Historie()
         {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            DateTime pageDate = DateTime.Now.AddDays(-1);
+            ShoutPageViewModel historyViewModel = new ShoutPageViewModel()
+            {
+                Messages = _messageRepository.GetByDay(pageDate),
+                Tags = _messageRepository.GetTagPopularityByDay(pageDate),
+                Teams = _teamRepository.GetByDay(pageDate),
+                MasterIncidents = _masterIncidentRepository.GetByDay(pageDate).Where(f => f.Active),
+            };
+            return View(historyViewModel);
         }
     }
 }

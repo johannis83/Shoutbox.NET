@@ -1,17 +1,204 @@
 ﻿@{
     ViewBag.Title = "Historie";
+    ViewBag.Icon = "fa fa-history";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
 
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
+@model Shoutbox.NET.ViewModels.ShoutPageViewModel
 
-<address>
-    <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+@Scripts.Render("~/bundles/signalr")
+@Scripts.Render("~/signalr/hubs")
+<link href="~/Content/Chat.css" rel="stylesheet" />
+<link href="~/Content/Shoutbox.css" rel="stylesheet" />
+<link href="~/Content/Sststatus.css" rel="stylesheet" />
+<link href="~/Content/sweetalert2.min.css" rel="stylesheet" />
+<link href="~/Content/tagcloud.css" rel="stylesheet" />
+<link href="~/Content/Team.css" rel="stylesheet" />
+<link href="~/Content/Masterincidents.css" rel="stylesheet" />
+<link href="~/Content/SOS.css" rel="stylesheet" />
+<link href="~/Content/tooltipster.bundle.min.css" rel="stylesheet" />
+<link href="~/Content/tooltipster-sideTip-light.min.css" rel="stylesheet" />
+
+
+<!-- Unsorted plugins -->
+<script src="~/Scripts/jquery.timeago.js"></script>
+<script src="~/Scripts/jquery.timeago.nl.js"></script>
+<script src="~/Scripts/jquery.tagcloud.js"></script>
+<!-- Required for sweetalert2 to work -->
+<script src="~/Scripts/core.min.js"></script>
+<script src="~/Scripts/sweetalert2.min.js"></script>
+<script src="~/Scripts/tooltipster.bundle.min.js"></script>
+<script src="~/Scripts/moment.min.js"></script>
+<script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+
+<!-- Scripts for each individual tile type -->
+<script src="~/Scripts/chattile.js"></script>
+<script src="~/Scripts/tagcloud.js"></script>
+<script src="~/Scripts/team.js"></script>
+<script src="~/Scripts/sststatus.js"></script>
+<script src="~/Scripts/masterincidents.js"></script>
+<script src="~/Scripts/Preload.js"></script>
+<script src="~/Scripts/SOS.js"></script>
+
+<!-- Begin tile grid -->
+<div class="grid-stack">
+    <!-- Begin Time selector tile -->
+    <div class="grid-stack-item Team-tile" data-gs-x="0" data-gs-y="0"
+         data-gs-width="3" data-gs-height="1">
+        <div class="tile-titlebar">Tijd machine</div>
+        <div class="grid-stack-item-content rabo-drop-shadow">
+            <div class="container">
+                <div class="row">
+                    <div class='col-sm-6'>
+                        <div class="form-group">
+                            <div class='input-group date' id='datetimepicker1'>
+                                <input type='text' class="form-control" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <script type="text/javascript">
+                        $(function () {
+                            $('#datetimepicker1').datetimepicker({
+
+                            });
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Time selector tile -->
+
+    <!-- Begin Team tile -->
+    <div class="grid-stack-item Team-tile" data-gs-x="0" data-gs-y="02"
+         data-gs-width="3" data-gs-height="2" data-gs-min-width="3" data-gs-min-height="2">
+        <div class="tile-titlebar">Team van de dag</div>
+        <div class="grid-stack-item-content rabo-drop-shadow" id="Team-window">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Functie</th>
+                        <th>Naam</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Vraagbaak</td>
+                        <td id="Vraagbaak"></td>
+                    </tr>
+                    <tr>
+                        <td>WFM</td>
+                        <td id="WFM"></td>
+                    </tr>
+                    <tr>
+                        <td>Teamlead</td>
+                        <td id="Teamlead"></td>
+                    </tr>
+                    <tr>
+                        <td>MCS</td>
+                        <td id="MCS"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- End Team tile -->
+    <!-- Begin Master Incident tile -->
+    <div class="grid-stack-item" data-gs-x="0" data-gs-y="6"
+         data-gs-width="3" data-gs-height="4" data-gs-min-width="3" data-gs-min-height="2">
+        <div class="tile-titlebar">Master Incidenten</div>
+        <div class="grid-stack-item-content rabo-drop-shadow master-incident-window">
+            <div class="incident-container">
+                <!-- Begin incidents -->
+                <!-- End incidents -->
+            </div>
+        </div>
+    </div>
+    <!-- End Master Incident tile -->
+
+    <!-- Begin Announcement Tile-->
+    <div class="grid-stack-item"
+         data-gs-x="3" data-gs-y="0"
+         data-gs-width="4" data-gs-height="9" data-gs-min-width="3" data-gs-min-height="4">
+
+        <div class="tile-titlebar">Meldingen</div>
+        <div class="grid-stack-item-content rabo-drop-shadow">
+            <!-- Announcement Container -->
+            <div id="announcement-window">
+                <div class="chat-filler">
+                    <i class="fa fa-bullhorn" aria-hidden="true"></i> <br />
+                    <p>Er zijn nog geen omroepen geplaatst...</p>
+                </div>
+                <div class="message-container">
+                    <input class="message-counter" type="hidden" value="0" />
+                    <!-- Begin messages -->
+                    <!-- End messages -->
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- End Announcement Tile-->
+    <!-- Begin Chat Tile-->
+    <div class="grid-stack-item"
+         data-gs-x="7" data-gs-y="0"
+         data-gs-width="5" data-gs-height="9" data-gs-min-width="3" data-gs-min-height="4">
+        <div class="tile-titlebar">Chat</div>
+        <div class="grid-stack-item-content rabo-drop-shadow">
+            <!-- Chat Container -->
+            <div id="chat-window">
+                <div class="chat-filler">
+                    <i class="fa fa-comment-o" aria-hidden="true"></i> <br />
+                    <p>Er zijn nog geen berichten geplaatst...</p>
+                </div>
+                <div class="message-container">
+                    <input class="message-counter" type="hidden" value="0" />
+                    <!-- Begin messages -->
+                    <!-- End messages -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Begin Trending topics tile -->
+    <div class="grid-stack-item" data-gs-x="0" data-gs-y="8"
+         data-gs-width="3" data-gs-height="2" data-gs-min-height="1" data-gs-min-width="1">
+        <div class="tile-titlebar">Trending topics</div>
+        <div class="grid-stack-item-content rabo-drop-shadow tag-cloud-tile" id="tagcloud">
+            <!-- Begin tags-->
+            @if (Model.Tags.Count == 0)
+            {
+                <div class="tagcloud-filler">
+                    <p>Er is niks getagd</p>
+                </div>
+            }
+            else
+            {
+                foreach (KeyValuePair<string, int> tag in Model.Tags)
+                {
+                    string uppercaseFirst = char.ToUpper(tag.Key[0]) + tag.Key.Substring(1).ToLower();
+                    <a href="~/Tag/@uppercaseFirst" rel="@tag.Value" title="@tag.Value tags">#@tag.Key</a>
+                }
+            }
+            <!-- End tags-->
+        </div>
+    </div>
+
+
+</div>
+<div class="preloader"></div>
+
+
+<script>
+    //In the history view no one has administrative privileges
+    userRole = "User";
+   //Load all messages, teams, tags and incidents
+    addMessages(@Html.Raw(Model.SerializedMessages), true);
+    updateTeams(@Html.Raw(Model.SerializedTeams));
+    addMasterIncidents(@Html.Raw(Model.SerializedMasterIncidents));
+
+    //Set up the tag cloud
+    initializeTagCloud();
+</script>

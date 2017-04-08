@@ -1,4 +1,5 @@
-﻿using Microsoft.Security.Application;
+﻿using Microsoft.Ajax.Utilities;
+using Microsoft.Security.Application;
 using Shoutbox.NET.Data;
 using Shoutbox.NET.Models;
 using Shoutbox.NET.Repositories;
@@ -13,7 +14,6 @@ namespace Shoutbox.NET.Controllers
     public class TeamController : Controller, ITeamRepository
     {
 
-        // GET: Team
         public Team SetMember(Team Team)
         {
             //Sanitize user input, prevent XSS.
@@ -22,19 +22,13 @@ namespace Shoutbox.NET.Controllers
 
             using (ShoutboxContext db = new ShoutboxContext())
             {
-                //Check if the Team for that role already exists, if it does, remove it
-                if (db.Teams.FirstOrDefault(f => f.Functie == Team.Functie) != null)
-                    db.Teams.Remove(db.Teams.FirstOrDefault(f => f.Functie == Team.Functie));
-
                 db.Teams.Add(Team);
-
                 db.SaveChanges();
 
                 return Team;
             }
         }
 
-        // GET : Team
         public IEnumerable<Team> GetByDay(DateTime datetime)
         {
             if (ModelState.IsValid)
@@ -44,7 +38,10 @@ namespace Shoutbox.NET.Controllers
                     db.Configuration.LazyLoadingEnabled = false;
                     db.Configuration.ProxyCreationEnabled = false;
 
-                    return db.Teams.Where(f => f.ModifiedAt.Day == DateTime.Now.Day).ToList();
+                    //Get the last 4 updated
+                    return db.Teams.Where(f => f.ModifiedAt.Day == datetime.Day)
+                        .OrderByDescending(f => f.ModifiedAt)
+                        .DistinctBy(f => f.Functie).ToList();
 
                 }
             }

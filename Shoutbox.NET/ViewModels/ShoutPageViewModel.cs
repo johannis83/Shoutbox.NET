@@ -9,7 +9,7 @@ using Shoutbox.NET.SSTMonitorService;
 
 namespace Shoutbox.NET.ViewModels
 {
-    public class IndexViewModel
+    public class ShoutPageViewModel
     {
         public User CurrentUser { get; set; }
         public IEnumerable<MasterIncident> MasterIncidents { get; set; }
