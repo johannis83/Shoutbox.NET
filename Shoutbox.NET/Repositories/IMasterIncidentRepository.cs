@@ -11,7 +11,8 @@ namespace Shoutbox.NET.Repositories
     {
         MasterIncident Create(MasterIncident masterIncident);
 
-        MasterIncident Delete(MasterIncident masterIncident);
+        MasterIncident Disable(int masterIncidentID);
         IEnumerable<MasterIncident> GetByDay(DateTime datetime);
+        MasterIncident GetById(int id);
     }
 }

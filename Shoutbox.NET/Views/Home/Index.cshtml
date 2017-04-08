@@ -85,16 +85,6 @@
             <div class="grid-stack-item-content rabo-drop-shadow master-incident-window">
                 <div class="incident-container">
                     <!-- Begin incidents -->
-                    <div class="incident well">
-                    <div class="incident-description">We're All Gonna Be Like Three Little Fonzies Here</div>
-                    <div class="incident-KM">Gebruik: KM800813S </div>
-                    <div class="incident-IM">Relateer: KM69101404 </div>
-                    <div class="incident-time">
-                    <i class="fa fa-clock-o" aria-hidden="true"></i>
-                    <abbr class="timeago" title="2017-04-08T01:12:26.723">14 uur geleden</abbr> 
-                    <i class="fa fa-trash" aria-hidden="true"></i>
-                    </div>
-                    </div>
                     <!-- End incidents -->
                 </div>
                 
@@ -301,6 +291,7 @@
     var sendMessage;
     var sendEditTeam;
     var sendCreateMasterIncident;
+    var sendRemoveMasterIncident;
 
 // Reference the auto-generated proxy for the hub.
     var shout = $.connection.shoutHub;
@@ -323,6 +314,10 @@ shout.server.registerIfNotRegistered();
     sendCreateMasterIncident = function (description, km, im) {
         return shout.server.createMasterIncident(description, km, im);
     }
+//Tell the server to disable a master incident
+    sendRemoveMasterIncident = function (id) {
+        shout.server.disableMasterIncident(id)
+    }
 });
 
 // EVENT: Fired when receiving a command to update the Team tile
@@ -332,16 +327,21 @@ shout.server.registerIfNotRegistered();
     }
 
 // EVENT: Fired when receiving a command to add a new masterIncident
-    shout.client.addMasterIncident = function (description, km, im, time) {
-        addMasterIncident(description, km, im, time);
+    shout.client.addMasterIncident = function (id, description, km, im, time) {
+        addMasterIncident(id, description, km, im, time);
         spawnNotification("Shoutbox", "Nieuw master incident: " + description);
     }
 
 // EVENT: Fired when receiving a command to update the SOS overview
     shout.client.updateSOS = function (SOSList) {
         updateSOS(JSON.parse(SOSList));
-        console.log(JSON.parse(SOSList));
     }
+
+    // EVENT: Fired when receiving a command to remove a MasterIncident
+    shout.client.deleteMasterIncident = function (id) {
+        deleteMasterIncident(id);
+    }
+
 
 
 // EVENT: Fired when receiving a chat message from the server
@@ -376,6 +376,4 @@ shout.server.registerIfNotRegistered();
 
     //Set up the tag cloud
     initializeTagCloud();
-
-    var role = @Model.CurrentUser.Role
 </script>

@@ -22,6 +22,15 @@ namespace Shoutbox.NET.Controllers
             }
         }
 
+        public MasterIncident GetById(int id)
+        {
+            using (ShoutboxContext db = new ShoutboxContext())
+            {
+                db.Configuration.ProxyCreationEnabled = false;
+                return db.MasterIncidents.FirstOrDefault(f => f.MasterIncidentID == id);
+            }
+        }
+
         public MasterIncident Create(MasterIncident masterIncident)
         {
             using (ShoutboxContext db = new ShoutboxContext())
@@ -30,6 +39,7 @@ namespace Shoutbox.NET.Controllers
                 masterIncident.IM = Encoder.HtmlEncode(masterIncident.IM);
                 masterIncident.KM = Encoder.HtmlEncode(masterIncident.KM);
                 masterIncident.Description = Encoder.HtmlEncode(masterIncident.Description);
+                masterIncident.Active = true;
 
                 db.Users.Attach(masterIncident.User);
                 db.MasterIncidents.Add(masterIncident);
@@ -39,14 +49,13 @@ namespace Shoutbox.NET.Controllers
             }
         }
 
-        public MasterIncident Delete(MasterIncident masterIncident)
+        public MasterIncident Disable(int masterIncidentID)
         {
             using (ShoutboxContext db = new ShoutboxContext())
             {
-                db.MasterIncidents.Remove(masterIncident);
+                db.MasterIncidents.FirstOrDefault(f => f.MasterIncidentID == masterIncidentID).Active = false;
                 db.SaveChanges();
-
-                return db.MasterIncidents.FirstOrDefault(f => f.MasterIncidentID == masterIncident.MasterIncidentID);
+                return db.MasterIncidents.FirstOrDefault(f => f.MasterIncidentID == masterIncidentID);
             }
         }
     }

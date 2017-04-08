@@ -25,11 +25,9 @@ namespace Shoutbox.NET.Hubs
         private ITeamRepository _TeamRepository;
         private IMasterIncidentRepository _MasterIncidentRepository;
         private ISOSRepository _sosRepository;
+        private IHubContext hubContext;
 
-        //SOS timer to send periodic updates to all clients
-        private Timer timer;
-
-        public ShoutHub(IUserRepository userService, IMessageRepository messageService, IUserPrincipalRepository userPrincipalRepository, 
+        public ShoutHub(IUserRepository userService, IMessageRepository messageService, IUserPrincipalRepository userPrincipalRepository,
             ITeamRepository TeamRepository, IMasterIncidentRepository masterIncidentRepository, ISOSRepository sosRepository)
         {
             _userRepository = userService;
@@ -38,29 +36,11 @@ namespace Shoutbox.NET.Hubs
             _TeamRepository = TeamRepository;
             _MasterIncidentRepository = masterIncidentRepository;
             _sosRepository = sosRepository;
-
-            //SOS Timer
-            timer = new Timer(int.Parse(ConfigurationManager.AppSettings["SOSUpdateInerval"]));
-            timer.Elapsed += new ElapsedEventHandler(UpdateSOS);
-            timer.Start();
         }
-
-        private void UpdateSOS(object sender, ElapsedEventArgs e)
+  
+        public ShoutHub(IHubContext hubContext)
         {
-            //Store old state
-            List<SOS> oldList = _sosRepository.GetList();
-            //Update the previous list
-            _sosRepository.UpdateSOSList();
-            //Store new state
-            List<SOS> newList = _sosRepository.GetList();
-
-            //Compare the time of the latest updated issues, or the amount of SOS's in the list, if they're uneven, this means
-            //the list has changed, so broadcast the new list to the clients
-            if (!(oldList.Where(f => newList.Any(x => x.Time == f.Time)).Count() == newList.Count())|| 
-                newList.Count != oldList.Count)
-            {
-                Clients.All.UpdateSOS(Newtonsoft.Json.JsonConvert.SerializeObject(newList));
-            }
+            this.hubContext = hubContext;
         }
 
         public void RegisterIfNotRegistered()
@@ -141,7 +121,21 @@ namespace Shoutbox.NET.Hubs
 
             _MasterIncidentRepository.Create(masterincident);
 
-            return Clients.All.AddMasterIncident(masterincident.Description, masterincident.KM, masterincident.IM, masterincident.Timestamp);
+            return Clients.All.AddMasterIncident(masterincident.MasterIncidentID, masterincident.Description, masterincident.KM, masterincident.IM, masterincident.Timestamp);
+        }
+
+        public Task DisableMasterIncident(int id)
+        {
+            User user = _userRepository.GetByLogonUser(Context.User.Identity.Name);
+
+            if (user.Role < Roles.Moderator)
+            {
+                return null;
+            }
+
+            _MasterIncidentRepository.Disable(id);
+
+            return Clients.All.DeleteMasterIncident(id);
         }
     }
 

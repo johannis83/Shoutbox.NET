@@ -56,28 +56,49 @@
     });
 }
 
-var addMasterIncident = function (description, km, im, time) {
-    $('.incident-container').append(masterIncidentTemplate(description, km, im, time));
+var addMasterIncident = function (id, description, km, im, time) {
+    $('.incident-container').append(masterIncidentTemplate(id, description, km, im, time));
     jQuery("abbr.timeago").timeago();
 }
 
 var addMasterIncidents = function (incidents) {
     for (var i = 0; i < incidents.length; i++) {
-        addMasterIncident(incidents[i]["Description"], incidents[i]["KM"], incidents[i]["IM"], incidents[i]["Timestamp"]);
+        addMasterIncident(incidents[i]["MasterIncidentID"], incidents[i]["Description"], incidents[i]["KM"], incidents[i]["IM"], incidents[i]["Timestamp"]);
     }
 }
 
+var removeMasterIncident = function (id) {
+    swal({
+        title: 'Weet je zeker dat je dit incident wil verwijderen?',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Verwijder',
+        cancelButtonText: 'Laat maar'
+    }).then(function () {
+        sendRemoveMasterIncident(id);
+        swal(
+            'Klaar!',
+            'Incident verwijderd',
+            'success'
+            )
+    })
+}
 
-var masterIncidentTemplate = function (description, km, im, time) {
+var deleteMasterIncident = function (incidentID) {
+    $('#masterincident_' + incidentID).fadeOut(1000);
+}
+
+
+var masterIncidentTemplate = function (id, description, km, im, time) {
     var incident = "";
-    incident = incident.concat('<div class="incident well">');
+    incident = incident.concat('<div class="incident well" id="masterincident_' + id + '">');
     incident = incident.concat('<div class="incident-description">');
     incident = incident.concat(description);
     incident = incident.concat('</div>');
     incident = incident.concat('<div class="incident-KM">Gebruik: ' + km + ' </div>');
     incident = incident.concat('<div class="incident-IM">Relateer: ' + im + ' </div>');
     incident = incident.concat('<div class="incident-time"><i class="fa fa-clock-o" aria-hidden="true"></i><abbr class="timeago" title="' + time + '">' + time + ' </abbr>');
-    incident = incident.concat('<i class="fa fa-trash" aria-hidden="true"></i>');
+    incident = incident.concat('<i class="fa fa-trash" aria-hidden="true" onclick="removeMasterIncident(' + id + ');"></i>');
     incident = incident.concat('</div>');
     incident = incident.concat('</div>');
     return incident;

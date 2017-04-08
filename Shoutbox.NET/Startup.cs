@@ -10,6 +10,8 @@ using Shoutbox.NET.Controllers;
 using Microsoft.AspNet.SignalR.Hubs;
 using System.Web.Mvc;
 using Shoutbox.NET.Repositories;
+using System.Timers;
+using System.Configuration;
 
 [assembly: OwinStartup(typeof(Shoutbox.NET.Startup))]
 namespace Shoutbox.NET
