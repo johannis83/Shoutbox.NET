@@ -146,7 +146,6 @@ var scrollWindowsToBottom = function (duration) {
     $("#chat-window").parent().stop().animate({ scrollTop: $("#chat-window").prop("scrollHeight") }, duration, 'easeOutQuart');
 }
 
-
 // Instantiate nice scroll
 $(document).ready(function () {
     $(".grid-stack-item-content").niceScroll({

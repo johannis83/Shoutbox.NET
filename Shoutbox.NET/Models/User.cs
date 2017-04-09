@@ -12,10 +12,9 @@ namespace Shoutbox.NET.Models
         public string Username { get; set; }
         public string Name { get; set; }
         public string Domain { get; set; }
-        public string Settings { get; set; }
         public string Division { get; set; }
+        public string GridLayout { get; set; }
         public Roles Role { get; set; }
-
         public virtual ICollection<Message> Messages { get; set; }
     }
 

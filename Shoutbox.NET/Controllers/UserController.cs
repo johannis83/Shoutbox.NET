@@ -41,6 +41,28 @@ namespace Shoutbox.NET.Controllers
             }
         }
 
+        public string GetGridLayout(string logonUser)
+        {
+            using (ShoutboxContext db = new ShoutboxContext())
+            {
+                string domain = logonUser.Split('\\')[0];
+                string username = logonUser.Split('\\')[1];
+
+                return db.Users.FirstOrDefault(f => f.Username == username).GridLayout;
+            }
+        }
+
+        public void SaveGridLayout(string logonUser, string serializedLayout)
+        {
+            using (ShoutboxContext db = new ShoutboxContext())
+            {
+                string domain = logonUser.Split('\\')[0];
+                string username = logonUser.Split('\\')[1];
+
+                db.Users.FirstOrDefault(f => f.Username == username).GridLayout = serializedLayout;
+                db.SaveChanges();
+            }
+        }
 
         //The domain of the logonUser has to be defined in the web.config under DomainName->LDAP mappings
         public User Create(string logonUser)

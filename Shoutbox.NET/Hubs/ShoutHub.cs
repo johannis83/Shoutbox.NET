@@ -49,6 +49,12 @@ namespace Shoutbox.NET.Hubs
             if (user == null) _userRepository.Create(Context.User.Identity.Name);
         }
 
+        //Needs security audit
+        public void SaveGridLayout(string serializedLayout)
+        {
+            _userRepository.SaveGridLayout(Context.User.Identity.Name, serializedLayout);
+        }
+
         public Task SetTeam(string functie, string naam)
         {
             User user = _userRepository.GetByLogonUser(Context.User.Identity.Name);
@@ -123,6 +129,7 @@ namespace Shoutbox.NET.Hubs
 
             return Clients.All.AddMasterIncident(masterincident.MasterIncidentID, masterincident.Description, masterincident.KM, masterincident.IM, masterincident.Timestamp);
         }
+
 
         public Task DisableMasterIncident(int id)
         {

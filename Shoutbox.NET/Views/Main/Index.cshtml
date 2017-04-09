@@ -27,6 +27,7 @@
 <script src="~/Scripts/sweetalert2.min.js"></script>
 <script src="~/Scripts/tooltipster.bundle.min.js"></script>
 <script src="//twemoji.maxcdn.com/2/twemoji.min.js?2.2.3"></script>
+<script src="~/Scripts/GridstackLayout.js"></script>
 
 <!-- Scripts for each individual tile type -->
 <script src="~/Scripts/chattile.js"></script>
@@ -37,11 +38,12 @@
 <script src="~/Scripts/Preload.js"></script>
 <script src="~/Scripts/SOS.js"></script>
 
+
 <!-- Begin tile grid -->
 <div class="grid-stack">
     <!-- Begin Team tile -->
     <div class="grid-stack-item Team-tile" data-gs-x="0" data-gs-y="0"
-         data-gs-width="3" data-gs-height="2" data-gs-min-width="3" data-gs-min-height="2">
+         data-gs-width="3" data-gs-height="2" data-gs-min-width="3" data-gs-min-height="2" id="grid-team-item">
         <div class="tile-titlebar">Team van de dag</div>
         <div class="grid-stack-item-content rabo-drop-shadow" id="Team-window">
             <table class="table">
@@ -80,11 +82,16 @@
 
     <!-- Begin Master Incident tile -->
     <div class="grid-stack-item" data-gs-x="0" data-gs-y="6"
-         data-gs-width="3" data-gs-height="5" data-gs-min-width="3" data-gs-min-height="2">
+         data-gs-width="3" data-gs-height="5" data-gs-min-width="3" data-gs-min-height="3" id="grid-incident-item">
         <div class="tile-titlebar">Master Incidenten</div>
             <div class="grid-stack-item-content rabo-drop-shadow master-incident-window">
                 <div class="incident-container">
+                    <input type="hidden" value="0" id="incident-counter"/>
                     <!-- Begin incidents -->
+                    <div class="incident-filler">
+                        <i class="fa fa-check" aria-hidden="true"></i>
+                        <p>Geen master incidenten geplaatst</p>
+                    </div>
                     <!-- End incidents -->
                 </div>
                 
@@ -104,7 +111,7 @@
 
     <!-- Begin SOS monitor tile -->
     <div class="grid-stack-item" data-gs-x="0" data-gs-y="7"
-         data-gs-width="3" data-gs-height="2" data-gs-min-height="2" data-gs-min-width="1">
+         data-gs-width="3" data-gs-height="2" data-gs-min-height="2" data-gs-min-width="1" id="grid-sos-item">
         <div class="tile-titlebar">SOS Meldingen</div>
         <div class="grid-stack-item-content rabo-drop-shadow SOS-Container">
             <table class="table invisible" id="sos-table">
@@ -132,7 +139,7 @@
     <!-- Begin Announcement Tile-->
     <div class="grid-stack-item"
          data-gs-x="3" data-gs-y="0"
-         data-gs-width="4" data-gs-height="9" data-gs-min-width="3" data-gs-min-height="4">
+         data-gs-width="4" data-gs-height="9" data-gs-min-width="3" data-gs-min-height="4" id="grid-announcement-item">
 
         <div class="tile-titlebar">Meldingen</div>
         <div class="grid-stack-item-content rabo-drop-shadow">
@@ -163,7 +170,7 @@
     <!-- Begin Chat Tile-->
     <div class="grid-stack-item"
          data-gs-x="7" data-gs-y="0"
-         data-gs-width="5" data-gs-height="7" data-gs-min-width="3" data-gs-min-height="4">
+         data-gs-width="5" data-gs-height="7" data-gs-min-width="3" data-gs-min-height="4" id="grid-chat-item">
         <div class="tile-titlebar">Chat</div>
         <div class="grid-stack-item-content rabo-drop-shadow">
             <!-- Chat Container -->
@@ -189,7 +196,7 @@
 
     <!-- Begin Trending topics tile -->
     <div class="grid-stack-item" data-gs-x="7" data-gs-y="7"
-         data-gs-width="2" data-gs-height="2" data-gs-min-height="1" data-gs-min-width="1">
+         data-gs-width="2" data-gs-height="2" data-gs-min-height="1" data-gs-min-width="1" id="grid-tagcloud-item">
         <div class="tile-titlebar">Trending topics</div>
         <div class="grid-stack-item-content rabo-drop-shadow tag-cloud-tile" id="tagcloud">
             <!-- Begin tags-->
@@ -242,7 +249,7 @@
 
     <!-- Begin top 10 KM tile -->
     <div class="grid-stack-item" data-gs-no-resize="true" data-gs-x="9" data-gs-y="7"
-         data-gs-width="3" data-gs-height="2">
+         data-gs-width="3" data-gs-height="2" id="grid-km-item">
         <div class="tile-titlebar">TODO</div>
         <div class="grid-stack-item-content rabo-drop-shadow SOS-Container">
             <ul>
@@ -251,7 +258,7 @@
                 <li><strike>Security vulnerabilities</strike></li>
                 <li><strike>Required format info bubble</strike> </li>
                 <li><strike>History</strike></li>
-                <li>User Settings</li>
+                <li><strike>Remember user layout (Server)</strike></li>
                 <li>TOP 10 KM</li>
                 <li>Notification configuration</li>
             </ul>
@@ -294,6 +301,7 @@
     var sendEditTeam;
     var sendCreateMasterIncident;
     var sendRemoveMasterIncident;
+    var sendUpdatedGridLayout;
 
 // Reference the auto-generated proxy for the hub.
     var shout = $.connection.shoutHub;
@@ -319,6 +327,10 @@ shout.server.registerIfNotRegistered();
 //Tell the server to disable a master incident
     sendRemoveMasterIncident = function (id) {
         shout.server.disableMasterIncident(id)
+    }
+//Tell the server to sendUpdatedGridLayout a master incident
+    sendUpdatedGridLayout = function (serializedLayout) {
+        shout.server.saveGridLayout(serializedLayout)
     }
 });
 
@@ -386,4 +398,7 @@ shout.server.registerIfNotRegistered();
         position: 'bottom'
     });
 
+    //If user has custom layout stored, use that instead
+    if("@Model.CurrentUser.GridLayout" != "")
+        loadGridLayout(@Html.Raw(@Model.CurrentUser.GridLayout));
 </script>

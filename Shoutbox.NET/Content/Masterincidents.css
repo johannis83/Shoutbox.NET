@@ -56,3 +56,21 @@
     cursor: pointer;
     color: red;
 }
+
+.incident-filler {
+    color: lightgray;
+    text-align: center;
+    vertical-align: central;
+    margin-top:100px;
+}
+
+.incident-filler i {
+    font-size: 40px;
+}
+.incident-filler p {
+    font-size: 20px;
+}
+
+.invisible {
+    display: none;
+}

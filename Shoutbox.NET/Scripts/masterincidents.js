@@ -56,14 +56,38 @@
     });
 }
 
+var addMasterIncidents = function(incidents) {
+    for (var i = 0; i < incidents.length; i++) {
+        addMasterIncident(incidents[i]["MasterIncidentID"], incidents[i]["Description"], incidents[i]["KM"], incidents[i]["IM"], incidents[i]["Timestamp"]);
+    }
+}
+
 var addMasterIncident = function (id, description, km, im, time) {
     $('.incident-container').append(masterIncidentTemplate(id, description, km, im, time));
     jQuery("abbr.timeago").timeago();
+
+    //Show incident filler, if there are no incidents
+    $(".incident-container").find("#incident-counter").get(0).value++;
+
+    var incidentCount = $(".incident-container").find("#incident-counter").get(0).value;
+
+    if (incidentCount > 0) {
+        $(".incident-filler").addClass("invisible");
+    }
 }
 
-var addMasterIncidents = function (incidents) {
-    for (var i = 0; i < incidents.length; i++) {
-        addMasterIncident(incidents[i]["MasterIncidentID"], incidents[i]["Description"], incidents[i]["KM"], incidents[i]["IM"], incidents[i]["Timestamp"]);
+var deleteMasterIncident = function(incidentID) {
+    $('#masterincident_' + incidentID).slideUp("fast", function() {
+        $('#masterincident_' + incidentID).remove()
+    });
+
+    //Show incident filler, if there are no incidents
+    $(".incident-container").find("#incident-counter").get(0).value--;
+
+    var incidentCount = $(".incident-container").find("#incident-counter").get(0).value;
+
+    if (incidentCount == 0) {
+        $(".incident-filler").removeClass("invisible");
     }
 }
 
@@ -83,11 +107,6 @@ var removeMasterIncident = function (id) {
             )
     })
 }
-
-var deleteMasterIncident = function (incidentID) {
-    $('#masterincident_' + incidentID).fadeOut(1000);
-}
-
 
 var masterIncidentTemplate = function (id, description, km, im, time) {
     var incident = "";

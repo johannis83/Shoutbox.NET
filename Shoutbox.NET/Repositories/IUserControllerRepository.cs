@@ -11,5 +11,7 @@ namespace Shoutbox.NET.Repositories
     {
         User Create(string username);
         User GetByLogonUser(string username);
+        void SaveGridLayout(string logonUser, string serializedLayout);
+        string GetGridLayout(string logonUser);
     }
 }

@@ -19,9 +19,5 @@ namespace Shoutbox.NET.Data
         public DbSet<Team> Teams { get; set; }
         public DbSet<MasterIncident> MasterIncidents { get; set; }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
-        }
     }
 }
