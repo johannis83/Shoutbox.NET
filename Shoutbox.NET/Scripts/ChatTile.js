@@ -96,7 +96,7 @@ $(window).resize(function () {
 
             //Dutch users get orange badges. Hup oranje!
             if (division == "RN") {
-                message = message.concat('<div id="message-division" class="badge" style="background-color: #fd4500">' + division + '</div>');
+                message = message.concat('<div id="message-division" class="badge" style="background-color: #fd4600">' + division + '</div>');
             } else {
                 message = message.concat('<div id="message-division" class="badge">' + division + '</div>');
             }
