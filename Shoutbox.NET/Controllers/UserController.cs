@@ -11,6 +11,8 @@ using Shoutbox.NET.Models;
 using System.DirectoryServices.AccountManagement;
 using System.Web.Configuration;
 using Shoutbox.NET.Repositories;
+using Newtonsoft.Json.Linq;
+using Shoutbox.NET.Misc;
 
 namespace Shoutbox.NET.Controllers
 {
@@ -45,7 +47,6 @@ namespace Shoutbox.NET.Controllers
         {
             using (ShoutboxContext db = new ShoutboxContext())
             {
-                string domain = logonUser.Split('\\')[0];
                 string username = logonUser.Split('\\')[1];
 
                 return db.Users.FirstOrDefault(f => f.Username == username).GridLayout;
@@ -56,10 +57,23 @@ namespace Shoutbox.NET.Controllers
         {
             using (ShoutboxContext db = new ShoutboxContext())
             {
-                string domain = logonUser.Split('\\')[0];
                 string username = logonUser.Split('\\')[1];
 
                 db.Users.FirstOrDefault(f => f.Username == username).GridLayout = serializedLayout;
+                db.SaveChanges();
+            }
+        }
+
+        public void SaveNotificationSettings(string logonUser, string serializedSettings)
+        {
+            using (ShoutboxContext db = new ShoutboxContext())
+            {
+                string username = logonUser.Split('\\')[1];
+
+                //Validate the entered json
+                if (!HelperFunctions.IsValidJson(serializedSettings)) return;
+
+                db.Users.FirstOrDefault(f => f.Username == username).NotificationSettings = serializedSettings;
                 db.SaveChanges();
             }
         }
@@ -84,6 +98,7 @@ namespace Shoutbox.NET.Controllers
                         Domain = WebConfigurationManager.AppSettings[domain].Split(',')[0],
                         Username = username,
                         Division = WebConfigurationManager.AppSettings[domain].Split(',')[1],
+                        NotificationSettings = "{\"Team\":true,\"Masterincidenten\":true,\"Sos\":true,\"Meldingen\":true,\"Chat\":true}", //Enable notifications by default
                         Role = Roles.User //Make a new user a normal user by default
                     };
 

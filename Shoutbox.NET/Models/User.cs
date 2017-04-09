@@ -14,6 +14,7 @@ namespace Shoutbox.NET.Models
         public string Domain { get; set; }
         public string Division { get; set; }
         public string GridLayout { get; set; }
+        public string NotificationSettings { get; set; }
         public Roles Role { get; set; }
         public virtual ICollection<Message> Messages { get; set; }
     }

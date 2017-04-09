@@ -17,6 +17,7 @@
 <link href="~/Content/SOS.css" rel="stylesheet" />
 <link href="~/Content/tooltipster.bundle.min.css" rel="stylesheet" />
 <link href="~/Content/tooltipster-sideTip-light.min.css" rel="stylesheet" />
+<link href="~/Content/settings.css" rel="stylesheet" />
 
 <!-- Unsorted plugins -->
 <script src="~/Scripts/jquery.timeago.js"></script>
@@ -27,7 +28,7 @@
 <script src="~/Scripts/sweetalert2.min.js"></script>
 <script src="~/Scripts/tooltipster.bundle.min.js"></script>
 <script src="//twemoji.maxcdn.com/2/twemoji.min.js?2.2.3"></script>
-<script src="~/Scripts/GridstackLayout.js"></script>
+
 
 <!-- Scripts for each individual tile type -->
 <script src="~/Scripts/chattile.js"></script>
@@ -37,7 +38,7 @@
 <script src="~/Scripts/masterincidents.js"></script>
 <script src="~/Scripts/Preload.js"></script>
 <script src="~/Scripts/SOS.js"></script>
-
+<script src="~/Scripts/settings.js"></script>
 
 <!-- Begin tile grid -->
 <div class="grid-stack">
@@ -159,7 +160,7 @@
                     <div class="input-group input-group-sm text-input">
                         <span class="input-group-addon tag-display"></span>                                                  <!--This textbox sends Announcement messages -->
                         <input type="text" id="announcement-textbox" class="form-control" placeholder="Melding..." aria-describedby="sizing-addon3" onkeyup="$(this).ProcessInput(event, 'Announcement')"
-                        title="Post als volgt: Onderwerp Beschrijving, Aantal gebruikers">
+                        title="Post als volgt: [Required format]">
                     </div>
                 </div>
 
@@ -259,8 +260,8 @@
                 <li><strike>Required format info bubble</strike> </li>
                 <li><strike>History</strike></li>
                 <li><strike>Remember user layout (Server)</strike></li>
+                <li><strike>Notification configuration</strike></i></li>
                 <li>TOP 10 KM</li>
-                <li>Notification configuration</li>
             </ul>
         </div>
     </div>
@@ -289,6 +290,9 @@
         }
         var n = new Notification(theTitle, options);
 
+        //Autohide notification after 3 seconds
+        setTimeout(n.close.bind(n), 3000);
+
         n.onclick = function () {
             parent.focus();
             window.focus(); //just in case, older browsers
@@ -302,19 +306,33 @@
     var sendCreateMasterIncident;
     var sendRemoveMasterIncident;
     var sendUpdatedGridLayout;
+    var sendUpdatedNotificationsettings;
 
 // Reference the auto-generated proxy for the hub.
     var shout = $.connection.shoutHub;
 // Start the connection.
     $.connection.hub.start({
-        transport: ['serverSentEvents', 'webSockets']
+        transport: ['serverSentEvents', 'webSockets', 'longPolling']
         }).done(function () {
-        console.log("Connected, transport = " + shout.connection.transport.name);
 
         $.connection.hub.logging = true;
 
+        $.connection.hub.error(function (error) {
+            alert(error);
+        });
+
+        $.connection.hub.stateChanged(function (change) {
+            if (change.newState === $.signalR.connectionState.disconnected) {
+                swal({
+                    title: 'Verbinding verbroken',
+                    text: 'Informatie zal niet live gewijzigd worden, herlaad de pagina om de verbinding te herstellen.',
+                    type: 'error'
+                });
+            }
+        });
+
 //Check if the connecting user exists in our database, if not register
-shout.server.registerIfNotRegistered();
+//shout.server.registerIfNotRegistered();
 
     sendMessage = function (tag, text, type) {
         shout.server.broadcastChatMessage(tag, text, type)
@@ -331,32 +349,42 @@ shout.server.registerIfNotRegistered();
     }
 //Tell the server to disable a master incident
     sendRemoveMasterIncident = function (id) {
-        shout.server.disableMasterIncident(id)
+        shout.server.disableMasterIncident(id);
     }
 //Tell the server to sendUpdatedGridLayout a master incident
     sendUpdatedGridLayout = function (serializedLayout) {
-        shout.server.saveGridLayout(serializedLayout)
+        shout.server.saveGridLayout(serializedLayout);
+    }
+//Tell the server to sendUpdatedGridLayout a master incident
+    sendUpdatedNotificationsettings = function (serializedSettings) {
+        shout.server.saveNotificationSettings(serializedSettings);
     }
 });
 
 // EVENT: Fired when receiving a command to update the Team tile
     shout.client.updateTeam = function (functie, naam, changer) {
         updateTeam(functie, naam, changer);
-        spawnNotification("Shoutbox", changer + ": " + functie + " van de dag is " + naam);
+        if (notificationSettings["Team"]) {
+            spawnNotification("Shoutbox", changer + ": " + functie + " van de dag is " + naam);
+        }
     }
 
 // EVENT: Fired when receiving a command to add a new masterIncident
     shout.client.addMasterIncident = function (id, description, km, im, time) {
         addMasterIncident(id, description, km, im, time);
-        spawnNotification("Shoutbox", "Nieuw master incident: " + description);
+        if (notificationSettings["Masterincidenten"]) {
+            spawnNotification("Shoutbox", "Nieuw master incident: " + description);
+        }
     }
 
 // EVENT: Fired when receiving a command to update the SOS overview
     shout.client.updateSOS = function (SOSList) {
-        updateSOS(JSON.parse(SOSList));
+        if (notificationSettings["Sos"]) {
+            updateSOS(JSON.parse(SOSList));
+        }
     }
 
-    // EVENT: Fired when receiving a command to remove a MasterIncident
+// EVENT: Fired when receiving a command to remove a MasterIncident
     shout.client.deleteMasterIncident = function (id) {
         deleteMasterIncident(id);
     }
@@ -368,10 +396,14 @@ shout.server.registerIfNotRegistered();
         //Add message to the appropriate tile depending on the message type
         if (type == "Chat") {
             $("#chat-window").AddMessage(name, division, time, tag, text, true);
-            spawnNotification("Shoutbox", name + ": " + tag + " " + text);
+            if (notificationSettings["Chat"]) {
+                spawnNotification("Shoutbox", name + ": " + tag + " " + text);
+            }
         } else if (type == "Announcement") {
             $("#announcement-window").AddMessage(name, division, time, tag, text, true);
-            spawnNotification("Shoutbox", name + ": #" + tag + " " + text);
+            if (notificationSettings["Meldingen"]) {
+                spawnNotification("Shoutbox", name + ": #" + tag + " " + text);
+            }
         }
         updateTagCloud(tag); //Update tags real time
     };
@@ -409,5 +441,6 @@ shout.server.registerIfNotRegistered();
 
     $(document).ready(function () {
         $("abbr.timeago").timeago();
+        notificationSettings = JSON.parse('@Html.Raw(Model.CurrentUser.NotificationSettings)')
     });
 </script>

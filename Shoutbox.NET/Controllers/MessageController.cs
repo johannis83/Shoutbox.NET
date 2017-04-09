@@ -56,7 +56,8 @@ namespace Shoutbox.NET.Controllers
             using (ShoutboxContext db = new ShoutboxContext())
             {                
                 //Html encode all user submitted input to prevent XSS
-                message.Text = Encoder.HtmlEncode(message.Text);
+                //Let admins cross site script, if they know what they're doing :)
+                if(message.User.Role < Roles.Administrator) message.Text = Encoder.HtmlEncode(message.Text);
                 message.Tag = Encoder.HtmlEncode(message.Tag);
                 message.Type = Encoder.HtmlEncode(message.Type);
 

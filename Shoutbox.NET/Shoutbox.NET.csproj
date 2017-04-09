@@ -195,6 +195,7 @@
     <Content Include="Content\Images\Preloader_2.gif" />
     <Content Include="Content\Images\Shoutbox-bullhorn.png" />
     <Content Include="Content\Masterincidents.css" />
+    <Content Include="Content\settings.css" />
     <Content Include="Content\SOS.css" />
     <Content Include="Content\Sststatus.css" />
     <Content Include="Content\sweetalert2.min.css" />
@@ -212,6 +213,7 @@
     <Compile Include="Controllers\UserPrincipalController.cs" />
     <Compile Include="Controllers\TeamController.cs" />
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Misc\HelperFunctions.cs" />
     <Compile Include="Models\MasterIncident.cs" />
     <Compile Include="Models\SOS.cs" />
     <Compile Include="Models\Team.cs" />
@@ -335,7 +337,6 @@
     <Content Include="Scripts\globalvars.js" />
     <Content Include="Scripts\gridstack.js" />
     <Content Include="Scripts\gridstack.min.js" />
-    <Content Include="Scripts\GridstackLayout.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.js" />
@@ -357,6 +358,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\masterincidents.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\settings.js" />
     <Content Include="Scripts\Preload.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />

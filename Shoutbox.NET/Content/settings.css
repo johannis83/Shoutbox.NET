@@ -1,0 +1,28 @@
+﻿#settingswindow span {
+    font-size: 10px;
+}
+
+#settingswindow button {
+    margin-top:10px;
+}
+
+#settingswindow label {
+    font-weight: normal;
+    font-size: 12px;
+}
+#settingswindow > ul {
+    list-style-type: none;
+}
+
+#settingswindow > ul > li:nth-child(1) {
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+#settingswindow > ul > li {
+    text-align: left;
+}
+
+#notificationsettings {
+    cursor: pointer;
+}

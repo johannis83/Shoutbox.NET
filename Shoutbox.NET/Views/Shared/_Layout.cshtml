@@ -21,7 +21,12 @@
                         <li>@Html.ActionLink("Shoutbox", "Index", "Main")</li>
                         <li>@Html.ActionLink("Historie", "Historie", "Main")</li>
                         <li><a href="http://servicedesk.rabobank.nl/sm9KM">Uitwijk Delphi SDA</a></li>
-                        <li>@Html.ActionLink("Instellingen", "", "")</li>
+                        @{if (ViewBag.Title == "Shoutbox")
+                            {
+                                //Only show settings on the shoutbox page
+                                <li><a id="notificationsettings">Instellingen</a></li>
+                            }
+                        }
                     </ul>
                     <span id="department">Cross Channel Servicedesk Europe</span>
                 </div>

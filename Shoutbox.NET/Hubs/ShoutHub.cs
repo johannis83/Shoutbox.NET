@@ -55,6 +55,11 @@ namespace Shoutbox.NET.Hubs
             _userRepository.SaveGridLayout(Context.User.Identity.Name, serializedLayout);
         }
 
+        public void SaveNotificationSettings(string serializedSettings)
+        {
+            _userRepository.SaveNotificationSettings(Context.User.Identity.Name, serializedSettings);
+        }
+
         public Task SetTeam(string functie, string naam)
         {
             User user = _userRepository.GetByLogonUser(Context.User.Identity.Name);

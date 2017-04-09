@@ -1,4 +1,5 @@
-﻿using Shoutbox.NET.Controllers;
+﻿using Microsoft.AspNet.SignalR;
+using Shoutbox.NET.Controllers;
 using Shoutbox.NET.Models;
 using Shoutbox.NET.Repositories;
 using System;
@@ -22,6 +23,9 @@ namespace Shoutbox.NET
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
+            //Keep clients alive
+            GlobalHost.Configuration.DisconnectTimeout = TimeSpan.FromSeconds(90);
+            GlobalHost.Configuration.KeepAlive = TimeSpan.FromSeconds(30);
 
             //Configurate newton JSON
             HttpConfiguration config = GlobalConfiguration.Configuration;
