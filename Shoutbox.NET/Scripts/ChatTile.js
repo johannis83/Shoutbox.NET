@@ -76,13 +76,11 @@ $(window).resize(function () {
         }
 
         messageContainer.append(messageTemplate(name, division, time, tag, text));
-
-        //twemoji.parse(document.body);
+        $("abbr.timeago").timeago();
 
         if (autoscroll) {
             $(chatTile).parent().stop().animate({ scrollTop: $(chatTile).prop("scrollHeight") }, 5000, 'easeOutQuart');
         }
-        jQuery("abbr.timeago").timeago();
     }
 
 

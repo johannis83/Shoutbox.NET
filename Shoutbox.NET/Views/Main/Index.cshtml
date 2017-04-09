@@ -306,7 +306,12 @@
 // Reference the auto-generated proxy for the hub.
     var shout = $.connection.shoutHub;
 // Start the connection.
-    $.connection.hub.start().done(function () {
+    $.connection.hub.start({
+        transport: ['serverSentEvents', 'webSockets']
+        }).done(function () {
+        console.log("Connected, transport = " + shout.connection.transport.name);
+
+        $.connection.hub.logging = true;
 
 //Check if the connecting user exists in our database, if not register
 shout.server.registerIfNotRegistered();
@@ -401,4 +406,8 @@ shout.server.registerIfNotRegistered();
     //If user has custom layout stored, use that instead
     if("@Model.CurrentUser.GridLayout" != "")
         loadGridLayout(@Html.Raw(@Model.CurrentUser.GridLayout));
+
+    $(document).ready(function () {
+        $("abbr.timeago").timeago();
+    });
 </script>

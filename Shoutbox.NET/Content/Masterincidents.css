@@ -20,25 +20,29 @@
 }
 
 .incident {
-    margin:0px 0px 5px 0px;
-    padding:10px;
+    margin: 0px 0px 5px 0px;
+    padding: 10px;
     border-left: 5px solid #fd6400;
     font-size: 14px;
+    word-break: break-word;
 }
 
 .incident-description {
     font-weight: bold;
     color: #009;
+    word-break: break-word;
 }
 
 .incident-KM {
     display: inline-block;
     margin-right: 5px;
+    word-break: break-word;
 }
 
 .incident-IM {
     display: inline-block;
     margin-right: 5px;
+    word-break: break-word;
 }
 
 .incident-time {

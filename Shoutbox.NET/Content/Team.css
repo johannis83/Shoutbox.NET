@@ -23,6 +23,9 @@
 .table > tbody > tr {
     border: none !important;
 }
+.table > tbody > tr:nth-child(1)  {
+    
+}
 
 #Team-window > .table > tbody > tr > td {
     padding: 0px !important;

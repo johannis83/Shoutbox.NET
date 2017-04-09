@@ -64,8 +64,7 @@ var addMasterIncidents = function(incidents) {
 
 var addMasterIncident = function (id, description, km, im, time) {
     $('.incident-container').append(masterIncidentTemplate(id, description, km, im, time));
-    jQuery("abbr.timeago").timeago();
-
+    $("abbr.timeago").timeago();
     //Show incident filler, if there are no incidents
     $(".incident-container").find("#incident-counter").get(0).value++;
 
