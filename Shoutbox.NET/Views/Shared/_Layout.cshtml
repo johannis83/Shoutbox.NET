@@ -6,10 +6,6 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    <script src="~/Scripts/jquery.nicescroll.min.js"></script>
 </head>
 <body>
     <div id="container">
@@ -37,10 +33,6 @@
 
             <div class="container body-content" id="body-container">
                 @RenderBody()
-                @*<hr />*@
-                <footer>
-                    @*<p><center>&copy; @DateTime.Now.Year - Rabobank Cross Channel Service Desk Europe</center></p>*@
-                </footer>
             </div>
         </div>
     </div>

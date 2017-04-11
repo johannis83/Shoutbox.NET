@@ -195,7 +195,6 @@
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\historytimemachine.css" />
-    <Content Include="Content\Images\Clock_reversed.gif" />
     <Content Include="Content\Images\Preloader_2.gif" />
     <Content Include="Content\Images\Shoutbox-bullhorn.png" />
     <Content Include="Content\Masterincidents.css" />

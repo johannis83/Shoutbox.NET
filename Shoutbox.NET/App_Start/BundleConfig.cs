@@ -8,33 +8,52 @@ namespace Shoutbox.NET
         // For more information on bundling, visit https://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
-            bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js",
-                        "~/Scripts/jquery-ui-{version}.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                        "~/Scripts/jquery.validate*"));
+            bundles.Add(new StyleBundle("~/bundles/css").Include(
+                    "~/Content/tooltipster.bundle.min.css",
+                    "~/Content/tooltipster-sideTip-light.min.css",
+                    "~/Content/sweetalert2.min.css",
+                    "~/Content/Rabo.css",
+                    "~/Content/Chat.css",
+                    "~/Content/Shoutbox.css",
+                    "~/Content/Sststatus.css",
+                    "~/Content/tagcloud.css",
+                    "~/Content/Team.css",
+                    "~/Content/Masterincidents.css",
+                    "~/Content/SOS.css",
+                    "~/Content/settings.css",
+                    "~/Content/TOPKM.css",
+                    "~/Content/bootstrap.css",
+                    "~/Content/font-awesome.min.css",
+                    "~/Content/gridstack.min.css",
+                    "~/Content/jqcloud.min.css"));
 
-            // Use the development version of Modernizr to develop with and learn from. Then, when you're
-            // ready for production, use the build tool at https://modernizr.com to pick only the tests you need.
-            bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
-                        "~/Scripts/modernizr-*"));
-
-            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js",
-                      "~/Scripts/respond.js",
-                      "~/Scripts/lodash.min.js",
-                      "~/Scripts/gridstack.min.js"));
-
-            bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/Rabo.css",
-                      "~/Content/font-awesome.min.css",
-                      "~/Content/gridstack.min.css",
-                      "~/Content/jqcloud.min.css"));
+            bundles.Add(new ScriptBundle("~/bundles/javascript").Include(
+                    "~/Scripts/jquery.timeago.js",
+                    "~/Scripts/jquery.timeago.nl.js",
+                    "~/Scripts/jquery.tagcloud.js",
+                    "~/Scripts/core.min.js",
+                    "~/Scripts/sweetalert2.min.js",
+                    "~/Scripts/tooltipster.bundle.min.js",
+                    "~/Scripts/jquery-{version}.js",
+                    "~/Scripts/jquery-ui-{version}.js",
+                    "~/Scripts/chattile.js",
+                    "~/Scripts/tagcloud.js",
+                    "~/Scripts/team.js",
+                    "~/Scripts/sststatus.js",
+                    "~/Scripts/masterincidents.js",
+                    "~/Scripts/Preload.js",
+                    "~/Scripts/SOS.js",
+                    "~/Scripts/settings.js",
+                    "~/Scripts/KM.js",
+                    "~/Scripts/bootstrap.js",
+                    "~/Scripts/respond.js",
+                    "~/Scripts/lodash.min.js",
+                    "~/Scripts/gridstack.min.js",
+                    "~/Scripts/jquery.nicescroll.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/signalr").Include(
-                        "~/Scripts/jquery.signalR-{version}.js"));
+                    "~/Scripts/jquery.signalR*"));
         }
     }
 }

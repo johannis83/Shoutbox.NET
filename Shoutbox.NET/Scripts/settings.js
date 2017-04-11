@@ -77,23 +77,49 @@ var resetGridLayout = function () {
 }
 
 var saveGridLayout = function () {
-    var res = _.map($('.grid-stack .grid-stack-item:visible'), function (el) {
+    var res = _.map($('.grid-stack .grid-stack-item'), function (el) {
         el = $(el);
         var node = el.data('_gridstack_node');
-        return {
-            id: el.attr('id'),
-            x: node.x,
-            y: node.y,
-            width: node.width,
-            height: node.height
-        };
+        var updated = false;
+
+        //The gridstack dragstop and resize events are sometimes called prematurely,
+        //which can cause exceptions and unwanted behavior.
+        //I've wrapped it in a while loop so it retries if the savegrid function failed.
+        while (!updated) {
+            try
+            {
+                return {
+                    id: el.attr('id'),
+                    x: node.x,
+                    y: node.y,
+                    width: node.width,
+                    height: node.height
+                };
+            } catch (ex) {
+                updated = false;
+                return;
+            }
+        }
     });
     return (JSON.stringify(res));
 }
 
 $(document).ready(function () {
-    $('.grid-stack').on('change', function (event, items) {
-        var newLayout = saveGridLayout();
-        sendUpdatedGridLayout(newLayout);
+    //On resizing or moving an item, send the new layout to the server
+    //Events are often called prematurely, so we add a time-out to give
+    //the update some breathing room
+
+    $('.grid-stack').on('dragstop', function (event, items) {
+        setTimeout(function () {
+            var newLayout = saveGridLayout();
+            sendUpdatedGridLayout(newLayout);
+        }, 2000);
+    });
+
+    $('.grid-stack').on('resizestop', function (event, items) {
+        setTimeout(function () {
+            var newLayout = saveGridLayout();
+            sendUpdatedGridLayout(newLayout);
+        }, 2000);
     });
 });
