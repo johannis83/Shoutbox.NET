@@ -1,0 +1,9 @@
+﻿SELECT * FROM (
+SELECT  distinct "KM nummer", "OWNER_SM1"."VW_KMUSAGE_LKT"."AANTAL"
+       ,"OWNER_SM1"."VW_KMUSAGE_LKT"."TITEL"
+FROM "OWNER_SM1"."VW_INTERACTIONS_DETAIL_LKT" vwinteractions
+LEFT JOIN "OWNER_SM1"."VW_KMUSAGE_LKT" ON
+"OWNER_SM1"."VW_KMUSAGE_LKT"."ID" = vwinteractions."KM nummer"
+WHERE  "Opened By" !='KPL-CC'  
+order by "OWNER_SM1"."VW_KMUSAGE_LKT"."AANTAL" desc)
+WHERE ROWNUM <= 14

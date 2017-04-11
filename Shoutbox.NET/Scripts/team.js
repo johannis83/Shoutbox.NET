@@ -40,6 +40,6 @@ var editTeam = function (functie) {
             text: "De nieuwe " + functie + " van de dag is " + inputValue,
             type: "success",
             showCancelButton: false
-        });
-    });
+        }).catch(swal.noop);
+    }).catch(swal.noop);
 }

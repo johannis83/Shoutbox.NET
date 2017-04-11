@@ -1,0 +1,6 @@
+﻿-- Used for debugging as the dev/test environment does not have oracle
+SELECT  distinct TOP(14) dbo.VW_INTERACTIONS_DETAIL_LKT.[KM nummer], convert(INT, dbo.VW_KMUSAGE_LKT.AANTAL) as "AANTAL", dbo.VW_KMUSAGE_LKT.TITEL
+FROM dbo.VW_INTERACTIONS_DETAIL_LKT
+LEFT JOIN VW_KMUSAGE_LKT ON
+VW_KMUSAGE_LKT.ID = dbo.VW_INTERACTIONS_DETAIL_LKT.[KM nummer]
+WHERE dbo.VW_INTERACTIONS_DETAIL_LKT.[Opened By] != 'KPL-CC'

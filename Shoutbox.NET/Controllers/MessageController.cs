@@ -34,7 +34,8 @@ namespace Shoutbox.NET.Controllers
                 //Disable dynamic proxy objects. Database is disposed in the view so we want these to be available 'offline'
                 db.Configuration.ProxyCreationEnabled = false;
 
-                return db.Messages.Include(f => f.User).Where(f => f.Timestamp.Value.Day == datetime.Day).ToList();
+                //Only select the values the client needs, so cast them to an anonymous type
+                return db.Messages.Include(u => u.User).Where(f => f.Timestamp.Value.Day == datetime.Day).ToList();
             }
         }
 

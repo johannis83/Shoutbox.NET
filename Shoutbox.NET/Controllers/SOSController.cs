@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.SignalR;
 using Shoutbox.NET.Hubs;
+using Shoutbox.NET.Misc;
 using Shoutbox.NET.Models;
 using Shoutbox.NET.Repositories;
 using System;
@@ -27,7 +28,7 @@ namespace Shoutbox.NET.Controllers
         //SOS timer to send periodic updates to all clients
         private static Timer timer = new Timer();
         //Get the shoutbox context to call shouthub functions outside of the class
-        private static IHubContext shoutContextcontext = GlobalHost.ConnectionManager.GetHubContext<ShoutHub>();
+        private static IHubContext shoutContext = GlobalHost.ConnectionManager.GetHubContext<ShoutHub>();
 
 
         public SOSController()
@@ -36,18 +37,18 @@ namespace Shoutbox.NET.Controllers
             if (isTimerStarted) return;
 
             timer.Interval = int.Parse(ConfigurationManager.AppSettings["SOSUpdateInterval"]);
-            timer.Elapsed += new ElapsedEventHandler(UpdateSOS);
+            timer.Elapsed += new ElapsedEventHandler(UpdateSOS_ToClients);
             timer.Start();
             isTimerStarted = true;
         }
 
         //Broadcast to clients
-        public void UpdateSOS(object sender, ElapsedEventArgs e)
+        public void UpdateSOS_ToClients(object sender, ElapsedEventArgs e)
         {
             //Store old state
             List<SOS> oldList = GetList();
             //Update the previous list
-            UpdateSOSList();
+            GetList();
             //Store new state
             List<SOS> newList = GetList();
 
@@ -56,7 +57,7 @@ namespace Shoutbox.NET.Controllers
             if (!(oldList.Where(f => newList.Any(x => x.Time == f.Time)).Count() == newList.Count()) ||
                 newList.Count != oldList.Count)
             {
-                shoutContextcontext.Clients.All.UpdateSOS(Newtonsoft.Json.JsonConvert.SerializeObject(newList));
+                shoutContext.Clients.All.UpdateSOS(Newtonsoft.Json.JsonConvert.SerializeObject(newList));
             }
         }
 
@@ -74,7 +75,7 @@ namespace Shoutbox.NET.Controllers
             using (SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["SOSDatabase"].ConnectionString))
             {
                 sqlConnection.Open();
-                using (SqlCommand sqlCommand = new SqlCommand(LoadSQLStatement("GetSOSMeldingen.sql"), sqlConnection))
+                using (SqlCommand sqlCommand = new SqlCommand(HelperFunctions.LoadSQLStatement("GetSOSMeldingen.sql"), sqlConnection))
                 {
                     using (SqlDataReader sqlReader = sqlCommand.ExecuteReader())
                     {
@@ -100,22 +101,6 @@ namespace Shoutbox.NET.Controllers
                 }
             }
         }
-        private string LoadSQLStatement(string statementName)
-        {
-            string sqlStatement = string.Empty;
-
-            string namespacePart = "Shoutbox.NET.Data.SQLQueries";
-            string resourceName = namespacePart + "." + statementName;
-
-            using (Stream stm = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
-            {
-                if (stm != null)
-                {
-                    sqlStatement = new StreamReader(stm).ReadToEnd();
-                }
-            }
-
-            return sqlStatement;
-        }
+        
     }
 }

@@ -17,38 +17,28 @@ namespace Shoutbox.NET.ViewModels
         public IEnumerable<Message> Messages { get; set; }
         public IEnumerable<Team> Teams { get; set; }
         public IEnumerable<SOS> SOSList { get; set; }
+        public IEnumerable<KM> KMList { get; set; }
         public Dictionary<string, int> Tags { get; set; }
+
         public string SerializedMasterIncidents
         {
             get
             {
-                return JsonConvert.SerializeObject(MasterIncidents, Formatting.Indented,
-                new JsonSerializerSettings
-                {
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                });
+                return JsonConvert.SerializeObject(MasterIncidents);
             }
         }
         public string SerializedTeams
         {
             get
             {
-                return JsonConvert.SerializeObject(Teams, Formatting.Indented,
-                        new JsonSerializerSettings
-                        {
-                            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                        });
+                return JsonConvert.SerializeObject(Teams);
             }
         }
         public string SerializedMessages
         {
             get
             {
-                return JsonConvert.SerializeObject(Messages, Formatting.Indented,
-                new JsonSerializerSettings
-                {
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                });
+                return JsonConvert.SerializeObject(Messages);
             }
         }
         public string SerializedSOS
@@ -56,6 +46,14 @@ namespace Shoutbox.NET.ViewModels
             get
             {
                 return JsonConvert.SerializeObject(SOSList);
+            }
+        }
+
+        public string SerializedKMList
+        {
+            get
+            {
+                return JsonConvert.SerializeObject(KMList);
             }
         }
     }

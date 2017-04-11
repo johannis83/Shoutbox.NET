@@ -18,16 +18,19 @@ namespace Shoutbox.NET.Controllers
         private ITeamRepository _teamRepository;
         private IMasterIncidentRepository _masterIncidentRepository;
         private ISOSRepository _sosRepository;
-        private IUserRepository _userRepository; 
+        private IUserRepository _userRepository;
+        private IKMRepository _kmRepository;
 
         public MainController(IMessageRepository messageRepository, ITeamRepository teamRepository, 
-            IMasterIncidentRepository masterIncidentRepository, ISOSRepository sosRepository, IUserRepository userRepository)
+            IMasterIncidentRepository masterIncidentRepository, ISOSRepository sosRepository, IUserRepository userRepository,
+            IKMRepository kmRepository)
         {
             _messageRepository = messageRepository;
             _teamRepository = teamRepository;
             _masterIncidentRepository = masterIncidentRepository;
             _sosRepository = sosRepository;
             _userRepository = userRepository;
+            _kmRepository = kmRepository;
         }
 
         public ActionResult Index()
@@ -41,8 +44,8 @@ namespace Shoutbox.NET.Controllers
                 Tags = _messageRepository.GetTagPopularityByDay(pageDate),
                 Teams = _teamRepository.GetByDay(pageDate),
                 MasterIncidents = _masterIncidentRepository.GetByDay(pageDate).Where(f => f.Active),
-                CurrentUser = _userRepository.GetByLogonUser(User.Identity.Name) //Also registers the user if they don't exist yet
-
+                CurrentUser = _userRepository.GetByLogonUser(User.Identity.Name), //Also registers the user if they don't exist yet
+                KMList = _kmRepository.GetList()
             };
             return View(indexViewModel);
         }
@@ -53,7 +56,8 @@ namespace Shoutbox.NET.Controllers
             DateTime pageDate;
 
             if(string.IsNullOrWhiteSpace(date))
-                pageDate = DateTime.Now;
+                //Show yesterday by default
+                pageDate = DateTime.Now.AddDays(-1);
             else
             {
                 if(!DateTime.TryParseExact(date, "d-M-yyyy", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None, out pageDate))

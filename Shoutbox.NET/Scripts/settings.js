@@ -12,8 +12,8 @@ $("#notificationsettings").click(function () {
         '<li><input id="notif_sos" name="Sos" type="checkbox" /> <label for="Sos"> SOS updates</label></li>' +
         '<li><input id="notif_meldingen" name="Meldingen" type="checkbox" /> <label for="Meldingen"> Melding updates</label></li>' +
         '<li><input id="notif_chat" name="Chat" type="checkbox" /> <label for="Chat"> Chat updates</label></li>' +
-        '<span id="notificationsnotsupported" class="invisible"><i class="fa fa-bell-slash" aria-hidden="true"></i> Je browser ondersteund geen desktop notificaties </span>' +
-        '<span id="notificationssupported" class="invisible"><i class="fa fa-bell" aria-hidden="true"></i> Je browser ondersteund desktop notificaties! </span>' +
+        '<span id="notificationsnotsupported" class="invisible"><i class="fa fa-bell-slash" aria-hidden="true"></i> Je browser ondersteunt geen desktop notificaties </span>' +
+        '<span id="notificationssupported" class="invisible"><i class="fa fa-bell" aria-hidden="true"></i> Je browser ondersteunt desktop notificaties! </span>' +
         '</ul>' +
         '<button type="button" class="btn btn-default" id="reset-layout-button">Reset dashboard layout </button>' +
         '</div>',
@@ -38,7 +38,7 @@ $("#notificationsettings").click(function () {
         }
     }).then(function () {
         saveNotificationSettings();
-    });
+    }).catch(swal.noop);
 });
 
 $(document).on('click', "#reset-layout-button", function () {

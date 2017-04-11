@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,6 +10,7 @@ namespace Shoutbox.NET.Models
     [ValidateInput(true)]
     public class Message
     {
+        [JsonIgnore]
         public int MessageID { get; set; }
         public DateTime? Timestamp { get; set; }
         public string Tag { get; set; }

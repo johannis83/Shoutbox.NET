@@ -2,31 +2,6 @@
     cursor: pointer;
 }
 
-.table {
-    margin-bottom: 0px;
-    margin-top:20px;
-}
-
-.table > thead {
-     border-bottom: 2px solid #ddd;
-}
-
-.table > thead > tr {
-    color: #009;
-}
-
-.table > thead > tr > th {
-    padding-left: 0px;
-    border: none;
-}
-
-.table > tbody > tr {
-    border: none !important;
-}
-.table > tbody > tr:nth-child(1)  {
-    
-}
-
 #Team-window > .table > tbody > tr > td {
     padding: 0px !important;
     cursor: help;

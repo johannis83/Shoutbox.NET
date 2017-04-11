@@ -51,9 +51,9 @@
                 type: "success",
                 confirmButtonText: 'Top!',
                 showCancelButton: false,
-            });
-        });
-    });
+            }).catch(swal.noop);
+        }).catch(swal.noop);
+    }).catch(swal.noop);
 }
 
 var addMasterIncidents = function(incidents) {
@@ -103,8 +103,8 @@ var removeMasterIncident = function (id) {
             'Klaar!',
             'Incident verwijderd',
             'success'
-            )
-    })
+            ).catch(swal.noop)
+    }).catch(swal.noop)
 }
 
 var masterIncidentTemplate = function (id, description, km, im, time) {

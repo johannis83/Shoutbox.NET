@@ -33,6 +33,7 @@ namespace Shoutbox.NET
             container.RegisterType<ISOSRepository, SOSController>();
             container.RegisterType<ITeamRepository, TeamController>();
             container.RegisterType<IMasterIncidentRepository, MasterIncidentController>();
+            container.RegisterType<IKMRepository, KMController>();
 
             return container;
         }

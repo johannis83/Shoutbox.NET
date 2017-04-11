@@ -26,6 +26,7 @@ namespace Shoutbox.NET
             //Keep clients alive
             GlobalHost.Configuration.DisconnectTimeout = TimeSpan.FromSeconds(90);
             GlobalHost.Configuration.KeepAlive = TimeSpan.FromSeconds(30);
+            GlobalHost.Configuration.TransportConnectTimeout = TimeSpan.FromSeconds(10);
 
             //Configurate newton JSON
             HttpConfiguration config = GlobalConfiguration.Configuration;

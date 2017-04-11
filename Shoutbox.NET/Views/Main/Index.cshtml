@@ -18,7 +18,7 @@
 <link href="~/Content/tooltipster.bundle.min.css" rel="stylesheet" />
 <link href="~/Content/tooltipster-sideTip-light.min.css" rel="stylesheet" />
 <link href="~/Content/settings.css" rel="stylesheet" />
-
+<link href="~/Content/TOPKM.css" rel="stylesheet" />
 <!-- Unsorted plugins -->
 <script src="~/Scripts/jquery.timeago.js"></script>
 <script src="~/Scripts/jquery.timeago.nl.js"></script>
@@ -39,12 +39,13 @@
 <script src="~/Scripts/Preload.js"></script>
 <script src="~/Scripts/SOS.js"></script>
 <script src="~/Scripts/settings.js"></script>
+<script src="~/Scripts/KM.js"></script>
 
 <!-- Begin tile grid -->
 <div class="grid-stack">
     <!-- Begin Team tile -->
     <div class="grid-stack-item Team-tile" data-gs-x="0" data-gs-y="0"
-         data-gs-width="3" data-gs-height="2" data-gs-min-width="3" data-gs-min-height="2" id="grid-team-item">
+         data-gs-width="3" data-gs-height="2" data-gs-min-width="2" data-gs-min-height="2" id="grid-team-item">
         <div class="tile-titlebar">Team van de dag</div>
         <div class="grid-stack-item-content rabo-drop-shadow" id="Team-window">
             <table class="table">
@@ -197,7 +198,7 @@
 
     <!-- Begin Trending topics tile -->
     <div class="grid-stack-item" data-gs-x="7" data-gs-y="7"
-         data-gs-width="2" data-gs-height="2" data-gs-min-height="1" data-gs-min-width="1" id="grid-tagcloud-item">
+         data-gs-width="3" data-gs-height="2" data-gs-min-height="1" data-gs-min-width="1" id="grid-tagcloud-item">
         <div class="tile-titlebar">Trending topics</div>
         <div class="grid-stack-item-content rabo-drop-shadow tag-cloud-tile" id="tagcloud">
             <!-- Begin tags-->
@@ -248,24 +249,23 @@
     </div>*@
     <!-- End SST status tile -->
 
-    <!-- Begin top 10 KM tile -->
-    <div class="grid-stack-item" data-gs-no-resize="true" data-gs-x="9" data-gs-y="7"
-         data-gs-width="3" data-gs-height="2" id="grid-km-item">
-        <div class="tile-titlebar">TODO</div>
-        <div class="grid-stack-item-content rabo-drop-shadow SOS-Container">
-            <ul>
-                <li><strike>SOS</strike></li>
-                <li><strike>User permissions</strike></li>
-                <li><strike>Security vulnerabilities</strike></li>
-                <li><strike>Required format info bubble</strike> </li>
-                <li><strike>History</strike></li>
-                <li><strike>Remember user layout (Server)</strike></li>
-                <li><strike>Notification configuration</strike></i></li>
-                <li>TOP 10 KM</li>
-            </ul>
+    <!-- Begin top KM tile -->
+    <div class="grid-stack-item" data-gs-x="10" data-gs-y="7"
+         data-gs-width="2" data-gs-height="2" id="grid-km-item" data-gs-min-width="2" data-gs-max-height="4">
+        <div class="tile-titlebar">TOP KM's</div>
+        <div class="grid-stack-item-content rabo-drop-shadow KM-Container">
+            <table class="table" id="km-table">
+                <thead>
+                </thead>
+                <tbody id="KM-table-body">
+                    <!--Begin KMs-->
+                    <!--End KMs -->
+                </tbody>
+            </table>
         </div>
     </div>
-    <!-- End top 10 KM tile -->
+    <!-- End top KM tile -->
+
 
 </div>
 <div class="preloader"></div>
@@ -424,6 +424,7 @@
     updateTeams(@Html.Raw(Model.SerializedTeams));
     addMasterIncidents(@Html.Raw(Model.SerializedMasterIncidents));
     updateSOS(@Html.Raw(Model.SerializedSOS));
+    updateKM(@Html.Raw(Model.SerializedKMList));
 
     //Set up the tag cloud
     initializeTagCloud();

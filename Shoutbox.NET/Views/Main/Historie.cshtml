@@ -39,7 +39,7 @@
             <div class="input-group timemachine">
                 <input type="text" class="form-control datepicker" name="date" placeholder="@Model.HistoryViewDate.ToString("dd-MM-yyyy")">
                 <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" onclick="browsehistory()"">
+                    <button type="button" class="btn btn-default" style="cursor: default">
                         <i class="fa fa-calendar" aria-hidden="true"></i>
                     </button>
                 </span>
@@ -50,6 +50,12 @@
                     format: 'dd-mm-yyyy',
                     startDate: new Date(2017, 3, 1),
                     endDate: new Date().getDate(),
+                });
+
+
+
+                $('.datepicker').on('pick.datepicker', function (e) {
+                    browsehistory();
                 });
 
                 var browsehistory = function () {

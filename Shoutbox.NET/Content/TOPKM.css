@@ -1,0 +1,27 @@
+﻿#km-table {
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+#km-table .label {
+    font-size: 10px;
+    background-color: #009;
+}
+
+#km-table > thead > tr {
+    margin-left:-10px;
+    text-align: center;
+}
+
+.KM-Container td {
+    padding: 0px !important;
+}
+
+.KM-Container tbody tr td {
+    cursor: help;
+}
+
+.KM-Container tbody tr td:hover {
+    background-color: #efe7e7;
+}
