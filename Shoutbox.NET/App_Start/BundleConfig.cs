@@ -50,10 +50,9 @@ namespace Shoutbox.NET
                     "~/Scripts/respond.js",
                     "~/Scripts/lodash.min.js",
                     "~/Scripts/gridstack.min.js",
-                    "~/Scripts/jquery.nicescroll.min.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/signalr").Include(
+                    "~/Scripts/jquery.nicescroll.min.js",
                     "~/Scripts/jquery.signalR*"));
+
         }
     }
 }
