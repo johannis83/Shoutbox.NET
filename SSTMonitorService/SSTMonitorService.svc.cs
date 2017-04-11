@@ -139,7 +139,7 @@ namespace SSTMonitorService
 
             File.AppendAllText(Path.Combine(LogDirectory, LOGFILENAME),
                         string.Format("[{0} {1}: The {2} process is {2} minutes late with processing SST files. \n", 
-                               DateTime.Now, status.ToString().ToUpper(), fileAge.Minutes - Online.Minutes, Service));
+                               DateTime.Now, status.ToString().ToUpper(), fileAge.Minutes - Online.Minutes));
         }
 
         public Status GetStatus(string Service)

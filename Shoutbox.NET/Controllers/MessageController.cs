@@ -31,7 +31,6 @@ namespace Shoutbox.NET.Controllers
         {
             using (ShoutboxContext db = new ShoutboxContext())
             {
-                //Disable dynamic proxy objects. Database is disposed in the view so we want these to be available 'offline'
                 db.Configuration.ProxyCreationEnabled = false;
 
                 //Only select the values the client needs, so cast them to an anonymous type

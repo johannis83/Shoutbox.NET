@@ -31,23 +31,15 @@ namespace Shoutbox.NET.Controllers
 
         public IEnumerable<Team> GetByDay(DateTime datetime)
         {
-            if (ModelState.IsValid)
+            using (ShoutboxContext db = new ShoutboxContext())
             {
-                using (ShoutboxContext db = new ShoutboxContext())
-                {
-                    db.Configuration.LazyLoadingEnabled = false;
-                    db.Configuration.ProxyCreationEnabled = false;
+                db.Configuration.ProxyCreationEnabled = false;
 
-                    //Get the last 4 updated
-                    return db.Teams.Where(f => f.ModifiedAt.Day == datetime.Day)
-                        .OrderByDescending(f => f.ModifiedAt)
-                        .DistinctBy(f => f.Functie).ToList();
-
-                }
+                //Get the last 4 updated
+                return db.Teams.Where(f => f.ModifiedAt.Day == datetime.Day)
+                    .OrderByDescending(f => f.ModifiedAt)
+                    .DistinctBy(f => f.Functie).ToList();
             }
-
-            return null;
         }
-
     }
 }

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.9
+VisualStudioVersion = 15.0.26228.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shoutbox.NET", "Shoutbox.NET\Shoutbox.NET.csproj", "{517A369E-92F8-43D0-B8BB-854E767AF2C4}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -15,7 +15,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSTTestClient", "SSTTestCli
 		{652024A2-3DE3-4D8A-86F4-E7F962365864} = {652024A2-3DE3-4D8A-86F4-E7F962365864}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TopKM_Oracle_DataTester", "TopKM_Oracle_DataTester\TopKM_Oracle_DataTester.csproj", "{03B5AF88-57BB-4E89-AAE3-762C8AC2A639}"
+EndProject
 Global
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -33,6 +38,10 @@ Global
 		{286CD9C6-5C06-4059-B009-7D1F5C401359}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{286CD9C6-5C06-4059-B009-7D1F5C401359}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{286CD9C6-5C06-4059-B009-7D1F5C401359}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03B5AF88-57BB-4E89-AAE3-762C8AC2A639}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03B5AF88-57BB-4E89-AAE3-762C8AC2A639}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03B5AF88-57BB-4E89-AAE3-762C8AC2A639}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03B5AF88-57BB-4E89-AAE3-762C8AC2A639}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

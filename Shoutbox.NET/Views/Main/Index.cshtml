@@ -27,7 +27,6 @@
 <script src="~/Scripts/core.min.js"></script>
 <script src="~/Scripts/sweetalert2.min.js"></script>
 <script src="~/Scripts/tooltipster.bundle.min.js"></script>
-<script src="//twemoji.maxcdn.com/2/twemoji.min.js?2.2.3"></script>
 
 
 <!-- Scripts for each individual tile type -->
@@ -319,7 +318,7 @@
 
         $.connection.hub.error(function (error) {
             alert(error);
-        });
+                });
 
         $.connection.hub.stateChanged(function (change) {
             if (change.newState === $.signalR.connectionState.disconnected) {
@@ -335,30 +334,30 @@
 //shout.server.registerIfNotRegistered();
 
     sendMessage = function (tag, text, type) {
-        shout.server.broadcastChatMessage(tag, text, type)
+                    shout.server.broadcastChatMessage(tag, text, type)
     }
 
-//Tell the server to change a Team
-    sendEditTeam = function (functie, naam) {
-        return shout.server.setTeam(functie, naam);
-    }
+                //Tell the server to change a Team
+                sendEditTeam = function (functie, naam) {
+                    return shout.server.setTeam(functie, naam);
+                }
 
-//Tell the server to create a Master incident
-    sendCreateMasterIncident = function (description, km, im) {
-        return shout.server.createMasterIncident(description, km, im);
-    }
-//Tell the server to disable a master incident
-    sendRemoveMasterIncident = function (id) {
-        shout.server.disableMasterIncident(id);
-    }
-//Tell the server to sendUpdatedGridLayout a master incident
-    sendUpdatedGridLayout = function (serializedLayout) {
-        shout.server.saveGridLayout(serializedLayout);
-    }
-//Tell the server to sendUpdatedGridLayout a master incident
-    sendUpdatedNotificationsettings = function (serializedSettings) {
-        shout.server.saveNotificationSettings(serializedSettings);
-    }
+                //Tell the server to create a Master incident
+                sendCreateMasterIncident = function (description, km, im) {
+                    return shout.server.createMasterIncident(description, km, im);
+                }
+                //Tell the server to disable a master incident
+                sendRemoveMasterIncident = function (id) {
+                    shout.server.disableMasterIncident(id);
+                }
+                //Tell the server to sendUpdatedGridLayout a master incident
+                sendUpdatedGridLayout = function (serializedLayout) {
+                    shout.server.saveGridLayout(serializedLayout);
+                }
+                //Tell the server to sendUpdatedGridLayout a master incident
+                sendUpdatedNotificationsettings = function (serializedSettings) {
+                    shout.server.saveNotificationSettings(serializedSettings);
+                }
 });
 
 // EVENT: Fired when receiving a command to update the Team tile

@@ -108,6 +108,7 @@ namespace Shoutbox.NET.Controllers
         }
 
         // Function to update the KMList, retrieves the top KM's from the SM9 oracle database
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         private void UpdateKMListFromOracle()
         {
             using (OracleConnection connection = new OracleConnection(ConfigurationManager.ConnectionStrings["SM9Database"].ConnectionString))
