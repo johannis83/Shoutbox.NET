@@ -5,28 +5,14 @@
 
 @model Shoutbox.NET.ViewModels.ShoutPageViewModel
 
-<link href="~/Content/Chat.css" rel="stylesheet" />
-<link href="~/Content/Shoutbox.css" rel="stylesheet" />
-<link href="~/Content/tagcloud.css" rel="stylesheet" />
-<link href="~/Content/Team.css" rel="stylesheet" />
-<link href="~/Content/Masterincidents.css" rel="stylesheet" />
-<link href="~/Content/tooltipster.bundle.min.css" rel="stylesheet" />
+
+@Scripts.Render("~/bundles/javascript")
+@Styles.Render("~/bundles/css")
+
+<!-- Date-time picker is only used in history so... -->
 <link href="~/Content/datepicker.min.css" rel="stylesheet" />
-<link href="~/Content/historytimemachine.css" rel="stylesheet" />
-
-<!-- Unsorted plugins -->
-<script src="~/Scripts/jquery.timeago.js"></script>
-<script src="~/Scripts/jquery.timeago.nl.js"></script>
-<script src="~/Scripts/jquery.tagcloud.js"></script>
 <script src="~/Scripts/datepicker.min.js"></script>
-
-
-<!-- Scripts for each individual tile type -->
-<script src="~/Scripts/chattile.js"></script>
-<script src="~/Scripts/tagcloud.js"></script>
-<script src="~/Scripts/team.js"></script>
-<script src="~/Scripts/masterincidents.js"></script>
-<script src="~/Scripts/Preload.js"></script>
+<link href="~/Content/historytimemachine.css" rel="stylesheet" />
 
 <!-- Begin tile grid -->
 <div class="grid-stack">

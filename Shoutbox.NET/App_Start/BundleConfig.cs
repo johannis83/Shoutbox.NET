@@ -51,6 +51,7 @@ namespace Shoutbox.NET
                     "~/Scripts/lodash.min.js",
                     "~/Scripts/gridstack.min.js",
                     "~/Scripts/jquery.nicescroll.min.js",
+                    "~/Scripts/datepicker.min.js",
                     "~/Scripts/jquery.signalR*"));
 
         }
