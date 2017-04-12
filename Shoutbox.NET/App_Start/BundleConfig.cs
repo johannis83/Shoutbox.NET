@@ -10,6 +10,9 @@ namespace Shoutbox.NET
         {
 
             bundles.Add(new StyleBundle("~/bundles/css").Include(
+                    "~/Content/bootstrap.css",
+                    "~/Content/gridstack.min.css",
+                    "~/Content/font-awesome.min.css",
                     "~/Content/tooltipster.bundle.min.css",
                     "~/Content/tooltipster-sideTip-light.min.css",
                     "~/Content/sweetalert2.min.css",
@@ -22,11 +25,7 @@ namespace Shoutbox.NET
                     "~/Content/Masterincidents.css",
                     "~/Content/SOS.css",
                     "~/Content/settings.css",
-                    "~/Content/TOPKM.css",
-                    "~/Content/bootstrap.css",
-                    "~/Content/font-awesome.min.css",
-                    "~/Content/gridstack.min.css",
-                    "~/Content/jqcloud.min.css"));
+                    "~/Content/TOPKM.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/javascript").Include(
                     "~/Scripts/jquery.timeago.js",

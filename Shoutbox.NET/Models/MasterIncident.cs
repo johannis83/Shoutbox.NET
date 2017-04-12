@@ -8,7 +8,6 @@ namespace Shoutbox.NET.Models
 {
     public class MasterIncident
     {
-        [JsonIgnore]
         public int MasterIncidentID { get; set; }
         public string Description { get; set; }
         public string KM { get; set; }
