@@ -62,6 +62,8 @@ namespace Shoutbox.NET.Controllers
         [HttpGet]
         public ActionResult Historie(string date)
         {
+            string userLogon = User.Identity.Name;
+            User currentUser = _userRepository.GetByLogonUser(userLogon);
             DateTime pageDate;
 
             if(string.IsNullOrWhiteSpace(date))
@@ -78,6 +80,7 @@ namespace Shoutbox.NET.Controllers
 
             ShoutPageViewModel historyViewModel = new ShoutPageViewModel()
             {
+                CurrentUser = currentUser,
                 Messages = _messageRepository.GetByDay(pageDate),
                 Tags = _messageRepository.GetTagPopularityByDay(pageDate),
                 Teams = _teamRepository.GetByDay(pageDate),
