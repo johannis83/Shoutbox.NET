@@ -1,18 +1,16 @@
 ﻿.sst-status-tile {
-    text-align: center;
     overflow-y: hidden !important; 
     padding-bottom: 0px;
 }
 
-.sst-status-tile > i {
+.sst-status-tile i {
     z-index: 1;
     position: relative;
-    font-size:30px;
-    margin-top:25px;
 }
 
 .sst-status-tile > .table {
     margin-top: 0px !important;
+    font-size: 25px;
 }
 
 .sst-status-tile > .table > thead {
@@ -21,10 +19,16 @@
 
 .sst-status-tile > .table > thead > tr > th  {
     text-align: center;
-    padding-bottom: 0px;
+}
+
+#body-container > div > table > thead > tr > th:nth-child(1) {
+    text-align: left;
 }
 
 .sst-status-tile > .table > tbody > tr > td {
-    border: none;
     padding: 0px !important;
+}
+
+#SM9, #EasyVista {
+    text-align: center
 }

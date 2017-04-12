@@ -43,12 +43,6 @@ namespace Shoutbox.NET.Hubs
             this.hubContext = hubContext;
         }
 
-        public void RegisterIfNotRegistered()
-        {
-            User user = _userRepository.GetByLogonUser(Context.User.Identity.Name);
-            if (user == null) _userRepository.Create(Context.User.Identity.Name);
-        }
-
         //Needs security audit
         public void SaveGridLayout(string serializedLayout)
         {

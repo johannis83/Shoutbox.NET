@@ -9,7 +9,7 @@ namespace Shoutbox.NET.Repositories
 {
     public interface IUserRepository
     {
-        User Create(string username);
+        User CreateFromUserPrincipal(ActiveDirectoryUser activeDirectoryUserObject);
         User GetByLogonUser(string username);
         void SaveGridLayout(string logonUser, string serializedLayout);
         string GetGridLayout(string logonUser);

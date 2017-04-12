@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewBag.Title = "Status Monitor";
+    ViewBag.Icon = "fa fa-heartbeat";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/sststatus.js"></script>
+<link href="~/Content/Sststatus.css" rel="stylesheet" />
+
+<script>
+    setServiceStatus("SM9");
+    setServiceStatus("EasyVista");
+</script>
+
+        <div class="grid-stack-item-content rabo-drop-shadow sst-status-tile">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Service Manager 9 SST formulieren</td>
+                        <td id="SM9"></td>
+                    </tr>
+                    <tr>
+                        <td>EasyVista SST formulieren</td>
+                        <td id="EasyVista"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+

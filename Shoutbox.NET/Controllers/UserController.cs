@@ -36,9 +36,6 @@ namespace Shoutbox.NET.Controllers
                 string username = logonUser.Split('\\')[1];
                 User user = db.Users.FirstOrDefault(f => f.Username == username);
 
-                //If user doesn't exist yet, register them
-                if (user == null) user = Create(logonUser);
-
                 return user;
             }
         }
@@ -79,36 +76,25 @@ namespace Shoutbox.NET.Controllers
         }
 
         //The domain of the logonUser has to be defined in the web.config under DomainName->LDAP mappings
-        public User Create(string logonUser)
+        public User CreateFromUserPrincipal(ActiveDirectoryUser activeDirectoryUser)
         {
-            if (ModelState.IsValid)
+            using (ShoutboxContext db = new ShoutboxContext())
             {
-                using (ShoutboxContext db = new ShoutboxContext())
+                //Store the information in a database for faster processing
+                User user = new User
                 {
-                    string domain = logonUser.Split('\\')[0];
-                    string username = logonUser.Split('\\')[1];
+                    Name = activeDirectoryUser.UserPrincipal.GivenName + " " + activeDirectoryUser.UserPrincipal.Surname,
+                    Domain = WebConfigurationManager.AppSettings[activeDirectoryUser.DomainName].Split(',')[0], 
+                    Username = activeDirectoryUser.UserPrincipal.SamAccountName,
+                    Division = WebConfigurationManager.AppSettings[activeDirectoryUser.DomainName].Split(',')[1], //Set Division based on the mapping found in web.config
+                    NotificationSettings = "{\"Team\":true,\"Masterincidenten\":true,\"Sos\":true,\"Meldingen\":true,\"Chat\":true}", //Enable notifications by default
+                    Role = Roles.User //Make a new user a normal user by default
+                };
 
-                    //Get the user's information from ActiveDirectory
-                    UserPrincipal activeDirectoryUser = _userPrincipalRepository.GetByLogonUser(logonUser);
-
-                    //Store the information in a database for faster processing
-                    User user = new User
-                    {
-                        Name = activeDirectoryUser.GivenName + " " + activeDirectoryUser.Surname,
-                        Domain = WebConfigurationManager.AppSettings[domain].Split(',')[0],
-                        Username = username,
-                        Division = WebConfigurationManager.AppSettings[domain].Split(',')[1],
-                        NotificationSettings = "{\"Team\":true,\"Masterincidenten\":true,\"Sos\":true,\"Meldingen\":true,\"Chat\":true}", //Enable notifications by default
-                        Role = Roles.User //Make a new user a normal user by default
-                    };
-
-                    db.Users.Add(user);
-                    db.SaveChanges();
-                    return user;
-                }
+                db.Users.Add(user);
+                db.SaveChanges();
+                return user;
             }
-
-            return null;
         }
     }
 }

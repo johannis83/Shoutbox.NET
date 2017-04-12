@@ -218,6 +218,7 @@
     <Compile Include="Controllers\TeamController.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Misc\HelperFunctions.cs" />
+    <Compile Include="Models\ActiveDirectoryUser.cs" />
     <Compile Include="Models\KM.cs" />
     <Compile Include="Models\MasterIncident.cs" />
     <Compile Include="Models\SOS.cs" />
@@ -246,6 +247,8 @@
     <Compile Include="Repositories\ITeamRepository.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\ShoutPageViewModel.cs" />
+    <Content Include="Views\Main\Monitor.cshtml" />
+    <Content Include="Views\Shared\Unauthorized.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />

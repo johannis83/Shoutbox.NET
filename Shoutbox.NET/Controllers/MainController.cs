@@ -19,11 +19,12 @@ namespace Shoutbox.NET.Controllers
         private IMasterIncidentRepository _masterIncidentRepository;
         private ISOSRepository _sosRepository;
         private IUserRepository _userRepository;
+        private IUserPrincipalRepository _userPrincipalRepository;
         private IKMRepository _kmRepository;
 
         public MainController(IMessageRepository messageRepository, ITeamRepository teamRepository, 
             IMasterIncidentRepository masterIncidentRepository, ISOSRepository sosRepository, IUserRepository userRepository,
-            IKMRepository kmRepository)
+            IKMRepository kmRepository, IUserPrincipalRepository userPrincipalRepository)
         {
             _messageRepository = messageRepository;
             _teamRepository = teamRepository;
@@ -31,10 +32,18 @@ namespace Shoutbox.NET.Controllers
             _sosRepository = sosRepository;
             _userRepository = userRepository;
             _kmRepository = kmRepository;
+            _userPrincipalRepository = userPrincipalRepository;
         }
 
         public ActionResult Index()
         {
+            string userLogon = User.Identity.Name;
+            User currentUser = _userRepository.GetByLogonUser(userLogon);
+
+            //If user isn't known yet in our database, get their data from ActiveDirectory and Create them in the database
+            if (currentUser == null)
+                currentUser = _userRepository.CreateFromUserPrincipal(_userPrincipalRepository.GetByLogonUser(userLogon));
+
             //Only get todays objects for the homepage
             DateTime pageDate = DateTime.Now;
             ShoutPageViewModel indexViewModel = new ShoutPageViewModel()
@@ -44,7 +53,7 @@ namespace Shoutbox.NET.Controllers
                 Tags = _messageRepository.GetTagPopularityByDay(pageDate),
                 Teams = _teamRepository.GetByDay(pageDate),
                 MasterIncidents = _masterIncidentRepository.GetByDay(pageDate).Where(f => f.Active),
-                CurrentUser = _userRepository.GetByLogonUser(User.Identity.Name), //Also registers the user if they don't exist yet
+                CurrentUser = currentUser,
                 KMList = _kmRepository.GetList()
             };
             return View(indexViewModel);
@@ -76,6 +85,27 @@ namespace Shoutbox.NET.Controllers
                 HistoryViewDate = pageDate
             };
             return View(historyViewModel);
+        }
+
+        public ActionResult Monitor()
+        {
+            string userLogon = User.Identity.Name;
+            User currentUser = _userRepository.GetByLogonUser(userLogon);
+
+            ShoutPageViewModel monitorViewModel = new ShoutPageViewModel()
+            {
+                CurrentUser = currentUser
+            };
+
+            //Only users with a role higher than a normal user can access the status monitor
+            if (currentUser.Role > Roles.User)
+            {
+               
+
+                return View(monitorViewModel);
+            }
+
+            return View("Unauthorized", monitorViewModel);
         }
     }
 }
