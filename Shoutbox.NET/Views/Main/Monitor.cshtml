@@ -1,4 +1,4 @@
-﻿
+﻿@model Shoutbox.NET.ViewModels.ShoutPageViewModel
 @{
     ViewBag.Title = "Status Monitor";
     ViewBag.Icon = "fa fa-heartbeat";
@@ -6,32 +6,169 @@
 }
 
 <script src="~/Scripts/sststatus.js"></script>
+<script src="~/Scripts/Chart.bundle.min.js"></script>
 <link href="~/Content/Sststatus.css" rel="stylesheet" />
+
 
 <script>
     setServiceStatus("SM9");
     setServiceStatus("EasyVista");
+
+    $(document).ready(function () {
+        var ctx = document.getElementById("myChart");
+        var ctx2 = document.getElementById("myChart2");
+
+        var data = {
+            datasets: [{
+                data: [
+                    @Model.DataDistribution.UsagePerTypeToday.Item1,
+                    @Model.DataDistribution.UsagePerTypeToday.Item3,
+                    @Model.DataDistribution.UsagePerTypeToday.Item2
+                ],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.3)',
+                    'rgba(54, 162, 235, 0.3)',
+                    'rgba(75, 192, 192, 0.3)',
+                ],
+                borderColor: [
+                    'rgba(255,99,132,1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(153, 102, 255, 1)',
+                ],
+            }],
+            borderWidth: 10,
+            labels: [
+                "Master Incidenten",
+                "Chat berichten",
+                "Meldingen"
+            ]
+        };
+
+        var data2 = {
+            datasets: [{
+                label: "Master Incidenten",
+                fill: false,
+                backgroundColor: 'rgba(255, 99, 132, 1)',
+                
+                data: [
+                    @Model.DataDistribution.AverageMasterIncidentUsagePerWeekday.Item1,
+                    @Model.DataDistribution.AverageMasterIncidentUsagePerWeekday.Item2,
+                    @Model.DataDistribution.AverageMasterIncidentUsagePerWeekday.Item3,
+                    @Model.DataDistribution.AverageMasterIncidentUsagePerWeekday.Item4,
+                    @Model.DataDistribution.AverageMasterIncidentUsagePerWeekday.Item5
+                ],
+            },
+            {
+                label: "Meldingen",
+                fill: false,
+                backgroundColor: 'rgba(54, 162, 235, 1)',
+                data: [
+                    @Model.DataDistribution.AverageAnnouncementsPerWeekday.Item1,
+                    @Model.DataDistribution.AverageAnnouncementsPerWeekday.Item2,
+                    @Model.DataDistribution.AverageAnnouncementsPerWeekday.Item3,
+                    @Model.DataDistribution.AverageAnnouncementsPerWeekday.Item4,
+                    @Model.DataDistribution.AverageAnnouncementsPerWeekday.Item5
+                ],
+                },
+            {
+                label: "Chat berichten",
+                fill: false,
+                backgroundColor: 'rgba(75, 192, 192, 1)',
+                data: [
+                    @Model.DataDistribution.AverageChatMessagesPerWeekday.Item1,
+                    @Model.DataDistribution.AverageChatMessagesPerWeekday.Item2,
+                    @Model.DataDistribution.AverageChatMessagesPerWeekday.Item3,
+                    @Model.DataDistribution.AverageChatMessagesPerWeekday.Item4,
+                    @Model.DataDistribution.AverageChatMessagesPerWeekday.Item5
+                ],
+            }],
+            borderWidth: 10,
+            labels: [
+                "Maandag",
+                "Dinsdag",
+                "Woensdag",
+                "Donderdag",
+                "Vrijdag"
+            ]
+        };
+
+        //Bar chart
+        var myBarChart = new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }],
+                },
+                legend: {
+                    display: false
+                }
+            }
+        });
+
+        //Line chart
+        var myLineChart = new Chart(ctx2, {
+            type: 'line',
+            data: data2
+        });
+    });
 </script>
 
-        <div class="grid-stack-item-content rabo-drop-shadow sst-status-tile">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Service</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Service Manager 9 SST formulieren</td>
-                        <td id="SM9"></td>
-                    </tr>
-                    <tr>
-                        <td>EasyVista SST formulieren</td>
-                        <td id="EasyVista"></td>
-                    </tr>
-                </tbody>
-            </table>
+<div class="grid-stack">
+<div class="grid-stack-item" data-gs-x="6" data-gs-y="0"
+        data-gs-width="6" data-gs-height="5" id="grid-km-item">
+    <div class="grid-stack-item-content rabo-drop-shadow">
+        <div class="tile-titlebar">Gemiddeld aantal maaster incidenten per dag</div>
+        <canvas id="myChart2" style="margin-top:10px"></canvas>
+    </div>
+</div>
+
+<div class="grid-stack-item" data-gs-x="0" data-gs-y="0"
+        data-gs-width="6" data-gs-height="5" id="grid-km-item" data-gs-no-resize="true">
+    <div class="grid-stack-item-content rabo-drop-shadow">
+        <div class="tile-titlebar">Gebruik vandaag</div>
+        <canvas id="myChart" style="margin-top:10px"></canvas>
+    </div>
+</div>
+
+<div class="grid-stack-item" data-gs-x="0" data-gs-y="5"
+        data-gs-width="4" data-gs-height="2" id="grid-km-item" data-gs-min-width="" data-gs-max-height="5">
+    <div class="grid-stack-item-content rabo-drop-shadow sst-status-tile">
+        <div class="tile-titlebar">SST Status</div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Service</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Service Manager 9 SST formulieren</td>
+                    <td id="SM9"></td>
+                </tr>
+                <tr>
+                    <td>EasyVista SST formulieren</td>
+                    <td id="EasyVista"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+    <div class="grid-stack-item" data-gs-x="4" data-gs-y="6"
+         data-gs-width="2" data-gs-height="2" id="grid-km-item">
+        <div class="grid-stack-item-content rabo-drop-shadow">
+            <div class="tile-titlebar">Gebruikers online</div>
+            <center>
+                <i class="fa fa-users" aria-hidden="true" style="font-size:60px; margin-top:30px">
+                <span style="font-size:40px; font-weight: bold; margin-left:20px;">@Model.DataDistribution.OnlineUsers</span></i>
+            </center>
         </div>
+    </div>
 
-
+</div>

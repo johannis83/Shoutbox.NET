@@ -1,6 +1,7 @@
 ﻿.sst-status-tile {
     overflow-y: hidden !important; 
     padding-bottom: 0px;
+    margin-top:30px;
 }
 
 .sst-status-tile i {
@@ -10,7 +11,7 @@
 
 .sst-status-tile > .table {
     margin-top: 0px !important;
-    font-size: 25px;
+    font-size: 17px;
 }
 
 .sst-status-tile > .table > thead {
@@ -21,7 +22,7 @@
     text-align: center;
 }
 
-#body-container > div > table > thead > tr > th:nth-child(1) {
+#grid-km-item > div > table > thead > tr > th:nth-child(1) {
     text-align: left;
 }
 

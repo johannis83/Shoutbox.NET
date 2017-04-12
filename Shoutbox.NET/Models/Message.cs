@@ -12,7 +12,7 @@ namespace Shoutbox.NET.Models
     {
         [JsonIgnore]
         public int MessageID { get; set; }
-        public DateTime? Timestamp { get; set; }
+        public DateTime Timestamp { get; set; }
         public string Tag { get; set; }
         public string Text { get; set; }
         public string Type { get; set; }

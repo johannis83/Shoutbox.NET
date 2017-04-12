@@ -26,6 +26,7 @@ namespace Shoutbox.NET.Hubs
         private IMasterIncidentRepository _MasterIncidentRepository;
         private ISOSRepository _sosRepository;
         private IHubContext hubContext;
+        public static Dictionary<string, string> ConnectedUsers = new Dictionary<string, string>();
 
         public ShoutHub(IUserRepository userService, IMessageRepository messageService, IUserPrincipalRepository userPrincipalRepository,
             ITeamRepository TeamRepository, IMasterIncidentRepository masterIncidentRepository, ISOSRepository sosRepository)
@@ -37,7 +38,20 @@ namespace Shoutbox.NET.Hubs
             _MasterIncidentRepository = masterIncidentRepository;
             _sosRepository = sosRepository;
         }
-  
+
+
+        public override Task OnConnected()
+        {
+            ConnectedUsers.Add(Context.ConnectionId, Context.User.Identity.Name);
+            return base.OnConnected();
+        }
+
+        public override Task OnDisconnected(bool stopCalled)
+        {
+            ConnectedUsers.Remove(Context.ConnectionId);
+            return base.OnDisconnected(stopCalled);
+        }
+
         public ShoutHub(IHubContext hubContext)
         {
             this.hubContext = hubContext;

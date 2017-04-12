@@ -211,6 +211,7 @@
     <Compile Include="Controllers\KMController.cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\MasterIncidentController.cs" />
+    <Compile Include="Controllers\ShoutboxUsageController.cs" />
     <Compile Include="Controllers\SOSController.cs" />
     <Compile Include="Controllers\SSTStatusController.cs" />
     <Compile Include="Controllers\TagController.cs" />
@@ -219,6 +220,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Misc\HelperFunctions.cs" />
     <Compile Include="Models\ActiveDirectoryUser.cs" />
+    <Compile Include="Models\DataDistribution.cs" />
     <Compile Include="Models\KM.cs" />
     <Compile Include="Models\MasterIncident.cs" />
     <Compile Include="Models\SOS.cs" />
@@ -231,6 +233,7 @@
     <Compile Include="Repositories\IKMRepository.cs" />
     <Compile Include="Repositories\IMasterIncidentRepository.cs" />
     <Compile Include="Repositories\IMessageRepository.cs" />
+    <Compile Include="Repositories\IShoutboxUsageRepository.cs" />
     <Compile Include="Repositories\ISOSRepository.cs" />
     <Compile Include="Repositories\IUserControllerRepository.cs" />
     <Compile Include="Controllers\MessageController.cs" />
@@ -247,6 +250,7 @@
     <Compile Include="Repositories\ITeamRepository.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\ShoutPageViewModel.cs" />
+    <Content Include="Scripts\Chart.bundle.min.js" />
     <Content Include="Views\Main\Monitor.cshtml" />
     <Content Include="Views\Shared\Unauthorized.cshtml" />
   </ItemGroup>

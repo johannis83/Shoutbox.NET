@@ -34,7 +34,7 @@ namespace Shoutbox.NET.Controllers
                 db.Configuration.ProxyCreationEnabled = false;
 
                 //Only select the values the client needs, so cast them to an anonymous type
-                return db.Messages.Include(u => u.User).Where(f => f.Timestamp.Value.Day == datetime.Day).ToList();
+                return db.Messages.Include(u => u.User).Where(f => f.Timestamp.Day == datetime.Day).ToList();
             }
         }
 
@@ -44,7 +44,7 @@ namespace Shoutbox.NET.Controllers
             {
                 Dictionary<string, int> tags = new Dictionary<string, int>();
                 //Get all of today's messages, select them distinct by the tags. Add those tags to the dictionary with the amount of each particular tag
-                db.Messages.Where(f => f.Tag != "" && f.Timestamp.Value.Day == datetime.Day).GroupBy(t => t.Tag).Select(g => g.FirstOrDefault()).ToList().
+                db.Messages.Where(f => f.Tag != "" && f.Timestamp.Day == datetime.Day).GroupBy(t => t.Tag).Select(g => g.FirstOrDefault()).ToList().
                     ForEach(i => tags.Add(i.Tag, db.Messages.Count(x => x.Tag == i.Tag)));
 
                 return tags;

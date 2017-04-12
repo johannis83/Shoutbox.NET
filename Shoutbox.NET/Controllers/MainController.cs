@@ -21,10 +21,12 @@ namespace Shoutbox.NET.Controllers
         private IUserRepository _userRepository;
         private IUserPrincipalRepository _userPrincipalRepository;
         private IKMRepository _kmRepository;
+        private IShoutboxUsageRepository _shoutboxUsageRepository;
 
-        public MainController(IMessageRepository messageRepository, ITeamRepository teamRepository, 
+        public MainController(IMessageRepository messageRepository, ITeamRepository teamRepository,
             IMasterIncidentRepository masterIncidentRepository, ISOSRepository sosRepository, IUserRepository userRepository,
-            IKMRepository kmRepository, IUserPrincipalRepository userPrincipalRepository)
+            IKMRepository kmRepository, IUserPrincipalRepository userPrincipalRepository,
+            IShoutboxUsageRepository shoutboxUsageRepository)
         {
             _messageRepository = messageRepository;
             _teamRepository = teamRepository;
@@ -33,6 +35,7 @@ namespace Shoutbox.NET.Controllers
             _userRepository = userRepository;
             _kmRepository = kmRepository;
             _userPrincipalRepository = userPrincipalRepository;
+            _shoutboxUsageRepository = shoutboxUsageRepository;
         }
 
         public ActionResult Index()
@@ -66,12 +69,12 @@ namespace Shoutbox.NET.Controllers
             User currentUser = _userRepository.GetByLogonUser(userLogon);
             DateTime pageDate;
 
-            if(string.IsNullOrWhiteSpace(date))
+            if (string.IsNullOrWhiteSpace(date))
                 //Show yesterday by default
                 pageDate = DateTime.Now.AddDays(-1);
             else
             {
-                if(!DateTime.TryParseExact(date, "d-M-yyyy", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None, out pageDate))
+                if (!DateTime.TryParseExact(date, "d-M-yyyy", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None, out pageDate))
                 {
                     pageDate = DateTime.Now;
                 }
@@ -95,20 +98,23 @@ namespace Shoutbox.NET.Controllers
             string userLogon = User.Identity.Name;
             User currentUser = _userRepository.GetByLogonUser(userLogon);
 
-            ShoutPageViewModel monitorViewModel = new ShoutPageViewModel()
-            {
-                CurrentUser = currentUser
-            };
+            ShoutPageViewModel monitorViewModel = new ShoutPageViewModel();
 
             //Only users with a role higher than a normal user can access the status monitor
-            if (currentUser.Role > Roles.User)
+            if (currentUser.Role < Roles.Moderator)
             {
-               
-
-                return View(monitorViewModel);
+                return View("Unauthorized", monitorViewModel);
             }
 
-            return View("Unauthorized", monitorViewModel);
+            monitorViewModel.DataDistribution = new ShoutboxStatistics();
+
+            monitorViewModel.CurrentUser = currentUser;
+            monitorViewModel.DataDistribution.UsagePerTypeToday = _shoutboxUsageRepository.GetDataDistributionByDay(DateTime.Now);
+            monitorViewModel.DataDistribution.AverageMasterIncidentUsagePerWeekday = _shoutboxUsageRepository.GetAverageMasterIncidentsPerWeekday();
+            monitorViewModel.DataDistribution.AverageAnnouncementsPerWeekday = _shoutboxUsageRepository.GetAverageAnnouncementsPerWeekDay();
+            monitorViewModel.DataDistribution.AverageChatMessagesPerWeekday = _shoutboxUsageRepository.GetAverageChatMessagesPerWeekday();
+            monitorViewModel.DataDistribution.OnlineUsers = _shoutboxUsageRepository.GetOnlineUserCount();
+            return View(monitorViewModel);
         }
     }
 }
