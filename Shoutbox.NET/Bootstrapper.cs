@@ -34,7 +34,7 @@ namespace Shoutbox.NET
             container.RegisterType<ITeamRepository, TeamController>();
             container.RegisterType<IMasterIncidentRepository, MasterIncidentController>();
             container.RegisterType<IKMRepository, KMController>();
-            container.RegisterType<IShoutboxUsageRepository, ShoutboxUsageController>();
+            container.RegisterType<IShoutboxUsageRepository, ShoutboxStatisticsController>();
 
             return container;
         }

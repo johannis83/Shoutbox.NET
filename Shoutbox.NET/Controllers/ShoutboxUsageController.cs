@@ -10,7 +10,7 @@ using System.Web;
 
 namespace Shoutbox.NET.Controllers
 {
-    public class ShoutboxUsageController : IShoutboxUsageRepository
+    public class ShoutboxStatisticsController : IShoutboxUsageRepository
     {
 
         public Tuple<int, int, int> GetDataDistributionByDay(DateTime day)
@@ -43,11 +43,11 @@ namespace Shoutbox.NET.Controllers
                 //First day used to count the amount of days until now
                 DateTime firstDay = db.Messages.OrderBy(f => f.Timestamp).FirstOrDefault().Timestamp;
 
-                int averageOnMonday = db.Messages.ToList().Where(f => f.Timestamp.DayOfWeek == DayOfWeek.Monday && f.Type == "Chat").Count() / GetWorkingDays(firstDay, DateTime.Now);
-                int averageOnTuesday = db.Messages.ToList().Where(f => f.Timestamp.DayOfWeek == DayOfWeek.Tuesday && f.Type == "Chat").Count() / GetWorkingDays(firstDay, DateTime.Now);
-                int averageOnWednesday = db.Messages.ToList().Where(f => f.Timestamp.DayOfWeek == DayOfWeek.Wednesday && f.Type == "Chat").Count() / GetWorkingDays(firstDay, DateTime.Now);
-                int averageOnThursday = db.Messages.ToList().Where(f => f.Timestamp.DayOfWeek == DayOfWeek.Thursday && f.Type == "Chat").Count() / GetWorkingDays(firstDay, DateTime.Now);
-                int averageOnFriday = db.Messages.ToList().Where(f => f.Timestamp.DayOfWeek == DayOfWeek.Friday && f.Type == "Chat").Count() / GetWorkingDays(firstDay, DateTime.Now);
+                int averageOnMonday = db.Messages.ToList().Where(f => f.Timestamp.DayOfWeek == DayOfWeek.Monday && f.Type == "Chat").Count() / (GetWorkingDays(firstDay, DateTime.Now) / 5);
+                int averageOnTuesday = db.Messages.ToList().Where(f => f.Timestamp.DayOfWeek == DayOfWeek.Tuesday && f.Type == "Chat").Count() / (GetWorkingDays(firstDay, DateTime.Now) / 5);
+                int averageOnWednesday = db.Messages.ToList().Where(f => f.Timestamp.DayOfWeek == DayOfWeek.Wednesday && f.Type == "Chat").Count() / (GetWorkingDays(firstDay, DateTime.Now) / 5);
+                int averageOnThursday = db.Messages.ToList().Where(f => f.Timestamp.DayOfWeek == DayOfWeek.Thursday && f.Type == "Chat").Count() / (GetWorkingDays(firstDay, DateTime.Now) / 5);
+                int averageOnFriday = db.Messages.ToList().Where(f => f.Timestamp.DayOfWeek == DayOfWeek.Friday && f.Type == "Chat").Count() / (GetWorkingDays(firstDay, DateTime.Now) / 5);
 
                 return new Tuple<int, int, int, int, int>(averageOnMonday, averageOnTuesday, averageOnWednesday, averageOnThursday, averageOnFriday);
             }
@@ -61,11 +61,11 @@ namespace Shoutbox.NET.Controllers
                 //First day used to count the amount of days until now
                 DateTime firstDay = db.Messages.OrderBy(f => f.Timestamp).FirstOrDefault().Timestamp;
 
-                int averageOnMonday = db.MasterIncidents.ToList().Where(f => f.Timestamp.DayOfWeek == DayOfWeek.Monday).Count() / GetWorkingDays(firstDay, DateTime.Now);
-                int averageOnTuesday = db.MasterIncidents.ToList().Where(f => f.Timestamp.DayOfWeek == DayOfWeek.Tuesday).Count() / GetWorkingDays(firstDay, DateTime.Now);
-                int averageOnWednesday = db.MasterIncidents.ToList().Where(f => f.Timestamp.DayOfWeek == DayOfWeek.Wednesday).Count() / GetWorkingDays(firstDay, DateTime.Now);
-                int averageOnThursday = db.MasterIncidents.ToList().Where(f => f.Timestamp.DayOfWeek == DayOfWeek.Thursday).Count() / GetWorkingDays(firstDay, DateTime.Now);
-                int averageOnFriday = db.MasterIncidents.ToList().Where(f => f.Timestamp.DayOfWeek == DayOfWeek.Friday).Count() / GetWorkingDays(firstDay, DateTime.Now);
+                int averageOnMonday = db.MasterIncidents.ToList().Where(f => f.Timestamp.DayOfWeek == DayOfWeek.Monday).Count() / (GetWorkingDays(firstDay, DateTime.Now) / 5);
+                int averageOnTuesday = db.MasterIncidents.ToList().Where(f => f.Timestamp.DayOfWeek == DayOfWeek.Tuesday).Count() / (GetWorkingDays(firstDay, DateTime.Now) / 5);
+                int averageOnWednesday = db.MasterIncidents.ToList().Where(f => f.Timestamp.DayOfWeek == DayOfWeek.Wednesday).Count() / (GetWorkingDays(firstDay, DateTime.Now) / 5);
+                int averageOnThursday = db.MasterIncidents.ToList().Where(f => f.Timestamp.DayOfWeek == DayOfWeek.Thursday).Count() / (GetWorkingDays(firstDay, DateTime.Now) / 5);
+                int averageOnFriday = db.MasterIncidents.ToList().Where(f => f.Timestamp.DayOfWeek == DayOfWeek.Friday).Count() / (GetWorkingDays(firstDay, DateTime.Now) / 5);
 
                 return new Tuple<int, int, int, int, int>(averageOnMonday, averageOnTuesday, averageOnWednesday, averageOnThursday, averageOnFriday);
             }
@@ -78,11 +78,11 @@ namespace Shoutbox.NET.Controllers
                 //First day used to count the amount of days until now
                 DateTime firstDay = db.Messages.OrderBy(f => f.Timestamp).FirstOrDefault().Timestamp;
 
-                int averageOnMonday = db.Messages.ToList().Where(f => f.Timestamp.DayOfWeek == DayOfWeek.Monday && f.Type == "Announcement").Count() / GetWorkingDays(firstDay, DateTime.Now);
-                int averageOnTuesday = db.Messages.ToList().Where(f => f.Timestamp.DayOfWeek == DayOfWeek.Tuesday && f.Type == "Announcement").Count() / GetWorkingDays(firstDay, DateTime.Now);
-                int averageOnWednesday = db.Messages.ToList().Where(f => f.Timestamp.DayOfWeek == DayOfWeek.Wednesday && f.Type == "Announcement").Count() / GetWorkingDays(firstDay, DateTime.Now);
-                int averageOnThursday = db.Messages.ToList().Where(f => f.Timestamp.DayOfWeek == DayOfWeek.Thursday && f.Type == "Announcement").Count() / GetWorkingDays(firstDay, DateTime.Now);
-                int averageOnFriday = db.Messages.ToList().Where(f => f.Timestamp.DayOfWeek == DayOfWeek.Friday && f.Type == "Announcement").Count() / GetWorkingDays(firstDay, DateTime.Now);
+                int averageOnMonday = db.Messages.ToList().Where(f => f.Timestamp.DayOfWeek == DayOfWeek.Monday && f.Type == "Announcement").Count() / (GetWorkingDays(firstDay, DateTime.Now) / 5);
+                int averageOnTuesday = db.Messages.ToList().Where(f => f.Timestamp.DayOfWeek == DayOfWeek.Tuesday && f.Type == "Announcement").Count() / (GetWorkingDays(firstDay, DateTime.Now) / 5);
+                int averageOnWednesday = db.Messages.ToList().Where(f => f.Timestamp.DayOfWeek == DayOfWeek.Wednesday && f.Type == "Announcement").Count() / (GetWorkingDays(firstDay, DateTime.Now) / 5);
+                int averageOnThursday = db.Messages.ToList().Where(f => f.Timestamp.DayOfWeek == DayOfWeek.Thursday && f.Type == "Announcement").Count() / (GetWorkingDays(firstDay, DateTime.Now) / 5);
+                int averageOnFriday = db.Messages.ToList().Where(f => f.Timestamp.DayOfWeek == DayOfWeek.Friday && f.Type == "Announcement").Count() / (GetWorkingDays(firstDay, DateTime.Now) / 5);
 
                 return new Tuple<int, int, int, int, int>(averageOnMonday, averageOnTuesday, averageOnWednesday, averageOnThursday, averageOnFriday);
             }
