@@ -18,8 +18,20 @@
         transport: ['serverSentEvents', 'webSockets', 'longPolling']
     }).done(function () {
 
-        sendFreeMessage = function (name, message, tag, type) {
-            shout.server.demoSendFreeMessage(name, message, tag, type)
+        sendFreeMessage = function (name, message, tag, type, count) {
+            for (var i = 0; i < count; i++) {
+                shout.server.demoSendFreeMessage(name, message + ' ' + i, tag, type)
+            }
+            
         }
-});
+        });
+
+
+    $(document).ready(function () {
+        
+    });
+
 </script>
+
+
+<input type="button" value="Dialog 1" onclick="sendFreeMessage('Test', 'Test' , '', 'Chat', 100); this.remove();"/>

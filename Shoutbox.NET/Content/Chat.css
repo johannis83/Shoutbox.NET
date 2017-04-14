@@ -32,6 +32,10 @@ hr {
     height: 100%;
 }
 
+.message-container {
+    font-size: 11px;
+}
+
 .chat-filler {
     color: lightgray;
     height: 96%;
@@ -50,8 +54,14 @@ hr {
     font-size: 25px;
 }
 
-#message {
+#chat-message {
     margin-bottom: 10px;
+    padding: 5px 10px 5px 10px;
+}
+
+#announcement-message {
+    margin-bottom: 10px;
+    padding: 5px 10px 15px 10px;
 }
 
 #message-name {
@@ -71,22 +81,25 @@ hr {
     font-size: small;
     color: gray;
     float: right;
+    font-size: 11px;
 }
 
 #message-content {
+    margin-top:3px;
 }
 
 #message-tag {
-    margin-top:5px;
+    margin-right:5px;
     padding: 6px;
     display: inline-block;
     font-size: 12px;
     cursor: pointer;
+    float:left;
 }
 
 #message-text {
     margin-top: 5px;
-    display: inline-block;
-    width: 100%;
+    display: inline;
+    
     overflow-wrap: break-word;
 }

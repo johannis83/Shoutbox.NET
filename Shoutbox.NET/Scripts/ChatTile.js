@@ -60,7 +60,7 @@ $(window).resize(function () {
 
 
     //Must be hooked to a #chat-window object
-    $.fn.AddMessage = function (name, division, time, tag, text, autoscroll) {
+    $.fn.AddMessage = function (name, division, time, tag, text, type, autoscroll) {
 
         var chatTile = $(this);
         var messageContainer = chatTile.find(".message-container");
@@ -75,7 +75,7 @@ $(window).resize(function () {
             chatTile.find(".chat-filler").hide();
         }
 
-        messageContainer.append(messageTemplate(name, division, time, tag, text));
+        messageContainer.append(messageTemplate(name, division, time, tag, text, type));
         $("abbr.timeago").timeago();
 
         if (autoscroll) {
@@ -84,12 +84,18 @@ $(window).resize(function () {
     }
 
 
-    var messageTemplate = function (name, division, time, tag, text) {
+    var messageTemplate = function (name, division, time, tag, text, type) {
 
         var uppercaseFirstCharacterTag = tag.toLowerCase().charAt(0).toUpperCase() + tag.slice(1);
         var message = "";
-            message = message.concat('<!-- Begin message -->');
-            message = message.concat('<div id="message" class="well">');
+        message = message.concat('<!-- Begin message -->');
+
+        if(type == "Chat")
+            message = message.concat('<div id="chat-message" class="well">');
+        else
+            message = message.concat('<div id="announcement-message" class="well">');
+
+            message = message.concat('<div id="message-header">');
             message = message.concat('<div id="message-name">' + name + '</div>');
 
             //Dutch users get orange badges. Hup oranje!
@@ -99,13 +105,13 @@ $(window).resize(function () {
                 message = message.concat('<div id="message-division" class="badge">' + division + '</div>');
             }
 
-
             message = message.concat('<div id="message-time"><i class="fa fa-clock-o" aria-hidden="true"></i><abbr class="timeago" title="' + time + '">' + time + ' </abbr> </div>');
+            message = message.concat('</div>');
             message = message.concat('<div id="message-content">');
             //Only add a tag label if a tag is specified. Chat messages don't use tags, so..
             if(tag != "") message = message.concat('<div id="message-tag" onclick="location.href=\'Tag/' + uppercaseFirstCharacterTag + '\';" class="label label-primary">' + tag + '</div>');
-            message = message.concat('<div id="message-text">' + text);
-            message = message.concat('</div>');
+            message = message.concat('<p id="message-text">' + text);
+            message = message.concat('</p>');
             message = message.concat('</div>');
             message = message.concat('</div>');
             message = message.concat('<!-- End message -->');
@@ -116,9 +122,9 @@ $(window).resize(function () {
         for (var i = 0; i < messages.length; i++) {
             //Add to the appropriate message window depending on the messages type
             if (messages[i]["Type"] == "Chat") {
-                $("#chat-window").AddMessage(messages[i]["User"]["Name"], messages[i]["User"]["Division"], messages[i]["Timestamp"], messages[i]["Tag"], messages[i]["Text"], false);
+                $("#chat-window").AddMessage(messages[i]["User"]["Name"], messages[i]["User"]["Division"], messages[i]["Timestamp"], messages[i]["Tag"], messages[i]["Text"], messages[i]["Type"], false);
             } else if (messages[i]["Type"] == "Announcement") {
-                $("#announcement-window").AddMessage(messages[i]["User"]["Name"], messages[i]["User"]["Division"], messages[i]["Timestamp"], messages[i]["Tag"], messages[i]["Text"], false);
+                $("#announcement-window").AddMessage(messages[i]["User"]["Name"], messages[i]["User"]["Division"], messages[i]["Timestamp"], messages[i]["Tag"], messages[i]["Text"], messages[i]["Type"], false);
             }
         }
                 //Scroll both chat containers down
@@ -130,7 +136,7 @@ $(window).resize(function () {
     addMessagesTagViewer = function (messages, autoscroll) {
         for (var i = 0; i < messages.length; i++) {
             //Add to the appropriate message window depending on the messages type
-            $("#chat-window").AddMessage(messages[i]["User"]["Name"], messages[i]["User"]["Division"], messages[i]["Timestamp"], messages[i]["Tag"], messages[i]["Text"], false);
+            $("#chat-window").AddMessage(messages[i]["User"]["Name"], messages[i]["User"]["Division"], messages[i]["Timestamp"], messages[i]["Tag"], messages[i]["Text"], messages[i]["Type"], false);
         }
 
         if (autoscroll) {
@@ -147,6 +153,9 @@ var scrollWindowsToBottom = function (duration) {
 // Instantiate nice scroll
 $(document).ready(function () {
     $(".grid-stack-item-content").niceScroll({
+        scrollspeed: 10,
+        mousescrollstep: 100,
+        enablescrollonselection: false,
         cursorwidth: 5,
         cursorborder: 0,
         cursorcolor: '#d8d8d8',

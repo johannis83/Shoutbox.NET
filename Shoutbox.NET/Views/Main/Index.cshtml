@@ -340,12 +340,12 @@
         //Add message to the appropriate tile depending on the message type
         console.log(name, division, time, tag, text, type);
         if (type == "Chat") {
-            $("#chat-window").AddMessage(name, division, time, tag, text, true);
+            $("#chat-window").AddMessage(name, division, time, tag, text, type, true);
             if (notificationSettings["Chat"]) {
                 spawnNotification("Shoutbox", name + ": " + tag + " " + text);
             }
         } else if (type == "Announcement") {
-            $("#announcement-window").AddMessage(name, division, time, tag, text, true);
+            $("#announcement-window").AddMessage(name, division, time, tag, text, type, true);
             if (notificationSettings["Meldingen"]) {
                 spawnNotification("Shoutbox", name + ": #" + tag + " " + text);
             }

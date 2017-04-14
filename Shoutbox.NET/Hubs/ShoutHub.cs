@@ -85,6 +85,9 @@ namespace Shoutbox.NET.Hubs
                 }
             };
 
+            message.User.UserID = 1;
+
+            _messageRepository.Create(message);
 
 
             Clients.All.ReceiveChatMessage(
