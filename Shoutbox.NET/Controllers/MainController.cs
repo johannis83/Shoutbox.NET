@@ -93,12 +93,26 @@ namespace Shoutbox.NET.Controllers
             return View(historyViewModel);
         }
 
+        public ActionResult Tag(string tag)
+        {
+            string userLogon = User.Identity.Name;
+            User currentUser = _userRepository.GetByLogonUser(userLogon);
+            ShoutPageViewModel tagViewModel = new ShoutPageViewModel()
+            {
+                CurrentUser = currentUser,
+                Messages = _messageRepository.GetByDay(DateTime.Now).Where(f => f.Tag.ToLower() == tag.ToLower())
+            };
+            return View(tagViewModel);
+
+        }
+
         public ActionResult Monitor()
         {
             string userLogon = User.Identity.Name;
             User currentUser = _userRepository.GetByLogonUser(userLogon);
 
             ShoutPageViewModel monitorViewModel = new ShoutPageViewModel();
+            monitorViewModel.CurrentUser = currentUser;
 
             //Only users with a role higher than a normal user can access the status monitor
             if (currentUser.Role < Roles.Moderator)
@@ -107,14 +121,20 @@ namespace Shoutbox.NET.Controllers
             }
 
             monitorViewModel.DataDistribution = new ShoutboxStatistics();
-
-            monitorViewModel.CurrentUser = currentUser;
             monitorViewModel.DataDistribution.UsagePerTypeToday = _shoutboxUsageRepository.GetDataDistributionByDay(DateTime.Now);
             monitorViewModel.DataDistribution.AverageMasterIncidentUsagePerWeekday = _shoutboxUsageRepository.GetAverageMasterIncidentsPerWeekday();
             monitorViewModel.DataDistribution.AverageAnnouncementsPerWeekday = _shoutboxUsageRepository.GetAverageAnnouncementsPerWeekDay();
             monitorViewModel.DataDistribution.AverageChatMessagesPerWeekday = _shoutboxUsageRepository.GetAverageChatMessagesPerWeekday();
             monitorViewModel.DataDistribution.OnlineUsers = _shoutboxUsageRepository.GetOnlineUserCount();
             return View(monitorViewModel);
+        }
+
+        public ActionResult Demo()
+        {
+
+            ShoutPageViewModel svm = new ShoutPageViewModel();
+            svm.CurrentUser = _userRepository.GetByLogonUser(User.Identity.Name);
+            return View(svm);
         }
     }
 }

@@ -68,6 +68,29 @@ namespace Shoutbox.NET.Hubs
             _userRepository.SaveNotificationSettings(Context.User.Identity.Name, serializedSettings);
         }
 
+
+        //REMOVE AFTER DEMO
+        public void DemoSendFreeMessage(string name, string messageText, string messageTag, string messageType)
+        {
+            Message message = new Message()
+            {
+                Text = messageText,
+                Timestamp = DateTime.Now,
+                Type = messageType,
+                Tag = messageTag,
+                User = new User()
+                {
+                    Division = "RN",
+                    Name = name
+                }
+            };
+
+
+
+            Clients.All.ReceiveChatMessage(
+                message.User.Name, message.User.Division, message.Timestamp, message.Tag, message.Text, message.Type);
+        }
+
         public Task SetTeam(string functie, string naam)
         {
             User user = _userRepository.GetByLogonUser(Context.User.Identity.Name);
@@ -142,7 +165,6 @@ namespace Shoutbox.NET.Hubs
 
             return Clients.All.AddMasterIncident(masterincident.MasterIncidentID, masterincident.Description, masterincident.KM, masterincident.IM, masterincident.Timestamp);
         }
-
 
         public Task DisableMasterIncident(int id)
         {

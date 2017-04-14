@@ -17,16 +17,5 @@ namespace Shoutbox.NET.Controllers
         {
             _messageRepository = messageRepository;
         }
-
-
-        public ActionResult Tag(string tag)
-        {
-            ShoutPageViewModel tagViewModel = new ShoutPageViewModel()
-            {
-                Messages = _messageRepository.GetByDay(DateTime.Now).Where(f => f.Tag == tag)
-            };
-            return View(tagViewModel);
-
-        }
     }
 }

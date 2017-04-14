@@ -47,8 +47,10 @@
         var data2 = {
             datasets: [{
                 label: "Master Incidenten",
-                fill: false,
-                backgroundColor: 'rgba(255, 99, 132, 1)',
+                fill: true,
+                backgroundColor: 'rgba(255, 99, 132, 0.3)',
+                fixedStepSize: 1,
+                
                 
                 data: [
                     @Model.DataDistribution.AverageMasterIncidentUsagePerWeekday.Item1,
@@ -60,8 +62,8 @@
             },
             {
                 label: "Meldingen",
-                fill: false,
-                backgroundColor: 'rgba(54, 162, 235, 1)',
+                fill: true,
+                backgroundColor: 'rgba(54, 162, 235, 0.3)',
                 data: [
                     @Model.DataDistribution.AverageAnnouncementsPerWeekday.Item1,
                     @Model.DataDistribution.AverageAnnouncementsPerWeekday.Item2,
@@ -72,8 +74,8 @@
                 },
             {
                 label: "Chat berichten",
-                fill: false,
-                backgroundColor: 'rgba(75, 192, 192, 1)',
+                fill: true,
+                backgroundColor: 'rgba(75, 192, 192, 0.3)',
                 data: [
                     @Model.DataDistribution.AverageChatMessagesPerWeekday.Item1,
                     @Model.DataDistribution.AverageChatMessagesPerWeekday.Item2,
@@ -97,10 +99,11 @@
             type: 'bar',
             data: data,
             options: {
+                maintainAspectRatio: false,
                 scales: {
                     yAxes: [{
                         ticks: {
-                            beginAtZero: true
+                            beginAtZero: true,
                         }
                     }],
                 },
@@ -113,29 +116,39 @@
         //Line chart
         var myLineChart = new Chart(ctx2, {
             type: 'line',
-            data: data2
+            data: data2,
+            options: {
+                maintainAspectRatio: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            fixedStepSize: 1,
+                        },
+                    }],
+                },
+            }
         });
     });
 </script>
 
 <div class="grid-stack">
 <div class="grid-stack-item" data-gs-x="6" data-gs-y="0"
-        data-gs-width="6" data-gs-height="5" id="grid-km-item">
+        data-gs-width="6" data-gs-height="7" id="grid-km-item">
+    <div class="tile-titlebar">Gebruik vandaag</div>
     <div class="grid-stack-item-content rabo-drop-shadow">
-        <div class="tile-titlebar">Gemiddeld aantal maaster incidenten per dag</div>
-        <canvas id="myChart2" style="margin-top:10px"></canvas>
-    </div>
-</div>
-
-<div class="grid-stack-item" data-gs-x="0" data-gs-y="0"
-        data-gs-width="6" data-gs-height="5" id="grid-km-item" data-gs-no-resize="true">
-    <div class="grid-stack-item-content rabo-drop-shadow">
-        <div class="tile-titlebar">Gebruik vandaag</div>
         <canvas id="myChart" style="margin-top:10px"></canvas>
     </div>
 </div>
 
-<div class="grid-stack-item" data-gs-x="0" data-gs-y="5"
+<div class="grid-stack-item" data-gs-x="0" data-gs-y="0"
+        data-gs-width="6" data-gs-height="5" id="grid-km-item">
+    <div class="tile-titlebar">Gemiddeld gebruik per dag</div>
+    <div class="grid-stack-item-content rabo-drop-shadow">
+        <canvas id="myChart2" style="margin-top:10px"></canvas>
+    </div>
+</div>
+
+<div class="grid-stack-item" data-gs-x="0" data-gs-y="6"
         data-gs-width="4" data-gs-height="2" id="grid-km-item" data-gs-min-width="" data-gs-max-height="5">
     <div class="grid-stack-item-content rabo-drop-shadow sst-status-tile">
         <div class="tile-titlebar">SST Status</div>
@@ -148,11 +161,11 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>Service Manager 9 SST formulieren</td>
+                    <td>Service Manager 9 <br />SST formulieren</td>
                     <td id="SM9"></td>
                 </tr>
                 <tr>
-                    <td>EasyVista SST formulieren</td>
+                    <td>EasyVista <br /> SST formulieren</td>
                     <td id="EasyVista"></td>
                 </tr>
             </tbody>

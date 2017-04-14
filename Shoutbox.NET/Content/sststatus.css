@@ -4,6 +4,10 @@
     margin-top:30px;
 }
 
+.sst-status-tile .fa {
+    margin-top:5px;
+}
+
 .sst-status-tile i {
     z-index: 1;
     position: relative;
@@ -32,4 +36,8 @@
 
 #SM9, #EasyVista {
     text-align: center
+}
+
+canvas {
+    margin-top: 3px !important;
 }

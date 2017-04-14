@@ -1,0 +1,274 @@
+﻿@{
+    ViewBag.Title = "Shoutbox";
+    ViewBag.Icon = "fa fa-bullhorn";
+}
+
+@model Shoutbox.NET.ViewModels.IndexViewModel
+
+@Scripts.Render("~/bundles/signalr")
+@Scripts.Render("~/signalr/hubs")
+<link href="~/Content/Chat.css" rel="stylesheet" />
+<link href="~/Content/Shoutbox.css" rel="stylesheet" />
+<link href="~/Content/Sststatus.css" rel="stylesheet" />
+<link href="~/Content/tagcloud.css" rel="stylesheet" />
+<link href="~/Content/Vraagbaak.css" rel="stylesheet" />
+<link href="~/Content/sweetalert.css" rel="stylesheet" />
+
+<!-- Unsorted plugins -->
+<script src="~/Scripts/jquery.timeago.js"></script>
+<script src="~/Scripts/jquery.timeago.nl.js"></script>
+<script src="~/Scripts/jquery.tagcloud.js"></script>
+<script src="~/Scripts/sweetalert.min.js"></script>
+
+
+<!-- Scripts for each individual tile type -->
+<script src="~/Scripts/chattile.js"></script>
+<script src="~/Scripts/tagcloud.js"></script>
+<script src="~/Scripts/vraagbaaktile.js"></script>
+<script src="~/Scripts/sststatus.js"></script>
+
+<!-- Begin tile grid -->
+<div class="grid-stack">
+
+    <!-- Begin Announcement Tile-->
+    <div class="grid-stack-item"
+         data-gs-x="0" data-gs-y="0"
+         data-gs-width="5" data-gs-height="8" data-gs-min-width="3" data-gs-min-height="4">
+
+        <div class="tile-titlebar">Omroepen</div>
+        <div class="grid-stack-item-content rabo-drop-shadow">
+            <!-- Announcement Container -->
+            <div id="announcement-window">
+                <div class="chat-filler">
+                    <i class="fa fa-bullhorn" aria-hidden="true"></i> <br />
+                    <p>Er zijn nog geen omroepen geplaatst...</p>
+                </div>
+                <div class="message-container">
+                    <input class="message-counter" type="hidden" value="0" />
+                    <!-- Begin messages -->
+                    <!-- End messages -->
+                </div>
+
+                <div class="textbox-wrapper">
+                    <div class="input-group input-group-sm text-input">
+                        <span class="input-group-addon tag-display"></span>                                                  <!--This textbox sends Announcement messages -->
+                        <input type="text" class="form-control" placeholder="Omroep..." aria-describedby="sizing-addon3" onkeyup="$(this).ProcessInput(event, 'Announcement')">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- End Announcement Tile-->
+    <!-- Begin Chat Tile-->
+    <div class="grid-stack-item"
+         data-gs-x="9" data-gs-y="0"
+         data-gs-width="4" data-gs-height="8" data-gs-min-width="3" data-gs-min-height="4">
+
+        <div class="tile-titlebar">Chat</div>
+        <div class="grid-stack-item-content rabo-drop-shadow">
+            <!-- Chat Container -->
+            <div id="chat-window">
+                <div class="chat-filler">
+                    <i class="fa fa-comment-o" aria-hidden="true"></i> <br />
+                    <p>Er zijn nog geen berichten geplaatst...</p>
+                </div>
+                <div class="message-container">
+                    <input class="message-counter" type="hidden" value="0" />
+                    <!-- Begin messages -->
+                    <!-- End messages -->
+                </div>
+
+                <div class="textbox-wrapper">
+                    <div class="input-group input-group-sm text-input">
+                        <span class="input-group-addon tag-display"></span>                                                     <!--This textbox sends Chat messages -->
+                        <input type="text" class="form-control" placeholder="Bericht..." aria-describedby="sizing-addon3" onkeyup="$(this).ProcessInput(event, 'Chat')">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Begin TagCloud tile -->
+    <div class="grid-stack-item" data-gs-no-resize="true" data-gs-x="5" data-gs-y="0"
+         data-gs-width="3" data-gs-height="2">
+        <div class="tile-titlebar">Trending topics</div>
+        <div class="grid-stack-item-content rabo-drop-shadow tag-cloud-tile" id="tagcloud">
+            <!-- Begin tags-->
+            @if (Model.Tags.Count == 0)
+            {
+                <div class="tagcloud-filler">
+                    <p>Er is nog niks getagd</p>
+                </div>
+            }
+            else
+            {
+                foreach (KeyValuePair<string, int> tag in Model.Tags)
+                {
+                    string uppercaseFirst = char.ToUpper(tag.Key[0]) + tag.Key.Substring(1).ToLower();
+                    <a href="~/Tag/@uppercaseFirst" rel="@tag.Value" title="@tag.Value tags">#@tag.Key</a>
+                }
+            }
+            <!-- End tags-->
+        </div>
+    </div>
+    <!-- End TagCloud tile -->
+    <!-- Begin Vraagbaak tile -->
+    <div class="grid-stack-item vraagbaak-tile" data-gs-no-resize="true" data-gs-x="5" data-gs-y="0"
+         data-gs-width="3" data-gs-height="2">
+        <div class="tile-titlebar">Vraagbaken van vandaag</div>
+        <div class="grid-stack-item-content rabo-drop-shadow" id="vraagbaak-window">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Functie</th>
+                        <th>Naam</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>MCS</td>
+                        <td id="MCS"></td>
+                        <td><i class="fa fa-pencil edit-function-icon" aria-hidden="true" onclick="editVraagbaak('MCS')"></i></td>
+                    </tr>
+                    <tr>
+                        <td>SDA</td>
+                        <td id="SDA"></td>
+                        <td><i class="fa fa-pencil edit-function-icon" aria-hidden="true" onclick="editVraagbaak('SDA')"></i></td>
+                    </tr>
+                    <tr>
+                        <td>Teamlead</td>
+                        <td id="Teamlead"></td>
+                        <td><i class="fa fa-pencil edit-function-icon" aria-hidden="true" onclick="editVraagbaak('Teamlead')"></i></td>
+                    </tr>
+                    <tr>
+                        <td>WFM</td>
+                        <td id="WFM"></td>
+                        <td><i class="fa fa-pencil edit-function-icon" aria-hidden="true" onclick="editVraagbaak('WFM')"></i></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- End Vraagbaak tile -->
+    <!-- Begin SOS monitor tile -->
+    <div class="grid-stack-item" data-gs-no-resize="true" data-gs-x="5" data-gs-y="6"
+         data-gs-width="2" data-gs-height="1">
+        <div class="tile-titlebar">SOS Meldingen</div>
+        <div class="grid-stack-item-content rabo-drop-shadow">
+        </div>
+    </div>
+    <!-- End SOS monitor tile -->
+    <!-- Begin SST status tile -->
+    <div class="grid-stack-item" data-gs-no-resize="true" data-gs-x="7" data-gs-y="6"
+         data-gs-width="1" data-gs-height="1">
+        <div class="tile-titlebar">SST status</div>
+        <div class="grid-stack-item-content rabo-drop-shadow sst-status-tile">
+            @{
+                if (Model.SSTStatus == Shoutbox.NET.SSTMonitorService.Status.Online)
+                {
+                    <i class="fa fa-check-circle" aria-hidden="true" title="Drupal formulieren komen SM9 binnen" style="color:green"></i>
+                }
+                else if (Model.SSTStatus == Shoutbox.NET.SSTMonitorService.Status.Warning)
+                {
+                    <i class="fa fa-exclamation-triangle" aria-hidden="true" title="Opgelet, er is een vertraging in het import proces" style="color:orange"></i>
+                }
+                else if (Model.SSTStatus == Shoutbox.NET.SSTMonitorService.Status.Offline)
+                {
+                    <i class="fa fa-minus-circle" aria-hidden="true" title="Drupal formulieren komen SM9 niet binnen" style="color:red"></i>
+                }
+            }
+        </div>
+    </div>
+    <!-- End SST status tile -->
+</div>
+
+
+<script>
+
+    //If the browser supports notifications. TODO: Add ability to turn notifications on/off per message type
+    if (("Notification" in window)) {
+        Notification.requestPermission();
+    }
+
+    function spawnNotification(theTitle, theBody) {
+        if (!("Notification" in window)) return;
+        if (!document.hidden) return; //Only display notifications if the window isn't focused
+        var options = {
+            body: theBody,
+            icon: "../Content/Images/Shoutbox-bullhorn.png",
+            requireInteraction: false
+        }
+        var n = new Notification(theTitle, options);
+
+        n.onclick = function () {
+            parent.focus();
+            window.focus(); //just in case, older browsers
+            this.close(); //Closes the notification
+        }
+    }
+
+
+    var sendMessage;
+    var sendEditVraagbaak;
+
+// Reference the auto-generated proxy for the hub.
+    var chat = $.connection.chatHub;
+    $.connection.hub.logging = true;
+// Start the connection.
+    $.connection.hub.start().done(function () {
+
+//Check if the connecting user exists in our database, if not register
+chat.server.registerIfNotRegistered();
+
+    sendMessage = function (tag, text, type) {
+        chat.server.broadcastChatMessage(tag, text, type)
+    }
+
+//Tell the server to change a vraagbaak
+    sendEditVraagbaak = function (functie, naam) {
+        return chat.server.setVraagbaak(functie, naam);
+    }
+});
+
+// EVENT: Fired when receiving a command to update the vraagbaak tile
+    chat.client.updateVraagbaak = function (functie, naam, changer) {
+        updateVraagbaak(functie, naam, changer);
+        spawnNotification("Shoutbox", changer + ": " + functie + " van de dag is " + naam);
+}
+
+
+// EVENT: Fired when receiving a chat message from the server
+    chat.client.receiveChatMessage = function (name, division, time, tag, text, type) {
+        //Add message to the appropriate tile depending on the message type
+        if (type == "Chat") {
+            $("#chat-window").AddMessage(name, division, time, tag, text, true);
+            spawnNotification("Shoutbox", name + ": " + tag + " " + text);
+        } else if (type == "Announcement") {
+            $("#announcement-window").AddMessage(name, division, time, tag, text, true);
+            spawnNotification("Shoutbox", name + ": #" + tag + " " + text);
+        }
+    updateTagCloud(tag); //Update tags real time
+};
+
+// This function html-encodes messages for display in the page, prevents XSS
+function htmlEncode(value) {
+var encodedValue = $('<div />').text(value).html();
+return encodedValue;
+}
+
+
+
+@{
+    //Add all of today's messages to the page upon loading
+<text>
+    addMessages(@Html.Raw(Model.SerializedMessages), true);
+    updateVraagbaken(@Html.Raw(Model.SerializedVraagbaken));
+</text>
+}
+
+    //Set up the tag cloud
+    initializeTagCloud();
+    //Check if we're new to the shoutbox. If we are, we'll be registered
+</script>

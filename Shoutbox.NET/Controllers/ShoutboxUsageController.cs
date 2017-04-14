@@ -53,6 +53,7 @@ namespace Shoutbox.NET.Controllers
             }
         }
 
+
         public Tuple<int, int, int, int, int> GetAverageMasterIncidentsPerWeekday()
         {
             using (ShoutboxContext db = new ShoutboxContext())

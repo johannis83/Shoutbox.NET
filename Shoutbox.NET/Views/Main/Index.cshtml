@@ -255,7 +255,7 @@
     var shout = $.connection.shoutHub;
 // Start the connection.
     $.connection.hub.start({
-        transport: ['serverSentEvents', 'webSockets', 'longPolling']
+        transport: ['serverSentEvents', 'webSockets', 'foreverFrame', 'longPolling']
         }).done(function () {
 
         $.connection.hub.logging = true;
@@ -277,31 +277,31 @@
 //Check if the connecting user exists in our database, if not register
 //shout.server.registerIfNotRegistered();
 
-    sendMessage = function (tag, text, type) {
-                    shout.server.broadcastChatMessage(tag, text, type)
-    }
+        sendMessage = function (tag, text, type) {
+            shout.server.broadcastChatMessage(tag, text, type)
+        }
 
-                //Tell the server to change a Team
-                sendEditTeam = function (functie, naam) {
-                    return shout.server.setTeam(functie, naam);
-                }
+        //Tell the server to change a Team
+        sendEditTeam = function (functie, naam) {
+            return shout.server.setTeam(functie, naam);
+        }
 
-                //Tell the server to create a Master incident
-                sendCreateMasterIncident = function (description, km, im) {
-                    return shout.server.createMasterIncident(description, km, im);
-                }
-                //Tell the server to disable a master incident
-                sendRemoveMasterIncident = function (id) {
-                    shout.server.disableMasterIncident(id);
-                }
-                //Tell the server to sendUpdatedGridLayout a master incident
-                sendUpdatedGridLayout = function (serializedLayout) {
-                    shout.server.saveGridLayout(serializedLayout);
-                }
-                //Tell the server to sendUpdatedGridLayout a master incident
-                sendUpdatedNotificationsettings = function (serializedSettings) {
-                    shout.server.saveNotificationSettings(serializedSettings);
-                }
+        //Tell the server to create a Master incident
+        sendCreateMasterIncident = function (description, km, im) {
+            return shout.server.createMasterIncident(description, km, im);
+        }
+        //Tell the server to disable a master incident
+        sendRemoveMasterIncident = function (id) {
+            shout.server.disableMasterIncident(id);
+        }
+        //Tell the server to sendUpdatedGridLayout a master incident
+        sendUpdatedGridLayout = function (serializedLayout) {
+            shout.server.saveGridLayout(serializedLayout);
+        }
+        //Tell the server to sendUpdatedGridLayout a master incident
+        sendUpdatedNotificationsettings = function (serializedSettings) {
+            shout.server.saveNotificationSettings(serializedSettings);
+        }
 });
 
 // EVENT: Fired when receiving a command to update the Team tile
@@ -338,6 +338,7 @@
 // EVENT: Fired when receiving a chat message from the server
     shout.client.receiveChatMessage = function (name, division, time, tag, text, type) {
         //Add message to the appropriate tile depending on the message type
+        console.log(name, division, time, tag, text, type);
         if (type == "Chat") {
             $("#chat-window").AddMessage(name, division, time, tag, text, true);
             if (notificationSettings["Chat"]) {

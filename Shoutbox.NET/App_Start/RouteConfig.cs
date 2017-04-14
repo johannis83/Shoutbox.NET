@@ -21,14 +21,14 @@ namespace Shoutbox.NET
 
             routes.MapRoute(
                 name: "SSTStatus",
-                url: "Status/{service}",
+                url: "Main/Status/{service}",
                 defaults: new { controller = "SSTStatus", action = "Get", id = UrlParameter.Optional }
             );
 
             routes.MapRoute(
                 name: "Tag",
                 url: "Tag/{tag}",
-                defaults: new { controller = "Tag", action = "Tag", id = UrlParameter.Optional }
+                defaults: new { controller = "Main", action = "Tag", id = UrlParameter.Optional }
             );
 
             routes.MapRoute(

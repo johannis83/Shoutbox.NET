@@ -1,0 +1,28 @@
+﻿<!-- REMOVE AFTER DEMO! -->
+@{
+    ViewBag.Title = "Demo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Demo</h2>
+
+@Scripts.Render("~/signalr/hubs")
+
+<script>
+
+    var sendFreeMessage;
+
+    var shout = $.connection.shoutHub;
+    // Start the connection.
+    $.connection.hub.start({
+        transport: ['serverSentEvents', 'webSockets', 'longPolling']
+    }).done(function () {
+
+        sendFreeMessage = function (name, message, tag, type) {
+            shout.server.demoSendFreeMessage(name, message, tag, type)
+        }
+});
+</script>
+
+
+<input type="button" value="Dialog 1" onclick="sendFreeMessage('Joost van de Griend', 'Slecht nieuws. Johan en Leroy zijn onder een tram gelopen..', '', 'Chat'); this.remove();"/>

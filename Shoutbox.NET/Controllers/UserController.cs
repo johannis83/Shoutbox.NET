@@ -88,7 +88,7 @@ namespace Shoutbox.NET.Controllers
                     Username = activeDirectoryUser.UserPrincipal.SamAccountName,
                     Division = WebConfigurationManager.AppSettings[activeDirectoryUser.DomainName].Split(',')[1], //Set Division based on the mapping found in web.config
                     NotificationSettings = "{\"Team\":true,\"Masterincidenten\":true,\"Sos\":true,\"Meldingen\":true,\"Chat\":true}", //Enable notifications by default
-                    Role = Roles.User //Make a new user a normal user by default
+                    Role = Roles.Moderator //Make a new user a normal user by default
                 };
 
                 db.Users.Add(user);
