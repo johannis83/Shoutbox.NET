@@ -65,7 +65,7 @@ $(window).resize(function () {
     $.fn.AddMessage = function (name, division, time, tag, text, type, autoscroll) {
 
         //If it's not destined for our announcementchannel, don't add it.
-        if (type == "Announcement" && division != UserPreferences["AnnouncementChannel"])
+        if (type == "Announcement" && division != AnnouncementChannel)
             return;
 
         var chatTile = $(this);
@@ -174,6 +174,14 @@ var scrollWindowsToBottom = function (duration) {
     $("#chat-window").parent().stop().animate({ scrollTop: $("#chat-window").prop("scrollHeight") }, duration, 'easeOutQuart');
 }
 
+var setChannelToggle = function (division) {
+    if (division == "RN")
+        $('#channel-toggle').bootstrapToggle('on')
+    else if (division == "WRR")
+        $('#channel-toggle').bootstrapToggle('off')
+}
+
+
 $(function() {
     $('#channel-toggle').change(function () {
 
@@ -181,20 +189,17 @@ $(function() {
 
         clearAnnouncements();
         if ($(this).prop('checked') == true) {
-            UserPreferences["AnnouncementChannel"] = "RN"
+            AnnouncementChannel = "RN"
         }
         else {
-            UserPreferences["AnnouncementChannel"] = "WRR";
+            AnnouncementChannel = "WRR";
         }
 
 
-        $.post('/Message/GetTodayByDivisionSerialized', { division: UserPreferences["AnnouncementChannel"] }, function (data) {
+        $.post('/Message/GetTodayByDivisionSerialized', { division: AnnouncementChannel }, function (data) {
             addAnnouncementMessages(JSON.parse(data), true);
         });
 
-
-        saveUserPreferences();
-        console.log(UserPreferences["AnnouncementChannel"]);
     })
 })
 

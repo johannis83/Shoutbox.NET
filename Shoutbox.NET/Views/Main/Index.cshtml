@@ -131,7 +131,7 @@
                 </div>
 
                 <div class="textbox-wrapper">
-                    <div class="input-group input-group-sm text-input">
+                    <div class="input-group input-group-sm text-input announcement-input-container">
                         <span class="input-group-addon tag-display"></span>                                                  <!--This textbox sends Announcement messages -->
                         <input type="text" id="announcement-textbox" class="form-control" placeholder="Melding..." aria-describedby="sizing-addon3" onkeyup="$(this).ProcessInput(event, 'Announcement')"
                         title="Post als volgt: Applicatie, inhoud verstoring, KM/IM-nr, hoeveel gebruikers/meldingen.">
@@ -351,19 +351,11 @@
             //Switch to the appropriate view when receiving users own messsage, to not confuse users ("Why cant i see my message?!")
             if ("@Model.CurrentUser.Name" == name)
             {
-                if (UserPreferences["AnnouncementChannel"] != division)
+                if (AnnouncementChannel != division)
                 {
-                    if (division == "RN")
-                        $('#channel-toggle').bootstrapToggle('on')
-                    else if (division == "WRR") 
-                        $('#channel-toggle').bootstrapToggle('off')
-
-                    console.log(UserPreferences["AnnouncementChannel"]);
-
-                    $("#channel-toggle").bootstrapToggle();
+                    setChannelToggle(division);
                 }
             }
-
 
             if (UserPreferences["Meldingen"]) {
                 spawnNotification("Shoutbox", name + ": #" + tag + " " + text);
@@ -385,6 +377,7 @@
 
    //Load all messages, teams, tags and incidents
     $(document).ready(function () {
+        setChannelToggle("@Model.CurrentUser.Division");
         UserPreferences = JSON.parse('@Html.Raw(Model.CurrentUser.UserPreferences)')
         addMessages(@Html.Raw(Model.SerializedMessages), true);
         updateTeams(@Html.Raw(Model.SerializedTeams));

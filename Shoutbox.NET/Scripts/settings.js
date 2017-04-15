@@ -1,4 +1,5 @@
 ﻿var UserPreferences;
+var AnnouncementChannel;
 
 $("#UserPreferences").click(function () {
     swal({
@@ -54,7 +55,6 @@ var saveUserPreferences = function () {
             "Sos": $("#notif_sos").is(':checked'),
             "Meldingen": $("#notif_meldingen").is(':checked'),
             "Chat": $("#notif_chat").is(':checked'),
-            "AnnouncementChannel": UserPreferences["AnnouncementChannel"]
         }
 
     sendUpdatedUserPreferences(JSON.stringify(UserPreferences));
