@@ -179,19 +179,12 @@ $(function () {
 
         if ($(this).prop('checked') == true) {
             AnnouncementChannel = "RN";
-            $(".WRR-Message").fadeOut("fast", function () {
-                $(".RN-Message").fadeIn("fast");
-            });
-
-            //Call it again because if no messages are present yet, the first fadein won't be called
+            $(".WRR-Message").hide();
             $(".RN-Message").fadeIn("fast");
         }
         else {
             AnnouncementChannel = "WRR";
-            $(".RN-Message").fadeOut("fast", function () {
-                $(".WRR-Message").fadeIn("fast");
-            });
-
+            $(".RN-Message").hide();
             $(".WRR-Message").fadeIn("fast");
         }
 

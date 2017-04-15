@@ -9,9 +9,9 @@ namespace Shoutbox.NET.Repositories
     public interface IShoutboxUsageRepository
     {
         Tuple<int, int, int> GetDataDistributionByDay(DateTime day);
-        Tuple<int, int, int, int, int> GetAverageChatMessagesPerWeekday();
         Tuple<int, int, int, int, int> GetAverageMasterIncidentsPerWeekday();
-        Tuple<int, int, int, int, int> GetAverageAnnouncementsPerWeekDay();
+        WeeklyStatistic AverageWeeklyMessages(string type);
         int GetOnlineUserCount();
+        List<Tag> MostPopularTags();
     }
 }

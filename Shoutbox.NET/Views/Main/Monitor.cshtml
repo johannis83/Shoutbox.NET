@@ -15,10 +15,12 @@
     setServiceStatus("EasyVista");
 
     $(document).ready(function () {
-        var ctx = document.getElementById("myChart");
-        var ctx2 = document.getElementById("myChart2");
+        var dailyUsageBar = document.getElementById("dailyUsageBarChart");
+        var weeklyUsageLine = document.getElementById("weeklyUsageLineChart");
+        var mostPopularTags = document.getElementById("mostPopularTagsChart");
+        
 
-        var data = {
+        var dailyUsageData = {
             datasets: [{
                 data: [
                     @Model.DataDistribution.UsagePerTypeToday.Item1,
@@ -44,20 +46,53 @@
             ]
         };
 
-        var data2 = {
+        var mostPopularTagsData = {
+            datasets: [{
+                data: [
+                    @{
+                        foreach(Shoutbox.NET.Models.Tag tag in Model.DataDistribution.MostPopularTags.Take(15))
+                        {
+                            <text>@tag.Count,</text>
+                        }
+                    }
+                ],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.3)',
+                    'rgba(54, 162, 235, 0.3)',
+                    'rgba(75, 192, 192, 0.3)',
+                ],
+                borderColor: [
+                    'rgba(255,99,132,1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(153, 102, 255, 1)',
+                ],
+            }],
+            borderWidth: 10,
+            labels: [
+                @{
+                    foreach(Shoutbox.NET.Models.Tag tag in Model.DataDistribution.MostPopularTags.Take(15))
+                    {
+                        <text>"@tag.Name",</text>
+                    }
+                }
+            ]
+        };
+
+        var weeklyUsageData = {
             datasets: [{
                 label: "Master Incidenten",
                 fill: true,
                 backgroundColor: 'rgba(255, 99, 132, 0.3)',
                 fixedStepSize: 1,
-                
-                
+
                 data: [
-                    @Model.DataDistribution.AverageMasterIncidentUsagePerWeekday.Item1,
-                    @Model.DataDistribution.AverageMasterIncidentUsagePerWeekday.Item2,
-                    @Model.DataDistribution.AverageMasterIncidentUsagePerWeekday.Item3,
-                    @Model.DataDistribution.AverageMasterIncidentUsagePerWeekday.Item4,
-                    @Model.DataDistribution.AverageMasterIncidentUsagePerWeekday.Item5
+                    @Model.DataDistribution.AverageMasterIncident.Monday,
+                    @Model.DataDistribution.AverageMasterIncident.Tuesday,
+                    @Model.DataDistribution.AverageMasterIncident.Wednesday,
+                    @Model.DataDistribution.AverageMasterIncident.Thursday,
+                    @Model.DataDistribution.AverageMasterIncident.Friday,
+                    @Model.DataDistribution.AverageMasterIncident.Saturday,
+                    @Model.DataDistribution.AverageMasterIncident.Sunday,
                 ],
             },
             {
@@ -65,11 +100,13 @@
                 fill: true,
                 backgroundColor: 'rgba(54, 162, 235, 0.3)',
                 data: [
-                    @Model.DataDistribution.AverageAnnouncementsPerWeekday.Item1,
-                    @Model.DataDistribution.AverageAnnouncementsPerWeekday.Item2,
-                    @Model.DataDistribution.AverageAnnouncementsPerWeekday.Item3,
-                    @Model.DataDistribution.AverageAnnouncementsPerWeekday.Item4,
-                    @Model.DataDistribution.AverageAnnouncementsPerWeekday.Item5
+                    @Model.DataDistribution.AverageAnnouncementMessages.Monday,
+                    @Model.DataDistribution.AverageAnnouncementMessages.Tuesday,
+                    @Model.DataDistribution.AverageAnnouncementMessages.Wednesday,
+                    @Model.DataDistribution.AverageAnnouncementMessages.Thursday,
+                    @Model.DataDistribution.AverageAnnouncementMessages.Friday,
+                    @Model.DataDistribution.AverageAnnouncementMessages.Saturday,
+                    @Model.DataDistribution.AverageAnnouncementMessages.Sunday,
                 ],
                 },
             {
@@ -77,11 +114,13 @@
                 fill: true,
                 backgroundColor: 'rgba(75, 192, 192, 0.3)',
                 data: [
-                    @Model.DataDistribution.AverageChatMessagesPerWeekday.Item1,
-                    @Model.DataDistribution.AverageChatMessagesPerWeekday.Item2,
-                    @Model.DataDistribution.AverageChatMessagesPerWeekday.Item3,
-                    @Model.DataDistribution.AverageChatMessagesPerWeekday.Item4,
-                    @Model.DataDistribution.AverageChatMessagesPerWeekday.Item5
+                    @Model.DataDistribution.AverageChatMessages.Monday,
+                    @Model.DataDistribution.AverageChatMessages.Tuesday,
+                    @Model.DataDistribution.AverageChatMessages.Wednesday,
+                    @Model.DataDistribution.AverageChatMessages.Thursday,
+                    @Model.DataDistribution.AverageChatMessages.Friday,
+                    @Model.DataDistribution.AverageChatMessages.Saturday,
+                    @Model.DataDistribution.AverageChatMessages.Sunday,
                 ],
             }],
             borderWidth: 10,
@@ -90,14 +129,33 @@
                 "Dinsdag",
                 "Woensdag",
                 "Donderdag",
-                "Vrijdag"
+                "Vrijdag",
+                "Zaterdag",
+                "Zondag"
             ]
         };
 
-        //Bar chart
-        var myBarChart = new Chart(ctx, {
+        var myBarChart = new Chart(dailyUsageBar, {
             type: 'bar',
-            data: data,
+            data: dailyUsageData,
+            options: {
+                maintainAspectRatio: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                        }
+                    }],
+                },
+                legend: {
+                    display: false
+                }
+            }
+        });
+
+        var myBarChart2 = new Chart(mostPopularTags, {
+            type: 'bar',
+            data: mostPopularTagsData,
             options: {
                 maintainAspectRatio: false,
                 scales: {
@@ -114,9 +172,9 @@
         });
 
         //Line chart
-        var myLineChart = new Chart(ctx2, {
+        var myLineChart = new Chart(weeklyUsageLine, {
             type: 'line',
-            data: data2,
+            data: weeklyUsageData,
             options: {
                 maintainAspectRatio: false,
             }
@@ -125,23 +183,32 @@
 </script>
 
 <div class="grid-stack">
+
+    <div class="grid-stack-item" data-gs-x="0" data-gs-y="0"
+         data-gs-width="6" data-gs-height="5" id="grid-km-item">
+        <div class="tile-titlebar">Gemiddeld gebruik per dag</div>
+        <div class="grid-stack-item-content rabo-drop-shadow">
+            <canvas id="weeklyUsageLineChart" style="margin-top:10px"></canvas>
+        </div>
+    </div>
+
 <div class="grid-stack-item" data-gs-x="6" data-gs-y="0"
-        data-gs-width="6" data-gs-height="7" id="grid-km-item">
+        data-gs-width="3" data-gs-height="7" id="grid-km-item">
     <div class="tile-titlebar">Gebruik vandaag</div>
     <div class="grid-stack-item-content rabo-drop-shadow">
-        <canvas id="myChart" style="margin-top:10px"></canvas>
+        <canvas id="dailyUsageBarChart" style="margin-top:10px"></canvas>
     </div>
 </div>
 
-<div class="grid-stack-item" data-gs-x="0" data-gs-y="0"
-        data-gs-width="6" data-gs-height="5" id="grid-km-item">
-    <div class="tile-titlebar">Gemiddeld gebruik per dag</div>
+    <div class="grid-stack-item" data-gs-x="9" data-gs-y="0"
+        data-gs-width="3" data-gs-height="7" id="grid-km-item">
+    <div class="tile-titlebar">Meest prominente onderwerpen</div>
     <div class="grid-stack-item-content rabo-drop-shadow">
-        <canvas id="myChart2" style="margin-top:10px"></canvas>
+        <canvas id="mostPopularTagsChart" style="margin-top:10px"></canvas>
     </div>
 </div>
 
-<div class="grid-stack-item" data-gs-x="0" data-gs-y="6"
+<div class="grid-stack-item" data-gs-x="0" data-gs-y="5"
         data-gs-width="4" data-gs-height="2" id="grid-km-item" data-gs-min-width="" data-gs-max-height="5">
     <div class="grid-stack-item-content rabo-drop-shadow sst-status-tile">
         <div class="tile-titlebar">SST Status</div>
@@ -166,7 +233,7 @@
     </div>
 </div>
 
-    <div class="grid-stack-item" data-gs-x="4" data-gs-y="6"
+    <div class="grid-stack-item" data-gs-x="4" data-gs-y="5"
          data-gs-width="2" data-gs-height="2" id="grid-km-item">
         <div class="grid-stack-item-content rabo-drop-shadow">
             <div class="tile-titlebar">Gebruikers online</div>

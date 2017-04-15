@@ -125,10 +125,12 @@ namespace Shoutbox.NET.Controllers
             monitorViewModel.DataDistribution = new ShoutboxStatistics()
             {
                 UsagePerTypeToday = _shoutboxUsageRepository.GetDataDistributionByDay(DateTime.Now),
-                AverageMasterIncidentUsagePerWeekday = _shoutboxUsageRepository.GetAverageMasterIncidentsPerWeekday(),
-                AverageAnnouncementsPerWeekday = _shoutboxUsageRepository.GetAverageAnnouncementsPerWeekDay(),
-                AverageChatMessagesPerWeekday = _shoutboxUsageRepository.GetAverageChatMessagesPerWeekday(),
-                OnlineUsers = _shoutboxUsageRepository.GetOnlineUserCount()
+                AverageMasterIncident = _shoutboxUsageRepository.AverageWeeklyMessages("MasterIncident"),
+                AverageChatMessages = _shoutboxUsageRepository.AverageWeeklyMessages("Chat"),
+                AverageAnnouncementMessages = _shoutboxUsageRepository.AverageWeeklyMessages("Announcement"),
+                OnlineUsers = _shoutboxUsageRepository.GetOnlineUserCount(),
+                MostPopularTags = _shoutboxUsageRepository.MostPopularTags(),
+               
             };
             return View(monitorViewModel);
         }

@@ -220,12 +220,13 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Misc\HelperFunctions.cs" />
     <Compile Include="Models\ActiveDirectoryUser.cs" />
-    <Compile Include="Models\DataDistribution.cs" />
+    <Compile Include="Models\ShoutboxStatistics.cs" />
     <Compile Include="Models\KM.cs" />
     <Compile Include="Models\MasterIncident.cs" />
     <Compile Include="Models\SOS.cs" />
     <Compile Include="Models\Tag.cs" />
     <Compile Include="Models\Team.cs" />
+    <Compile Include="Models\WeeklyStatistic.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

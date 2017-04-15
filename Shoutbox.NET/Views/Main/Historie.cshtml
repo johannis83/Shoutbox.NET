@@ -158,6 +158,19 @@
         <div class="tile-titlebar">Trending topics</div>
         <div class="grid-stack-item-content rabo-drop-shadow tag-cloud-tile" id="tagcloud">
             <!-- Begin tags-->
+            @if (Model.Tags.Count == 0)
+            {
+                <div class="tagcloud-filler">
+                    <p>Er is niks getagd</p>
+                </div>
+            }
+            else
+            {
+                foreach (Shoutbox.NET.Models.Tag tag in Model.Tags)
+                {
+                    <a href="" rel="@tag.Count" title="@tag.Count tags">#@tag.Name</a>
+                }
+            }
             <!-- End tags-->
         </div>
     </div>
