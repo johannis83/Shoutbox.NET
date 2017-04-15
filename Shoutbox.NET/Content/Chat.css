@@ -10,7 +10,6 @@ hr {
 }
 
 .textbox-wrapper {
-    width: 93%;
     margin: 0 auto;
     margin-bottom: 10px;
 }
@@ -31,6 +30,11 @@ hr {
     width: 100%;
     height: 100%;
 }
+
+#announcement-textbox {
+    width: 87%;
+}
+
 
 .message-container {
     font-size: 11px;
@@ -103,3 +107,5 @@ hr {
     
     overflow-wrap: break-word;
 }
+
+

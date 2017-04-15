@@ -6,7 +6,8 @@
     //Add them
     for (var i = 0; i < KMList.length / 2; i++) {
         $("#KM-table-body").append(
-            KMRowTemplate(KMList[i]["Nummer"], KMList[i]["Titel"], KMList[i]["AantalMeldingen"],
+            KMRowTemplate(
+                KMList[i]["Nummer"], KMList[i]["Titel"], KMList[i]["AantalMeldingen"],
                 KMList[i + KMList.length / 2 - 1]["Nummer"], KMList[i + KMList.length / 2 - 1]["Titel"], KMList[i + KMList.length / 2 - 1]["AantalMeldingen"]));
 
         //Setup tool tips so descriptions of KM' can be read when hovering over them

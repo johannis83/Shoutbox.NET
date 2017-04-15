@@ -10,6 +10,7 @@ using Shoutbox.NET.Data;
 using Shoutbox.NET.Models;
 using Shoutbox.NET.Repositories;
 using Microsoft.Security.Application;
+using Newtonsoft.Json;
 
 namespace Shoutbox.NET.Controllers
 {
@@ -25,6 +26,19 @@ namespace Shoutbox.NET.Controllers
 
         public MessageController()
         {
+        }
+
+        [HttpPost]
+        public string GetTodayByDivisionSerialized(string division)
+        {
+
+            using (ShoutboxContext db = new ShoutboxContext())
+            {
+                db.Configuration.ProxyCreationEnabled = false;
+
+                //Only select the values the client needs, so cast them to an anonymous type
+                return JsonConvert.SerializeObject(db.Messages.Include(u => u.User).Where(f => f.Timestamp.Day == DateTime.Now.Day && f.User.Division == division).ToList());
+            }
         }
 
         public IEnumerable<Message> GetByDay(DateTime datetime)

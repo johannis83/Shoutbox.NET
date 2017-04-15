@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
 
+    
     @Scripts.Render("~/bundles/javascript")
     @Styles.Render("~/bundles/css")
 
@@ -26,7 +27,7 @@
                         @{if (ViewBag.Title == "Shoutbox")
                             {
                                 //Only show settings on the shoutbox page
-                                <li><a id="notificationsettings">Instellingen</a></li>
+                                <li><a id="UserPreferences">Instellingen</a></li>
                             }
                         }
 

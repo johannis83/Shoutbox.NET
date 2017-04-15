@@ -1,4 +1,6 @@
-﻿$.fn.ProcessInput = function (event, type) {
+﻿var messages;
+
+$.fn.ProcessInput = function (event, type) {
     var textbox = $(this);
     var tagDisplay = textbox.parent().find(".tag-display");
 
@@ -62,6 +64,10 @@ $(window).resize(function () {
     //Must be hooked to a #chat-window object
     $.fn.AddMessage = function (name, division, time, tag, text, type, autoscroll) {
 
+        //If it's not destined for our announcementchannel, don't add it.
+        if (type == "Announcement" && division != UserPreferences["AnnouncementChannel"])
+            return;
+
         var chatTile = $(this);
         var messageContainer = chatTile.find(".message-container");
         //Keep count of all the message in this container
@@ -70,10 +76,10 @@ $(window).resize(function () {
         //Hide (fade) the chatbox filler if no were present yet
         if (messageCount == 0) {
             chatTile.find(".chat-filler").fadeTo(1000, 0);
-        } else if (messageCount > 7) {
-            //Remove the chat filler if the messagebox is filled up with messages
-            chatTile.find(".chat-filler").hide();
-        }
+        } //else if (messageCount > 7) {
+        //    //Remove the chat filler if the messagebox is filled up with messages
+        //    chatTile.find(".chat-filler").hide();
+        //}
 
         messageContainer.append(messageTemplate(name, division, time, tag, text, type));
         $("abbr.timeago").timeago();
@@ -118,6 +124,19 @@ $(window).resize(function () {
             return message;
         }
 
+
+    var addAnnouncementMessages = function (messages, autoscroll) {
+        for (var i = 0; i < messages.length; i++) {
+            if (messages[i]["Type"] == "Announcement") {
+                $("#announcement-window").AddMessage(messages[i]["User"]["Name"], messages[i]["User"]["Division"], messages[i]["Timestamp"], messages[i]["Tag"], messages[i]["Text"], messages[i]["Type"], false);
+            }
+        }
+        //Scroll both chat containers down
+        if (autoscroll) {
+            scrollWindowsToBottom(1000);
+        }
+    }
+
     addMessages = function (messages, autoscroll) {
         for (var i = 0; i < messages.length; i++) {
             //Add to the appropriate message window depending on the messages type
@@ -127,10 +146,10 @@ $(window).resize(function () {
                 $("#announcement-window").AddMessage(messages[i]["User"]["Name"], messages[i]["User"]["Division"], messages[i]["Timestamp"], messages[i]["Tag"], messages[i]["Text"], messages[i]["Type"], false);
             }
         }
-                //Scroll both chat containers down
-                if (autoscroll) {
-                    scrollWindowsToBottom(1000);
-                }
+        //Scroll both chat containers down
+        if (autoscroll) {
+            scrollWindowsToBottom(1000);
+        }
     };
 
     addMessagesTagViewer = function (messages, autoscroll) {
@@ -145,10 +164,42 @@ $(window).resize(function () {
     }
 
 
+var clearAnnouncements = function () {
+    $("div[id=announcement-message]").remove();
+    $("#announcement-window").find(".message-counter").get(0).value = 0;
+}
+
 var scrollWindowsToBottom = function (duration) {
     $("#announcement-window").parent().stop().animate({ scrollTop: $("#announcement-window").prop("scrollHeight") }, duration, 'easeOutQuart');
     $("#chat-window").parent().stop().animate({ scrollTop: $("#chat-window").prop("scrollHeight") }, duration, 'easeOutQuart');
 }
+
+$(function() {
+    $('#channel-toggle').change(function () {
+
+        var messages;
+
+        clearAnnouncements();
+        if ($(this).prop('checked') == true) {
+            UserPreferences["AnnouncementChannel"] = "RN"
+        }
+        else {
+            UserPreferences["AnnouncementChannel"] = "WRR";
+        }
+
+
+        $.post('/Message/GetTodayByDivisionSerialized', { division: UserPreferences["AnnouncementChannel"] }, function (data) {
+            addAnnouncementMessages(JSON.parse(data), true);
+        });
+
+
+        saveUserPreferences();
+        console.log(UserPreferences["AnnouncementChannel"]);
+    })
+})
+
+
+
 
 // Instantiate nice scroll
 $(document).ready(function () {

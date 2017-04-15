@@ -21,7 +21,7 @@ namespace Shoutbox.NET.Models
         [JsonIgnore]
         public string GridLayout { get; set; }
         [JsonIgnore]
-        public string NotificationSettings { get; set; }
+        public string UserPreferences { get; set; }
         [JsonIgnore]
         public Roles Role { get; set; }
         [JsonIgnore]

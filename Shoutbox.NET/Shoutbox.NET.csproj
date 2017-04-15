@@ -191,6 +191,7 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <Content Include="Content\bootstrap-toggle.min.css" />
     <Content Include="Content\datepicker.min.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
@@ -250,6 +251,7 @@
     <Compile Include="Repositories\ITeamRepository.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\ShoutPageViewModel.cs" />
+    <Content Include="Scripts\bootstrap-toggle.min.js" />
     <Content Include="Scripts\Chart.bundle.min.js" />
     <Content Include="Views\Main\Monitor.cshtml" />
     <Content Include="Views\Shared\Unauthorized.cshtml" />

@@ -61,7 +61,7 @@ namespace Shoutbox.NET.Controllers
             }
         }
 
-        public void SaveNotificationSettings(string logonUser, string serializedSettings)
+        public void SaveUserPreferences(string logonUser, string serializedSettings)
         {
             using (ShoutboxContext db = new ShoutboxContext())
             {
@@ -70,7 +70,7 @@ namespace Shoutbox.NET.Controllers
                 //Validate the entered json
                 if (!HelperFunctions.IsValidJson(serializedSettings)) return;
 
-                db.Users.FirstOrDefault(f => f.Username == username).NotificationSettings = serializedSettings;
+                db.Users.FirstOrDefault(f => f.Username == username).UserPreferences = serializedSettings;
                 db.SaveChanges();
             }
         }
@@ -87,7 +87,7 @@ namespace Shoutbox.NET.Controllers
                     Domain = WebConfigurationManager.AppSettings[activeDirectoryUser.DomainName].Split(',')[0], 
                     Username = activeDirectoryUser.UserPrincipal.SamAccountName,
                     Division = WebConfigurationManager.AppSettings[activeDirectoryUser.DomainName].Split(',')[1], //Set Division based on the mapping found in web.config
-                    NotificationSettings = "{\"Team\":true,\"Masterincidenten\":true,\"Sos\":true,\"Meldingen\":true,\"Chat\":true}", //Enable notifications by default
+                    UserPreferences = "{\"Team\":true,\"Masterincidenten\":true,\"Sos\":true,\"Meldingen\":true,\"Chat\":true}", //Enable notifications by default
                     Role = Roles.Moderator //Make a new user a normal user by default
                 };
 

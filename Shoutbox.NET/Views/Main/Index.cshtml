@@ -5,12 +5,13 @@
 
 @model Shoutbox.NET.ViewModels.ShoutPageViewModel
 
-
+<script src="~/Scripts/settings.js"></script>
 @Scripts.Render("~/signalr/hubs")
 
-<script src="~/Scripts/settings.js"></script>
 
 
+<script src="~/Scripts/bootstrap-toggle.min.js"></script>
+<link href="~/Content/bootstrap-toggle.min.css" rel="stylesheet" />
 
 
 <!-- Begin tile grid -->
@@ -134,6 +135,7 @@
                         <span class="input-group-addon tag-display"></span>                                                  <!--This textbox sends Announcement messages -->
                         <input type="text" id="announcement-textbox" class="form-control" placeholder="Melding..." aria-describedby="sizing-addon3" onkeyup="$(this).ProcessInput(event, 'Announcement')"
                         title="Post als volgt: Applicatie, inhoud verstoring, KM/IM-nr, hoeveel gebruikers/meldingen.">
+                        <input type="checkbox" id="channel-toggle" checked data-toggle="toggle" data-size="small" data-on="RN" data-off="WRR" data-onstyle="warning" data-offstyle="primary">
                     </div>
                 </div>
 
@@ -249,7 +251,7 @@
     var sendCreateMasterIncident;
     var sendRemoveMasterIncident;
     var sendUpdatedGridLayout;
-    var sendUpdatedNotificationsettings;
+    var sendUpdatedUserPreferences;
 
 // Reference the auto-generated proxy for the hub.
     var shout = $.connection.shoutHub;
@@ -299,15 +301,15 @@
             shout.server.saveGridLayout(serializedLayout);
         }
         //Tell the server to sendUpdatedGridLayout a master incident
-        sendUpdatedNotificationsettings = function (serializedSettings) {
-            shout.server.saveNotificationSettings(serializedSettings);
+        sendUpdatedUserPreferences = function (serializedSettings) {
+            shout.server.saveUserPreferences(serializedSettings);
         }
 });
 
 // EVENT: Fired when receiving a command to update the Team tile
     shout.client.updateTeam = function (functie, naam, changer) {
         updateTeam(functie, naam, changer);
-        if (notificationSettings["Team"]) {
+        if (UserPreferences["Team"]) {
             spawnNotification("Shoutbox", changer + ": " + functie + " van de dag is " + naam);
         }
     }
@@ -316,14 +318,14 @@
 // EVENT: Fired when receiving a command to add a new masterIncident
     shout.client.addMasterIncident = function (id, description, km, im, time) {
         addMasterIncident(id, description, km, im, time);
-        if (notificationSettings["Masterincidenten"]) {
+        if (UserPreferences["Masterincidenten"]) {
             spawnNotification("Shoutbox", "Nieuw master incident: " + description);
         }
     }
 
 // EVENT: Fired when receiving a command to update the SOS overview
     shout.client.updateSOS = function (SOSList) {
-        if (notificationSettings["Sos"]) {
+        if (UserPreferences["Sos"]) {
             updateSOS(JSON.parse(SOSList));
         }
     }
@@ -338,15 +340,32 @@
 // EVENT: Fired when receiving a chat message from the server
     shout.client.receiveChatMessage = function (name, division, time, tag, text, type) {
         //Add message to the appropriate tile depending on the message type
-        console.log(name, division, time, tag, text, type);
         if (type == "Chat") {
             $("#chat-window").AddMessage(name, division, time, tag, text, type, true);
-            if (notificationSettings["Chat"]) {
+            if (UserPreferences["Chat"]) {
                 spawnNotification("Shoutbox", name + ": " + tag + " " + text);
             }
         } else if (type == "Announcement") {
             $("#announcement-window").AddMessage(name, division, time, tag, text, type, true);
-            if (notificationSettings["Meldingen"]) {
+
+            //Switch to the appropriate view when receiving users own messsage, to not confuse users ("Why cant i see my message?!")
+            if ("@Model.CurrentUser.Name" == name)
+            {
+                if (UserPreferences["AnnouncementChannel"] != division)
+                {
+                    if (division == "RN")
+                        $('#channel-toggle').bootstrapToggle('on')
+                    else if (division == "WRR") 
+                        $('#channel-toggle').bootstrapToggle('off')
+
+                    console.log(UserPreferences["AnnouncementChannel"]);
+
+                    $("#channel-toggle").bootstrapToggle();
+                }
+            }
+
+
+            if (UserPreferences["Meldingen"]) {
                 spawnNotification("Shoutbox", name + ": #" + tag + " " + text);
             }
         }
@@ -365,28 +384,25 @@
     }
 
    //Load all messages, teams, tags and incidents
-    addMessages(@Html.Raw(Model.SerializedMessages), true);
-    updateTeams(@Html.Raw(Model.SerializedTeams));
-    addMasterIncidents(@Html.Raw(Model.SerializedMasterIncidents));
-    updateSOS(@Html.Raw(Model.SerializedSOS));
-    updateKM(@Html.Raw(Model.SerializedKMList));
-
-    //Set up the tag cloud
-    initializeTagCloud();
-
-
-    $('#announcement-textbox').tooltipster({
-        animation: 'grow',
-        trigger: 'click',
-        position: 'bottom'
-    });
-
-    //If user has custom layout stored, use that instead
-    if("@Model.CurrentUser.GridLayout" != "")
-        loadGridLayout(@Html.Raw(@Model.CurrentUser.GridLayout));
-
     $(document).ready(function () {
+        UserPreferences = JSON.parse('@Html.Raw(Model.CurrentUser.UserPreferences)')
+        addMessages(@Html.Raw(Model.SerializedMessages), true);
+        updateTeams(@Html.Raw(Model.SerializedTeams));
+        addMasterIncidents(@Html.Raw(Model.SerializedMasterIncidents));
+        updateSOS(@Html.Raw(Model.SerializedSOS));
+        updateKM(@Html.Raw(Model.SerializedKMList));
+        //Set up the tag cloud
+        initializeTagCloud();
+        $('#announcement-textbox').tooltipster({
+            animation: 'grow',
+            trigger: 'click',
+            position: 'bottom'
+        });
+
+        //If user has custom layout stored, use that instead
+        if ("@Model.CurrentUser.GridLayout" != "")
+            loadGridLayout(@Html.Raw(@Model.CurrentUser.GridLayout));
+
         $("abbr.timeago").timeago();
-        notificationSettings = JSON.parse('@Html.Raw(Model.CurrentUser.NotificationSettings)')
     });
 </script>

@@ -1,6 +1,6 @@
-﻿var notificationSettings;
+﻿var UserPreferences;
 
-$("#notificationsettings").click(function () {
+$("#UserPreferences").click(function () {
     swal({
         title: 'Persoonlijke instellingen',
         html:
@@ -20,11 +20,11 @@ $("#notificationsettings").click(function () {
         showCancelButton: true,
         confirmButtonText: "Opslaan",
         onOpen: function () {
-            $("#notif_team").prop("checked", notificationSettings["Team"]);
-            $("#notif_masterincidenten").prop("checked", notificationSettings["Masterincidenten"]);
-            $("#notif_sos").prop("checked", notificationSettings["Sos"]);
-            $("#notif_meldingen").prop("checked", notificationSettings["Meldingen"]);
-            $("#notif_chat").prop("checked", notificationSettings["Chat"]);
+            $("#notif_team").prop("checked", UserPreferences["Team"]);
+            $("#notif_masterincidenten").prop("checked", UserPreferences["Masterincidenten"]);
+            $("#notif_sos").prop("checked", UserPreferences["Sos"]);
+            $("#notif_meldingen").prop("checked", UserPreferences["Meldingen"]);
+            $("#notif_chat").prop("checked", UserPreferences["Chat"]);
 
             //Don't allow the user to set the properties if their browser doesn't support notifications
             if (!("Notification" in window)) {
@@ -37,7 +37,7 @@ $("#notificationsettings").click(function () {
             }
         }
     }).then(function () {
-        saveNotificationSettings();
+        saveUserPreferences();
     }).catch(swal.noop);
 });
 
@@ -45,18 +45,19 @@ $(document).on('click', "#reset-layout-button", function () {
     resetGridLayout();
 });
 
-var saveNotificationSettings = function () {
+var saveUserPreferences = function () {
 
-    notificationSettings =
+    UserPreferences =
         {
             "Team" : $("#notif_team").is(':checked'),
             "Masterincidenten": $("#notif_masterincidenten").is(':checked'),
             "Sos": $("#notif_sos").is(':checked'),
             "Meldingen": $("#notif_meldingen").is(':checked'),
-            "Chat": $("#notif_chat").is(':checked')
+            "Chat": $("#notif_chat").is(':checked'),
+            "AnnouncementChannel": UserPreferences["AnnouncementChannel"]
         }
 
-    sendUpdatedNotificationsettings(JSON.stringify(notificationSettings));
+    sendUpdatedUserPreferences(JSON.stringify(UserPreferences));
 }
 
 var loadGridLayout = function (serializedLayout) {

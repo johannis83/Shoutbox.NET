@@ -30,6 +30,12 @@ body {
     background-color: #009 !important;
 }
 
+.btn-warning {
+    color: #fff;
+    background-color: #fd4600 !important;
+    border-color: #eea236 !important;
+}
+
 .invisible-fade {
     -webkit-transition: all 1s ease;
     -moz-transition: all 1s ease;

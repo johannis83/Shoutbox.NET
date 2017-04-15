@@ -63,9 +63,9 @@ namespace Shoutbox.NET.Hubs
             _userRepository.SaveGridLayout(Context.User.Identity.Name, serializedLayout);
         }
 
-        public void SaveNotificationSettings(string serializedSettings)
+        public void SaveUserPreferences(string serializedSettings)
         {
-            _userRepository.SaveNotificationSettings(Context.User.Identity.Name, serializedSettings);
+            _userRepository.SaveUserPreferences(Context.User.Identity.Name, serializedSettings);
         }
 
 
