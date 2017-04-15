@@ -32,7 +32,8 @@ $.fn.ProcessInput = function (event, type) {
     else if (type == 'Announcement') {
         if (textboxwords.length > 1 && tagDisplay.hasClass('tag-word-active') == false) {
             tagDisplay.html("#" + textboxwords[0]
-                .toUpperCase()                   // Force uppercasing of hashtags
+                .toUpperCase()
+                .substring(0, 12)             // Force uppercasing of hashtags
                 .replace(/[^0-9a-zA-Z]/g, '')); // Only alphanumeric characters
             tagDisplay.addClass("tag-word-active")
             $(textbox).val(textboxwords.slice(1, textboxwords.length).join(" "));
@@ -65,8 +66,6 @@ $(window).resize(function () {
     $.fn.AddMessage = function (name, division, time, tag, text, type, autoscroll) {
 
         //If it's not destined for our announcementchannel, don't add it.
-        if (type == "Announcement" && division != AnnouncementChannel)
-            return;
 
         var chatTile = $(this);
         var messageContainer = chatTile.find(".message-container");
@@ -76,10 +75,10 @@ $(window).resize(function () {
         //Hide (fade) the chatbox filler if no were present yet
         if (messageCount == 0) {
             chatTile.find(".chat-filler").fadeTo(1000, 0);
-        } //else if (messageCount > 7) {
-        //    //Remove the chat filler if the messagebox is filled up with messages
-        //    chatTile.find(".chat-filler").hide();
-        //}
+        } else if (messageCount > 10) {
+            //Hide the chat filler if the messagebox is filled up with messages
+            chatTile.find(".chat-filler").hide();
+        }
 
         messageContainer.append(messageTemplate(name, division, time, tag, text, type));
         $("abbr.timeago").timeago();
@@ -97,14 +96,17 @@ $(window).resize(function () {
         message = message.concat('<!-- Begin message -->');
 
         if(type == "Chat")
-            message = message.concat('<div id="chat-message" class="well">');
+            message = message.concat('<div class="chat-message well">');
         else
-            message = message.concat('<div id="announcement-message" class="well">');
+            if(division == "RN")
+                message = message.concat('<div class="announcement-message RN-Message well">');
+            else if (division == "WRR")
+                message = message.concat('<div class="announcement-message WRR-Message well">');
 
             message = message.concat('<div id="message-header">');
             message = message.concat('<div id="message-name">' + name + '</div>');
 
-            //Dutch users get orange badges. Hup oranje!
+            //Dutch users get orange badges.
             if (division == "RN") {
                 message = message.concat('<div id="message-division" class="badge" style="background-color: #fd4600">' + division + '</div>');
             } else {
@@ -124,18 +126,6 @@ $(window).resize(function () {
             return message;
         }
 
-
-    var addAnnouncementMessages = function (messages, autoscroll) {
-        for (var i = 0; i < messages.length; i++) {
-            if (messages[i]["Type"] == "Announcement") {
-                $("#announcement-window").AddMessage(messages[i]["User"]["Name"], messages[i]["User"]["Division"], messages[i]["Timestamp"], messages[i]["Tag"], messages[i]["Text"], messages[i]["Type"], false);
-            }
-        }
-        //Scroll both chat containers down
-        if (autoscroll) {
-            scrollWindowsToBottom(1000);
-        }
-    }
 
     addMessages = function (messages, autoscroll) {
         for (var i = 0; i < messages.length; i++) {
@@ -163,12 +153,6 @@ $(window).resize(function () {
         }
     }
 
-
-var clearAnnouncements = function () {
-    $("div[id=announcement-message]").remove();
-    $("#announcement-window").find(".message-counter").get(0).value = 0;
-}
-
 var scrollWindowsToBottom = function (duration) {
     $("#announcement-window").parent().stop().animate({ scrollTop: $("#announcement-window").prop("scrollHeight") }, duration, 'easeOutQuart');
     $("#chat-window").parent().stop().animate({ scrollTop: $("#chat-window").prop("scrollHeight") }, duration, 'easeOutQuart');
@@ -181,30 +165,24 @@ var setChannelToggle = function (division) {
         $('#channel-toggle').bootstrapToggle('off')
 }
 
-
-$(function() {
+$(function () {
     $('#channel-toggle').change(function () {
-
         var messages;
 
-        clearAnnouncements();
         if ($(this).prop('checked') == true) {
-            AnnouncementChannel = "RN"
+            AnnouncementChannel = "RN";
+            $(".RN-Message").fadeIn("fast");
+            $(".WRR-Message").fadeOut("fast");
         }
         else {
             AnnouncementChannel = "WRR";
+            $(".WRR-Message").fadeIn("fast");
+            $(".RN-Message").fadeOut("fast");
         }
 
-
-        $.post('/Message/GetTodayByDivisionSerialized', { division: AnnouncementChannel }, function (data) {
-            addAnnouncementMessages(JSON.parse(data), true);
-        });
-
+        $("#announcement-window").parent().stop().animate({ scrollTop: $("#announcement-window").prop("scrollHeight") }, 1000, 'easeOutQuart');
     })
 })
-
-
-
 
 // Instantiate nice scroll
 $(document).ready(function () {
@@ -224,3 +202,5 @@ $(document).ready(function () {
     });
 
 });
+
+

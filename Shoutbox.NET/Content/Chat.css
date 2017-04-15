@@ -72,12 +72,12 @@ hr {
     font-size: 25px;
 }
 
-#chat-message {
+.chat-message {
     margin-bottom: 10px;
     padding: 5px 10px 5px 10px;
 }
 
-#announcement-message {
+.announcement-message {
     margin-bottom: 10px;
     padding: 5px 10px 15px 10px;
 }

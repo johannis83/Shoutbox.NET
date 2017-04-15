@@ -10,7 +10,7 @@ namespace Shoutbox.NET.Repositories
     public interface IMessageRepository
     {
         Message Create(Message message);
-        IEnumerable<Message> GetByDay(DateTime datetime);
+        IEnumerable<Message> GetByDay(DateTime date);
         Dictionary<string, int> GetTagPopularityByDay(DateTime datetime);
     }
 }

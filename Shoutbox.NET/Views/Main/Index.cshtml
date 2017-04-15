@@ -176,20 +176,6 @@
         <div class="tile-titlebar">Trending topics</div>
         <div class="grid-stack-item-content rabo-drop-shadow tag-cloud-tile" id="tagcloud">
             <!-- Begin tags-->
-            @if (Model.Tags.Count == 0)
-            {
-                <div class="tagcloud-filler">
-                    <p>Er is nog niks getagd</p>
-                </div>
-            }
-            else
-            {
-                foreach (KeyValuePair<string, int> tag in Model.Tags)
-                {
-                    string uppercaseFirst = char.ToUpper(tag.Key[0]) + tag.Key.Substring(1).ToLower();
-                    <a href="~/Tag/@uppercaseFirst" rel="@tag.Value" title="@tag.Value tags">#@tag.Key</a>
-                }
-            }
             <!-- End tags-->
         </div>
     </div>
@@ -218,6 +204,7 @@
 
 <script>
     userRole = "@Model.CurrentUser.Role";
+    AnnouncementChannel = "@Model.CurrentUser.Division";
 
 
     //If the browser supports notifications. TODO: Add ability to turn notifications on/off per message type
@@ -377,9 +364,11 @@
 
    //Load all messages, teams, tags and incidents
     $(document).ready(function () {
-        setChannelToggle("@Model.CurrentUser.Division");
+        //Show the appropriate messages upon loading
+        setChannelToggle(AnnouncementChannel);
         UserPreferences = JSON.parse('@Html.Raw(Model.CurrentUser.UserPreferences)')
         addMessages(@Html.Raw(Model.SerializedMessages), true);
+        fillTagCloud(@Html.Raw(Model.SerializedTags));
         updateTeams(@Html.Raw(Model.SerializedTeams));
         addMasterIncidents(@Html.Raw(Model.SerializedMasterIncidents));
         updateSOS(@Html.Raw(Model.SerializedSOS));

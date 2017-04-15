@@ -31,13 +31,6 @@ namespace Shoutbox.NET
                 defaults: new { controller = "Main", action = "Tag", id = UrlParameter.Optional }
             );
 
-
-            routes.MapRoute(
-                name: "TodaysSerializedMessagesByDivision",
-                url: "Message/GetTodayByDivisionSerialized/{division}",
-                defaults: new { controller = "Message", Action = "GetTodayByDivisionSerialized", division = UrlParameter.Optional }
-            );
-
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

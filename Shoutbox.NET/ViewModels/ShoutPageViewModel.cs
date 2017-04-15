@@ -57,5 +57,13 @@ namespace Shoutbox.NET.ViewModels
                 return JsonConvert.SerializeObject(KMList);
             }
         }
+
+        public string SerializedTags
+        {
+            get
+            {
+                return JsonConvert.SerializeObject(Tags);
+            }
+        }
     }
 }

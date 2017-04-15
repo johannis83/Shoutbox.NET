@@ -75,7 +75,7 @@ namespace Shoutbox.NET.Hubs
             Message message = new Message()
             {
                 Text = messageText,
-                Timestamp = DateTime.Now,
+                Timestamp = DateTime.Now.AddDays(-1),
                 Type = messageType,
                 Tag = messageTag,
                 User = new User()
@@ -90,8 +90,8 @@ namespace Shoutbox.NET.Hubs
             _messageRepository.Create(message);
 
 
-            Clients.All.ReceiveChatMessage(
-                message.User.Name, message.User.Division, message.Timestamp, message.Tag, message.Text, message.Type);
+            //Clients.All.ReceiveChatMessage(
+            //    message.User.Name, message.User.Division, message.Timestamp, message.Tag, message.Text, message.Type);
         }
 
         public Task SetTeam(string functie, string naam)

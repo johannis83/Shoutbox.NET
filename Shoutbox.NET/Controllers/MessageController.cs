@@ -28,27 +28,13 @@ namespace Shoutbox.NET.Controllers
         {
         }
 
-        [HttpPost]
-        public string GetTodayByDivisionSerialized(string division)
-        {
-
-            using (ShoutboxContext db = new ShoutboxContext())
-            {
-                db.Configuration.ProxyCreationEnabled = false;
-
-                //Only select the values the client needs, so cast them to an anonymous type
-                return JsonConvert.SerializeObject(db.Messages.Include(u => u.User).Where(f => f.Timestamp.Day == DateTime.Now.Day && f.User.Division == division).ToList());
-            }
-        }
-
-        public IEnumerable<Message> GetByDay(DateTime datetime)
+        public IEnumerable<Message> GetByDay(DateTime date)
         {
             using (ShoutboxContext db = new ShoutboxContext())
             {
                 db.Configuration.ProxyCreationEnabled = false;
 
-                //Only select the values the client needs, so cast them to an anonymous type
-                return db.Messages.Include(u => u.User).Where(f => f.Timestamp.Day == datetime.Day).ToList();
+                return db.Messages.Include(u => u.User).Where(f => f.Timestamp.Day == date.Day).ToList();
             }
         }
 

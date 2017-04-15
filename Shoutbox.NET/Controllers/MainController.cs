@@ -51,7 +51,7 @@ namespace Shoutbox.NET.Controllers
             DateTime pageDate = DateTime.Now;
             ShoutPageViewModel indexViewModel = new ShoutPageViewModel()
             {
-                Messages = _messageRepository.GetByDay(pageDate),
+                Messages = _messageRepository.GetByDay(DateTime.Now),
                 SOSList = _sosRepository.GetList(),
                 Tags = _messageRepository.GetTagPopularityByDay(pageDate),
                 Teams = _teamRepository.GetByDay(pageDate),
