@@ -35,13 +35,30 @@ var fillTagCloud = function (tags) {
 
     //Show tile filler, if nothing is tagged
     if (tags.length == 0) {
-        $("#tagcloud").append('<div class="tagcloud-filler"> <p>Er is niks getagd</p></div>');
+        $("#tagcloud").append('<div class="tagcloud-filler"> <p>Nog geen relevante topics</p></div>');
         return;
     }
     for (var i = 0; i < tags.length; i++) {
         $("#tagcloud").append(
-            '<a href="~/Tag/"' + tags["Key"][i] + ' rel="' + tags["Value"][i] + '" title="' + tags["Value"][i] + ' tags">' + tags["Key"][i] + '</a>');
+            '<a rel="' + tags[i]["Count"] + '" title="' + tags[i]["Count"] + ' tags" id="tag-' + tags[i]["Name"] + '">#' + tags[i]["Name"] + '</a>');
     }
+}
+
+var unTag = function (tag) {
+    var tagElement = $("#tag-" + tag);
+    var weight = parseInt(tagElement.attr('rel'));
+
+    if (weight == 1) {
+        tagElement.remove();
+        if ($("#tagcloud").find('a').length == 0) {
+            $("#tagcloud").append('<div class="tagcloud-filler"> <p>Geen relevante topics</p></div>');
+        }
+        return;
+    }
+
+    tagElement.attr('rel', weight - 1);
+    tagElement.attr('title', weight - 1 + " tags");
+    initializeTagCloud();
 }
 
 /* This will update the tagcloud dynamically. If the tag already exists, it'll update the weight
@@ -55,11 +72,12 @@ var updateTagCloud = function (newTag) {
 
     $("#tagcloud").children('a').each(function () {
         var tag = $(this).text();
-        var weight = $(this).attr('rel');
+        var weight = parseInt($(this).attr('rel'));
 
         //Existing tag? Do not append it but increase the weight of the existing one
         if ("#" + newTag == tag) {
-            $(this).attr('rel', (parseInt($(this).attr('rel')) + 1));
+            $(this).attr('rel', weight + 1);
+            $(this).attr('title', weight + 1 + " tags");
             initializeTagCloud();
             tagfound = true; 
         }
@@ -68,6 +86,7 @@ var updateTagCloud = function (newTag) {
     if (tagfound) { return; }
 
     //New tag? add it
-    $("#tagcloud").append('<a href="~/Tag/' + newTag + '" rel="' + 1 + '">#'+newTag+'</a>');
+    $("#tagcloud").append(
+        '<a rel="1" title=1" id="tag-' + newTag + '">#' + newTag + '</a>');
     initializeTagCloud();
 }

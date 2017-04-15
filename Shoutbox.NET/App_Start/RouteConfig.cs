@@ -26,12 +26,6 @@ namespace Shoutbox.NET
             );
 
             routes.MapRoute(
-                name: "Tag",
-                url: "Tag/{tag}",
-                defaults: new { controller = "Main", action = "Tag", id = UrlParameter.Optional }
-            );
-
-            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Main", action = "Index", id = UrlParameter.Optional }

@@ -142,8 +142,8 @@ namespace Shoutbox.NET.Hubs
             _messageRepository.Create(message);
 
 
-            return Clients.All.ReceiveChatMessage(
-                message.User.Name, message.User.Division, message.Timestamp, message.Tag, message.Text, message.Type);
+            return Clients.All.ReceiveChatMessage(message.MessageID,
+                message.User.Name, message.User.Division, message.Timestamp, message.Tag, message.Text, message.Type, message.Relevant);
         }
 
         public Task CreateMasterIncident(string description, string km, string im)
@@ -181,6 +181,20 @@ namespace Shoutbox.NET.Hubs
             _MasterIncidentRepository.Disable(id);
 
             return Clients.All.DeleteMasterIncident(id);
+        }
+
+        public Task ToggleMessageRelevance(int messageID)
+        {
+            User user = _userRepository.GetByLogonUser(Context.User.Identity.Name);
+
+            if (user.Role < Roles.Moderator)
+            {
+                return null;
+            }
+
+            Message message = _messageRepository.ToggleMessageRelevance(messageID);
+
+            return Clients.All.ToggleMessageRelevance(message.MessageID, message.Tag, message.Relevant);
         }
     }
 

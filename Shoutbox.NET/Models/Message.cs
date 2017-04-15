@@ -10,12 +10,12 @@ namespace Shoutbox.NET.Models
     [ValidateInput(true)]
     public class Message
     {
-        [JsonIgnore]
         public int MessageID { get; set; }
         public DateTime Timestamp { get; set; }
         public string Tag { get; set; }
         public string Text { get; set; }
         public string Type { get; set; }
+        public bool Relevant { get; set; }
         public virtual User User { get; set; }
     }
 

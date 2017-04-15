@@ -63,7 +63,7 @@ $(window).resize(function () {
 
 
     //Must be hooked to a #chat-window object
-    $.fn.AddMessage = function (name, division, time, tag, text, type, autoscroll) {
+    $.fn.AddMessage = function (id, name, division, time, tag, text, type, relevant, autoscroll) {
 
         //If it's not destined for our announcementchannel, don't add it.
 
@@ -75,12 +75,25 @@ $(window).resize(function () {
         //Hide (fade) the chatbox filler if no were present yet
         if (messageCount == 0) {
             chatTile.find(".chat-filler").fadeTo(1000, 0);
-        } else if (messageCount > 10) {
-            //Hide the chat filler if the messagebox is filled up with messages
-            chatTile.find(".chat-filler").hide();
         }
 
-        messageContainer.append(messageTemplate(name, division, time, tag, text, type));
+        var newMessage = messageTemplate(id, name, division, time, tag, text, type, relevant);
+
+        //If we're on the announcement channel for this message, show it. Otherwise don't
+        if (division == AnnouncementChannel && type == "Announcement") {
+            newMessage = $(newMessage);        //None used for history view
+        } else if (type == "Announcement" && AnnouncementChannel != "None") {
+            newMessage = $(newMessage).css("display", "none");
+        }
+
+        messageContainer.append(newMessage);
+
+
+        if (!relevant) {
+            $(".message-" + id).find("#message-tag").css("text-decoration", "line-through");
+            $(".message-" + id).css("text-decoration", "line-through");
+        }
+
         $("abbr.timeago").timeago();
 
         if (autoscroll) {
@@ -89,7 +102,7 @@ $(window).resize(function () {
     }
 
 
-    var messageTemplate = function (name, division, time, tag, text, type) {
+    var messageTemplate = function (id, name, division, time, tag, text, type, relevant) {
 
         var uppercaseFirstCharacterTag = tag.toLowerCase().charAt(0).toUpperCase() + tag.slice(1);
         var message = "";
@@ -103,7 +116,7 @@ $(window).resize(function () {
             else if (division == "WRR")
                 message = message.concat('<div class="announcement-message WRR-Message well">');
 
-            message = message.concat('<div id="message-header">');
+            message = message.concat('<div id="message-header" class="message-' + id + '">');
             message = message.concat('<div id="message-name">' + name + '</div>');
 
             //Dutch users get orange badges.
@@ -115,9 +128,9 @@ $(window).resize(function () {
 
             message = message.concat('<div id="message-time"><i class="fa fa-clock-o" aria-hidden="true"></i><abbr class="timeago" title="' + time + '">' + time + ' </abbr> </div>');
             message = message.concat('</div>');
-            message = message.concat('<div id="message-content">');
+            message = message.concat('<div id="message-content" class="message-' + id + '">');
             //Only add a tag label if a tag is specified. Chat messages don't use tags, so..
-            if(tag != "") message = message.concat('<div id="message-tag" onclick="location.href=\'Tag/' + uppercaseFirstCharacterTag + '\';" class="label label-primary">' + tag + '</div>');
+            if (tag != "") message = message.concat('<div id="message-tag" onclick="disableMessageRelevance(' + id + ')" class="label label-primary">' + tag + '</div>');
             message = message.concat('<p id="message-text">' + text);
             message = message.concat('</p>');
             message = message.concat('</div>');
@@ -131,9 +144,9 @@ $(window).resize(function () {
         for (var i = 0; i < messages.length; i++) {
             //Add to the appropriate message window depending on the messages type
             if (messages[i]["Type"] == "Chat") {
-                $("#chat-window").AddMessage(messages[i]["User"]["Name"], messages[i]["User"]["Division"], messages[i]["Timestamp"], messages[i]["Tag"], messages[i]["Text"], messages[i]["Type"], false);
+                $("#chat-window").AddMessage(messages[i]["MessageID"], messages[i]["User"]["Name"], messages[i]["User"]["Division"], messages[i]["Timestamp"], messages[i]["Tag"], messages[i]["Text"], messages[i]["Type"], messages[i]["Relevant"], false);
             } else if (messages[i]["Type"] == "Announcement") {
-                $("#announcement-window").AddMessage(messages[i]["User"]["Name"], messages[i]["User"]["Division"], messages[i]["Timestamp"], messages[i]["Tag"], messages[i]["Text"], messages[i]["Type"], false);
+                $("#announcement-window").AddMessage(messages[i]["MessageID"], messages[i]["User"]["Name"], messages[i]["User"]["Division"], messages[i]["Timestamp"], messages[i]["Tag"], messages[i]["Text"], messages[i]["Type"], messages[i]["Relevant"], false);
             }
         }
         //Scroll both chat containers down
@@ -142,16 +155,11 @@ $(window).resize(function () {
         }
     };
 
-    addMessagesTagViewer = function (messages, autoscroll) {
-        for (var i = 0; i < messages.length; i++) {
-            //Add to the appropriate message window depending on the messages type
-            $("#chat-window").AddMessage(messages[i]["User"]["Name"], messages[i]["User"]["Division"], messages[i]["Timestamp"], messages[i]["Tag"], messages[i]["Text"], messages[i]["Type"], false);
-        }
-
-        if (autoscroll) {
-            $("#chat-window").parent().stop().animate({ scrollTop: $("#chat-window").prop("scrollHeight") }, 3000, 'easeOutQuart');
-        }
+var disableMessageRelevance = function (id) {
+    if (userRole != "User") {
+        sendDisableMessage(id);
     }
+}
 
 var scrollWindowsToBottom = function (duration) {
     $("#announcement-window").parent().stop().animate({ scrollTop: $("#announcement-window").prop("scrollHeight") }, duration, 'easeOutQuart');
@@ -171,13 +179,20 @@ $(function () {
 
         if ($(this).prop('checked') == true) {
             AnnouncementChannel = "RN";
+            $(".WRR-Message").fadeOut("fast", function () {
+                $(".RN-Message").fadeIn("fast");
+            });
+
+            //Call it again because if no messages are present yet, the first fadein won't be called
             $(".RN-Message").fadeIn("fast");
-            $(".WRR-Message").fadeOut("fast");
         }
         else {
             AnnouncementChannel = "WRR";
+            $(".RN-Message").fadeOut("fast", function () {
+                $(".WRR-Message").fadeIn("fast");
+            });
+
             $(".WRR-Message").fadeIn("fast");
-            $(".RN-Message").fadeOut("fast");
         }
 
         $("#announcement-window").parent().stop().animate({ scrollTop: $("#announcement-window").prop("scrollHeight") }, 1000, 'easeOutQuart');

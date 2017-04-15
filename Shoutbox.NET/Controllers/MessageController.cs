@@ -38,16 +38,27 @@ namespace Shoutbox.NET.Controllers
             }
         }
 
-        public Dictionary<string, int> GetTagPopularityByDay(DateTime datetime)
+        public List<Tag> GetTagPopularityByDay(DateTime datetime)
         {
             using (ShoutboxContext db = new ShoutboxContext())
             {
-                Dictionary<string, int> tags = new Dictionary<string, int>();
+                List<Tag> tags = new List<Tag>();
                 //Get all of today's messages, select them distinct by the tags. Add those tags to the dictionary with the amount of each particular tag
-                db.Messages.Where(f => f.Tag != "" && f.Timestamp.Day == datetime.Day).GroupBy(t => t.Tag).Select(g => g.FirstOrDefault()).ToList().
-                    ForEach(i => tags.Add(i.Tag, db.Messages.Count(x => x.Tag == i.Tag)));
+                db.Messages.Where(f => f.Tag != "" && f.Timestamp.Day == datetime.Day && f.Relevant == true).GroupBy(t => t.Tag).Select(g => g.FirstOrDefault()).ToList().
+                    ForEach(i => tags.Add(new Tag { Name = i.Tag, Count = db.Messages.Count(x => x.Tag == i.Tag && x.Relevant == true), Division = i.User.Division }));
 
                 return tags;
+            }
+        }
+
+        public Message ToggleMessageRelevance(int id)
+        {
+            using (ShoutboxContext db = new ShoutboxContext())
+            {
+                Message message = db.Messages.FirstOrDefault(f => f.MessageID == id);
+                message.Relevant = !message.Relevant;
+                db.SaveChanges();
+                return message;
             }
         }
 
@@ -60,6 +71,7 @@ namespace Shoutbox.NET.Controllers
                 if(message.User.Role < Roles.Administrator) message.Text = Encoder.HtmlEncode(message.Text);
                 message.Tag = Encoder.HtmlEncode(message.Tag);
                 message.Type = Encoder.HtmlEncode(message.Type);
+                message.Relevant = true;
 
                 /*Attach the user to help EF understand the context. 
                  This basically avoids it from re-creating the user along with the message.*/

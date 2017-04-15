@@ -18,7 +18,7 @@ namespace Shoutbox.NET.ViewModels
         public IEnumerable<Team> Teams { get; set; }
         public IEnumerable<SOS> SOSList { get; set; }
         public IEnumerable<KM> KMList { get; set; }
-        public Dictionary<string, int> Tags { get; set; }
+        public List<Tag> Tags { get; set; }
         public ShoutboxStatistics DataDistribution { get; set; }
 
         public string SerializedMasterIncidents

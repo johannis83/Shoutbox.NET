@@ -239,6 +239,7 @@
     var sendRemoveMasterIncident;
     var sendUpdatedGridLayout;
     var sendUpdatedUserPreferences;
+    var sendDisableMessage;
 
 // Reference the auto-generated proxy for the hub.
     var shout = $.connection.shoutHub;
@@ -283,13 +284,17 @@
         sendRemoveMasterIncident = function (id) {
             shout.server.disableMasterIncident(id);
         }
-        //Tell the server to sendUpdatedGridLayout a master incident
+        //Tell the server to save the users layout
         sendUpdatedGridLayout = function (serializedLayout) {
             shout.server.saveGridLayout(serializedLayout);
         }
-        //Tell the server to sendUpdatedGridLayout a master incident
+        //Tell the server to save the users preferences
         sendUpdatedUserPreferences = function (serializedSettings) {
             shout.server.saveUserPreferences(serializedSettings);
+        }
+        //Tell the server to disable a message
+        sendDisableMessage = function (messageID) {
+            shout.server.toggleMessageRelevance(messageID);
         }
 });
 
@@ -322,18 +327,35 @@
         deleteMasterIncident(id);
     }
 
+// EVENT: Fired when receiving a command to enable/disable a message (tag)
+    shout.client.toggleMessageRelevance = function (id, tag, relevant) {
+        //Strike the tag
+        if (!relevant) {
+            $(".message-" + id).find("#message-tag").css("text-decoration", "line-through");
+            $(".message-" + id).css("text-decoration", "line-through");
+            unTag(tag);
+        } else {
+            $(".message-" + id).find("#message-tag").css("text-decoration", "none");
+            $(".message-" + id).css("text-decoration", "none");
+            updateTagCloud(tag);
+        }
+
+
+        //Decrease tag cloud count
+    }
+
 
 
 // EVENT: Fired when receiving a chat message from the server
-    shout.client.receiveChatMessage = function (name, division, time, tag, text, type) {
+    shout.client.receiveChatMessage = function (id, name, division, time, tag, text, type, relevant) {
         //Add message to the appropriate tile depending on the message type
         if (type == "Chat") {
-            $("#chat-window").AddMessage(name, division, time, tag, text, type, true);
+            $("#chat-window").AddMessage(id, name, division, time, tag, text, type, relevant, true);
             if (UserPreferences["Chat"]) {
                 spawnNotification("Shoutbox", name + ": " + tag + " " + text);
             }
         } else if (type == "Announcement") {
-            $("#announcement-window").AddMessage(name, division, time, tag, text, type, true);
+            $("#announcement-window").AddMessage(id, name, division, time, tag, text, type, relevant, true);
 
             //Switch to the appropriate view when receiving users own messsage, to not confuse users ("Why cant i see my message?!")
             if ("@Model.CurrentUser.Name" == name)
@@ -368,7 +390,9 @@
         setChannelToggle(AnnouncementChannel);
         UserPreferences = JSON.parse('@Html.Raw(Model.CurrentUser.UserPreferences)')
         addMessages(@Html.Raw(Model.SerializedMessages), true);
+
         fillTagCloud(@Html.Raw(Model.SerializedTags));
+
         updateTeams(@Html.Raw(Model.SerializedTeams));
         addMasterIncidents(@Html.Raw(Model.SerializedMasterIncidents));
         updateSOS(@Html.Raw(Model.SerializedSOS));
