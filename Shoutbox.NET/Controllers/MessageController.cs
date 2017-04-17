@@ -71,7 +71,6 @@ namespace Shoutbox.NET.Controllers
                 if(message.User.Role < Roles.Administrator) message.Text = Encoder.HtmlEncode(message.Text);
                 message.Tag = Encoder.HtmlEncode(message.Tag);
                 message.Type = Encoder.HtmlEncode(message.Type);
-                message.Relevant = true;
 
                 /*Attach the user to help EF understand the context. 
                  This basically avoids it from re-creating the user along with the message.*/

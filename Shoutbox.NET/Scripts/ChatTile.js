@@ -34,7 +34,7 @@ $.fn.ProcessInput = function (event, type) {
             tagDisplay.html("#" + textboxwords[0]
                 .toUpperCase()
                 .substring(0, 12)             // Force uppercasing of hashtags
-                .replace(/[^0-9a-zA-Z]/g, '')); // Only alphanumeric characters
+                .replace(/[^0-9a-zA-Z-.]/g, '')); // Only alphanumeric characters (and . / 0's)
             tagDisplay.addClass("tag-word-active")
             $(textbox).val(textboxwords.slice(1, textboxwords.length).join(" "));
         }
@@ -66,7 +66,6 @@ $(window).resize(function () {
     $.fn.AddMessage = function (id, name, division, time, tag, text, type, relevant, autoscroll) {
 
         //If it's not destined for our announcementchannel, don't add it.
-
         var chatTile = $(this);
         var messageContainer = chatTile.find(".message-container");
         //Keep count of all the message in this container
@@ -160,7 +159,7 @@ var disableMessageRelevance = function (id) {
         sendDisableMessage(id);
     }
 }
-
+    
 var scrollWindowsToBottom = function (duration) {
     $("#announcement-window").parent().stop().animate({ scrollTop: $("#announcement-window").prop("scrollHeight") }, duration, 'easeOutQuart');
     $("#chat-window").parent().stop().animate({ scrollTop: $("#chat-window").prop("scrollHeight") }, duration, 'easeOutQuart');

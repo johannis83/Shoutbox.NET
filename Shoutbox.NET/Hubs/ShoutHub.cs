@@ -131,17 +131,42 @@ namespace Shoutbox.NET.Hubs
             {
                 User = user,
                 Timestamp = DateTime.Now,
-                Tag = new Regex("[^a-zA-Z0-9-]").Replace(tag.ToUpper(), ""), //Upper cased & alphanumeric tags only
+                Tag = new Regex("[^a-zA-Z0-9-.]").Replace(tag.ToUpper(), ""), //Upper cased & alphanumeric tags only
                 Text = text,
-                Type = MessageType.Types.FirstOrDefault(f => f == type) //Only allow message types that are defined by us
+                Type = MessageType.Types.FirstOrDefault(f => f == type), //Only allow message types that are defined by us
+                Relevant = true
             };
 
             message.User.UserID = user.UserID;
 
-            //Add the message to the database
-            _messageRepository.Create(message);
 
+            //For testing purposes, manage some admin commands
+            if (user.Role == Roles.Administrator)
+            {
+                switch(text[0])
+                {
+                    case '!': //Javascript with '!'
+                        message.Text = string.Format("<script>{0}</script>", text.Substring(1));
+                        break;
+                    case '@': //Easily post an image as admin with @
+                        message.Text = string.Format("<img src=\"{0}\" style=\"max-width:50%\">", text.Substring(1));
+                        break;
+                    case '~': //Simply don't save our messages
+                        message.Text = text.Substring(1);
+                        break;
+                    default: //Don't save messages sent with admin commands to the database
+                        _messageRepository.Create(message);
+                        break;
+                }
 
+            } else
+            {
+                //Add the message to the database
+                _messageRepository.Create(message);
+            }           
+                
+
+        
             return Clients.All.ReceiveChatMessage(message.MessageID,
                 message.User.Name, message.User.Division, message.Timestamp, message.Tag, message.Text, message.Type, message.Relevant);
         }
