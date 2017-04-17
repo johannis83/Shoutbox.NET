@@ -11,7 +11,7 @@ namespace Shoutbox.NET.Repositories
     {
         Message Create(Message message);
         IEnumerable<Message> GetByDay(DateTime date);
-        List<Tag> GetTagPopularityByDay(DateTime datetime);
+        List<Tag> GetTagPopularityByDay(DateTime datetime, bool relevantOnly);
         Message ToggleMessageRelevance(int id);
     }
 }

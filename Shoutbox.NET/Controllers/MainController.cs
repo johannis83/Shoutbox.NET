@@ -53,7 +53,7 @@ namespace Shoutbox.NET.Controllers
             {
                 Messages = _messageRepository.GetByDay(DateTime.Now),
                 SOSList = _sosRepository.GetList(),
-                Tags = _messageRepository.GetTagPopularityByDay(pageDate),
+                Tags = _messageRepository.GetTagPopularityByDay(pageDate, true),
                 Teams = _teamRepository.GetByDay(pageDate),
                 MasterIncidents = _masterIncidentRepository.GetByDay(pageDate).Where(f => f.Active),
                 CurrentUser = currentUser,
@@ -85,7 +85,7 @@ namespace Shoutbox.NET.Controllers
             {
                 CurrentUser = currentUser,
                 Messages = _messageRepository.GetByDay(pageDate),
-                Tags = _messageRepository.GetTagPopularityByDay(pageDate),
+                Tags = _messageRepository.GetTagPopularityByDay(pageDate, false),
                 Teams = _teamRepository.GetByDay(pageDate),
                 MasterIncidents = _masterIncidentRepository.GetByDay(pageDate).Where(f => f.Active),
                 HistoryViewDate = pageDate
