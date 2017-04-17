@@ -45,7 +45,7 @@ namespace Shoutbox.NET.Controllers
                 List<Tag> tags = new List<Tag>();
                 //Get all of today's messages, select them distinct by the tags. Add those tags to the dictionary with the amount of each particular tag
                 db.Messages.Where(f => f.Tag != "" && f.Timestamp.Day == datetime.Day && f.Relevant == true).GroupBy(t => t.Tag).Select(g => g.FirstOrDefault()).ToList().
-                    ForEach(i => tags.Add(new Tag { Name = i.Tag, Count = db.Messages.Count(x => x.Tag == i.Tag && x.Relevant == true), Division = i.User.Division }));
+                    ForEach(i => tags.Add(new Tag { Name = i.Tag, Count = db.Messages.Count(x => x.Tag == i.Tag && x.Timestamp.Day == datetime.Day && x.Relevant == true), Division = i.User.Division }));
 
                 return tags;
             }

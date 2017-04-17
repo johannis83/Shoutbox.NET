@@ -17,6 +17,7 @@ using System.Timers;
 
 namespace Shoutbox.NET.Hubs
 {
+    [Microsoft.AspNet.SignalR.Authorize]
     public class ShoutHub : Hub
     {
         private IUserRepository _userRepository;
@@ -94,6 +95,7 @@ namespace Shoutbox.NET.Hubs
             //    message.User.Name, message.User.Division, message.Timestamp, message.Tag, message.Text, message.Type);
         }
 
+        [Microsoft.AspNet.SignalR.Authorize]
         public Task SetTeam(string functie, string naam)
         {
             User user = _userRepository.GetByLogonUser(Context.User.Identity.Name);
@@ -123,6 +125,7 @@ namespace Shoutbox.NET.Hubs
             return null;
         }
 
+        [Microsoft.AspNet.SignalR.Authorize]
         public Task BroadcastChatMessage(string tag, string text, string type)
         {
             User user = _userRepository.GetByLogonUser(Context.User.Identity.Name);

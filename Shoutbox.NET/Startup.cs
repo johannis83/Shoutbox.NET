@@ -22,8 +22,9 @@ namespace Shoutbox.NET
         {
             // Any connection or hub wire up and configuration should go here
             var hubConfiguration = new HubConfiguration { EnableDetailedErrors = true};
-
             app.MapSignalR(hubConfiguration);
+            //Only authorized users can invoke our hub methods
+            GlobalHost.HubPipeline.RequireAuthentication();
         }
     }
 }
