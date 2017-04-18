@@ -87,6 +87,6 @@ var updateTagCloud = function (newTag) {
 
     //New tag? add it
     $("#tagcloud").append(
-        '<a rel="1" title=1" id="tag-' + newTag + '">#' + newTag + '</a>');
+        '<a rel="1" title="1 tag" id="tag-' + newTag + '">#' + newTag + '</a>');
     initializeTagCloud();
 }
